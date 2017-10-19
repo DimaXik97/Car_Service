@@ -10,7 +10,7 @@ module.exports={
         }]
     },
     entry: {
-        js: ['babel-polyfill', './src/app.js']
+        js: ['babel-polyfill', './src/index.js']
     },
     output: {
         path: __dirname +'./../App_Data/js',
