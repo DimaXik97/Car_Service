@@ -1,15 +1,15 @@
 import React from 'react';
+import Form from './form.jsx';
 import Header from './../Header/index.jsx';
 import Footer from './../Footer/index.jsx';
-import Content from './content.jsx';
 
-class Start extends React.Component{
+class Registration extends React.Component{
     render(){
         return (<div>
-            <Header text="Добро пожаловать в Car Service"/>
-            <Content/>
+            <Header text="Регистрация"/>
+            <Form/>
             <Footer/>
         </div>);
     }
 };
-export default Start;
+export default Registration;
