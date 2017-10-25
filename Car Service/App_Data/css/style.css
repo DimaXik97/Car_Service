@@ -121,7 +121,7 @@ a {
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  font-page: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 42px;
   min-height: 100vh;
   color: #07c;
@@ -147,44 +147,63 @@ a {
   font-size: 128px;
   line-height: 1;
 }
-.content {
+.default-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
   font-size: 40px;
 }
-.default-btm {
-  margin: 10px;
-  min-width: 100px;
-  border: 5px solid #07c;
-  text-transform: uppercase;
-  color: white;
-  background: #07c;
-  transition: all 0.4s ease;
-  cursor: pointer;
+.default-form textarea {
+  resize: none;
+  font-size: 26px;
+  overflow: auto;
+  text-align: left;
 }
-.default-btm:hover {
-  color: #07c;
-  background: white;
+/*textarea{
+	resize: none;
+	height: 200px;
+	overflow: hidden;
+	padding: 0;
 }
-input {
-  font-size: inherit;
-  border: 3px solid #07c;
-  text-align: center;
-  transition: box-shadow 0.4s ease, border 0.4s ease;
+.default-btm{
+    border: 5px solid #07c;
+    text-transform: uppercase;
+    color: white;
+    background: #07c;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    &:hover{
+        color:#07c;
+        background: white;
+    }
+}
+input,
+select,
+textarea{
+	width: 600px;
+	font-size: inherit;
+	border: 3px solid #07c;
+	text-align: center;
+	transition: box-shadow 0.4s ease, border 0.4s ease;
 }
 input[type="text"]:focus,
 input[type="text"].focus,
 input[type="email"]:focus,
 input[type="email"].focus,
 input[type="password"]:focus,
-input[type="password"].focus {
+input[type="password"].focus,
+textarea:focus,
+textarea.focus,
+select:focus,
+select.focus{
   border: solid 5px #07c;
   box-shadow: 0 0 15px 10px #969696;
 }
-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: auto;
-}
+
+form{
+	
+}*/
 li {
   list-style-type: none;
 }
