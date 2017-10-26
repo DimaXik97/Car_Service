@@ -23,7 +23,7 @@ const initState={
             ]
         },
         {
-            id:2,
+            id:6,
             name:"Sergey",
             freeTime:[
                 {
@@ -45,7 +45,7 @@ const initState={
             ]
         },
         {
-            id:3,
+            id:5,
             name:"Nikita",
             freeTime:[
                 {

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import ReservationForm from '../components/Main/reservationForm.jsx';
+import ReservationForm from '../components/Booking/reservationForm.jsx';
 import {selectWorker,selectDate, selectTime} from '../actions';
 const getFreeDates=state=>{
     let worker=getWorker(state.workers, state.worker);

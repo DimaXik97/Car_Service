@@ -51,7 +51,7 @@ class Form extends React.Component{
                 <input type="file" ref="files" name="photo" accept="image/*" required multiple title="Загрузите одну или несколько фотографий"/>
                 <ReCAPTCHA
                     ref="recaptcha"
-                    sitekey="6LfTizUUAAAAAPrKN5EuUDOKNgIBk1ec0aYi3jyD"
+                    sitekey={this.props.captchaKey}
                     onChange={this.onChange}
                 />
                 <input type="submit" className="default-btm" value="Отправить" required onClick={this.handleChange}/>
