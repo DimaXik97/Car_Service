@@ -1,11 +1,16 @@
 import { connect } from 'react-redux'
 
-import Workers from '../components/Workers/index.jsx';
+import Worker from '../components/Worker/addWorkDate.jsx';
 import {setStartTime,setWorkDate,setEndTime} from '../actions';
 
 const mapStateToProps = state => ({
-    workers: state.workers.workers,
-    url: state.app.userURL
+    worker: state.worker.worker,
+    format: state.app.formatDate,
+    date: state.worker.date,
+    workingDates: state.worker.workingDates,
+    formatTime: state.app.formatTime,
+    startTime: state.worker.startTime,
+    endTime: state.worker.endTime
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -28,4 +33,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Workers)
+)(Worker)

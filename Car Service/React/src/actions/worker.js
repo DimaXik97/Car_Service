@@ -1,12 +1,12 @@
-export const selectWorker= (worker)=>({
-    type: 'SELECT_WORKER',
-    selectWorker: worker
+export const setStartTime= (time)=>({
+    type: 'SET_START_TIME',
+    stertTime: time
 })
-export const selectDate= (date)=>({
-    type: 'SELECT_DATE',
-    selectDate: date
+export const setWorkDate= (date)=>({
+    type: 'SET_WORK_DATE',
+    workDate: date
 })
-export const selectTime= (time)=>({
-    type: 'SELECT_TIME',
-    selectTime: time
+export const setEndTime= (time)=>({
+    type: 'SELECT_END_TIME',
+    endTime: time
 })

@@ -53926,7 +53926,7 @@ var _index3 = __webpack_require__(750);
 
 var _index4 = _interopRequireDefault(_index3);
 
-var _index5 = __webpack_require__(879);
+var _index5 = __webpack_require__(887);
 
 var _index6 = _interopRequireDefault(_index5);
 
@@ -53934,7 +53934,11 @@ var _index7 = __webpack_require__(843);
 
 var _index8 = _interopRequireDefault(_index7);
 
-var _index9 = __webpack_require__(881);
+var _workers = __webpack_require__(885);
+
+var _workers2 = _interopRequireDefault(_workers);
+
+var _index9 = __webpack_require__(894);
 
 var _index10 = _interopRequireDefault(_index9);
 
@@ -54021,8 +54025,12 @@ var Start = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(_index2.default, { text: '\u0414\u043E\u0431\u0440\u043E \u043F\u043E\u0436\u0430\u043B\u043E\u0432\u0430\u0442\u044C \u0432 Car Service' }),
-                _react2.default.createElement(_content2.default, null),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'content' },
+                    _react2.default.createElement(_index2.default, { text: '\u0414\u043E\u0431\u0440\u043E \u043F\u043E\u0436\u0430\u043B\u043E\u0432\u0430\u0442\u044C \u0432 Car Service' }),
+                    _react2.default.createElement(_content2.default, null)
+                ),
                 _react2.default.createElement(_index4.default, null)
             );
         }
@@ -54073,7 +54081,7 @@ var Content = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "content" },
+                null,
                 _react2.default.createElement(
                     "p",
                     null,
@@ -54258,79 +54266,7 @@ exports.default = Form;
 
 /***/ }),
 /* 752 */,
-/* 753 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _reactRedux = __webpack_require__(258);
-
-var _reservationForm = __webpack_require__(880);
-
-var _reservationForm2 = _interopRequireDefault(_reservationForm);
-
-var _actions = __webpack_require__(841);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var getFreeDates = function getFreeDates(state) {
-    var worker = getWorker(state.workers, state.worker);
-    return worker ? worker.freeTime.map(function (element) {
-        return element.date;
-    }) : [];
-};
-var getFreeTimes = function getFreeTimes(state) {
-    var worker = getWorker(state.workers, state.worker);
-    return worker && state.date ? worker.freeTime.find(function (element) {
-        return element.date == state.date;
-    }).time : [];
-};
-var getWorker = function getWorker(workers, idWorker) {
-    return workers.find(function (element) {
-        return element.id == idWorker;
-    });
-};
-var mapStateToProps = function mapStateToProps(state) {
-    return {
-        workers: state.bookingDate.workers.map(function (element) {
-            return { id: element.id, name: element.name };
-        }),
-        date: state.bookingDate.date,
-        worker: state.bookingDate.worker,
-        time: state.bookingDate.time,
-        freeDates: getFreeDates(state.bookingDate),
-        freeTimes: getFreeTimes(state.bookingDate),
-        formatDate: state.app.formatDate,
-        formatTime: state.app.formatTime,
-        captchaKey: state.app.captchaKey
-    };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-    return {
-        selectWorker: function selectWorker(idWorker) {
-            dispatch((0, _actions.selectDate)(undefined));
-            dispatch((0, _actions.selectTime)(undefined));
-            dispatch((0, _actions.selectWorker)(idWorker));
-        },
-        selectDate: function selectDate(date) {
-            dispatch((0, _actions.selectTime)(undefined));
-            dispatch((0, _actions.selectDate)(date));
-        },
-        selectTime: function selectTime(time) {
-            dispatch((0, _actions.selectTime)(time));
-        }
-    };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_reservationForm2.default);
-
-/***/ }),
+/* 753 */,
 /* 754 */,
 /* 755 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -54403,84 +54339,7 @@ var SelectWorker = function (_React$Component) {
 exports.default = SelectWorker;
 
 /***/ }),
-/* 756 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDatepicker = __webpack_require__(757);
-
-var _reactDatepicker2 = _interopRequireDefault(_reactDatepicker);
-
-var _moment = __webpack_require__(1);
-
-var _moment2 = _interopRequireDefault(_moment);
-
-__webpack_require__(762);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// CSS Modules, react-datepicker-cssmodules.css
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-
-var Picker = function (_React$Component) {
-    _inherits(Picker, _React$Component);
-
-    function Picker(props) {
-        _classCallCheck(this, Picker);
-
-        var _this = _possibleConstructorReturn(this, (Picker.__proto__ || Object.getPrototypeOf(Picker)).call(this, props));
-
-        _this.handleChange = _this.handleChange.bind(_this);
-        return _this;
-    }
-
-    _createClass(Picker, [{
-        key: 'handleChange',
-        value: function handleChange(date) {
-            this.props.changeSelectDate(date.format(this.props.format));
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
-            return _react2.default.createElement(_reactDatepicker2.default, {
-                selected: this.props.date ? (0, _moment2.default)(this.props.date, this.props.format) : null,
-                onChange: this.handleChange,
-                dateFormat: this.props.format,
-                locale: 'ru-ru',
-                placeholderText: '\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0434\u0430\u0442\u0443',
-                includeDates: this.props.workingDays.map(function (element) {
-                    return (0, _moment2.default)(element, _this2.props.format);
-                })
-            });
-        }
-    }]);
-
-    return Picker;
-}(_react2.default.Component);
-
-exports.default = Picker;
-
-/***/ }),
+/* 756 */,
 /* 757 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -55237,98 +55096,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 765 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _moment = __webpack_require__(1);
-
-var _moment2 = _interopRequireDefault(_moment);
-
-var _rcTimePicker = __webpack_require__(766);
-
-var _rcTimePicker2 = _interopRequireDefault(_rcTimePicker);
-
-__webpack_require__(839);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Picker = function (_React$Component) {
-    _inherits(Picker, _React$Component);
-
-    function Picker(props) {
-        _classCallCheck(this, Picker);
-
-        var _this = _possibleConstructorReturn(this, (Picker.__proto__ || Object.getPrototypeOf(Picker)).call(this, props));
-
-        _this.disabledHours = _this.disabledHours.bind(_this);
-        _this.time = _this.props.time ? (0, _moment2.default)(_this.props.time, _this.props.format) : null;
-        _this.onChange = _this.onChange.bind(_this);
-        return _this;
-    }
-
-    _createClass(Picker, [{
-        key: 'disabledHours',
-        value: function disabledHours() {
-            var _this2 = this;
-
-            var arrFreeHour = this.props.freeTimes.map(function (element) {
-                return (0, _moment2.default)(element, _this2.props.format).hour();
-            });
-            var arr = [];
-            for (var value = 0; value < 24; value++) {
-                if (arrFreeHour.indexOf(value) < 0) {
-                    arr.push(value);
-                }
-            }
-            return arr;
-        }
-    }, {
-        key: 'onChange',
-        value: function onChange(value) {
-            value.minute(0).second(0);
-            this.props.selectTime(value.format(this.props.format));
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(_rcTimePicker2.default, {
-                showSecond: false,
-                onChange: this.onChange,
-                defaultValue: this.time,
-                disabledHours: this.disabledHours,
-                minuteStep: 60,
-                placeholder: '\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0432\u0440\u0435\u043C\u044F'
-            });
-        }
-    }]);
-
-    return Picker;
-}(_react2.default.Component);
-
-;
-
-exports.default = Picker;
-
-/***/ }),
+/* 765 */,
 /* 766 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -60901,6 +60669,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _reservation = __webpack_require__(897);
+
+Object.keys(_reservation).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _reservation[key];
+    }
+  });
+});
+
 var _worker = __webpack_require__(842);
 
 Object.keys(_worker).forEach(function (key) {
@@ -60923,22 +60703,22 @@ Object.keys(_worker).forEach(function (key) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var selectWorker = exports.selectWorker = function selectWorker(worker) {
+var setStartTime = exports.setStartTime = function setStartTime(time) {
     return {
-        type: 'SELECT_WORKER',
-        selectWorker: worker
+        type: 'SET_START_TIME',
+        stertTime: time
     };
 };
-var selectDate = exports.selectDate = function selectDate(date) {
+var setWorkDate = exports.setWorkDate = function setWorkDate(date) {
     return {
-        type: 'SELECT_DATE',
-        selectDate: date
+        type: 'SET_WORK_DATE',
+        workDate: date
     };
 };
-var selectTime = exports.selectTime = function selectTime(time) {
+var setEndTime = exports.setEndTime = function setEndTime(time) {
     return {
-        type: 'SELECT_TIME',
-        selectTime: time
+        type: 'SELECT_END_TIME',
+        endTime: time
     };
 };
 
@@ -60994,9 +60774,12 @@ var Authentication = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(_index2.default, { text: '\u0412\u0445\u043E\u0434' }),
-                _react2.default.createElement(_form2.default, null),
-                _react2.default.createElement(_index4.default, null)
+                _react2.default.createElement(
+                    'div',
+                    { className: 'content' },
+                    _react2.default.createElement(_index2.default, { text: '\u0412\u0445\u043E\u0434' }),
+                    _react2.default.createElement(_form2.default, null)
+                )
             );
         }
     }]);
@@ -61088,9 +60871,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(121);
 
-var _bookingDate = __webpack_require__(846);
+var _reservationDate = __webpack_require__(892);
 
-var _bookingDate2 = _interopRequireDefault(_bookingDate);
+var _reservationDate2 = _interopRequireDefault(_reservationDate);
 
 var _app = __webpack_require__(847);
 
@@ -61100,105 +60883,23 @@ var _workers = __webpack_require__(884);
 
 var _workers2 = _interopRequireDefault(_workers);
 
+var _worker = __webpack_require__(893);
+
+var _worker2 = _interopRequireDefault(_worker);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var rootReducer = (0, _redux.combineReducers)({
-    bookingDate: _bookingDate2.default,
+    bookingDate: _reservationDate2.default,
     app: _app2.default,
-    workers: _workers2.default
+    workers: _workers2.default,
+    worker: _worker2.default
 });
 
 exports.default = rootReducer;
 
 /***/ }),
-/* 846 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var initState = {
-    workers: [{
-        id: 1,
-        name: "Nikolay",
-        freeTime: [{
-            date: "27.10.2017",
-            time: ["8.00", "9.00", "10.00"]
-        }, {
-            date: "28.10.2017",
-            time: ["8.00", "10.00", "12.00", "17.00"]
-        }, {
-            date: "30.10.2017",
-            time: ["8.00", "9.00", "10.00", "12.00", "17.00"]
-        }, {
-            date: "31.10.2017",
-            time: ["8.00", "9.00", "12.00", "17.00"]
-        }]
-    }, {
-        id: 6,
-        name: "Sergey",
-        freeTime: [{
-            date: "26.10.2017",
-            time: ["17.00"]
-        }, {
-            date: "27.10.2017",
-            time: ["8.00", "12.00", "17.00"]
-        }, {
-            date: "28.10.2017",
-            time: ["9.00", "10.00", "12.00", "17.00"]
-        }, {
-            date: "31.10.2017",
-            time: ["8.00", "12.00", "17.00"]
-        }]
-    }, {
-        id: 5,
-        name: "Nikita",
-        freeTime: [{
-            date: "31.10.2017",
-            time: ["8.00"]
-        }, {
-            date: "01.11.2017",
-            time: ["8.00", "9.00", "17.00"]
-        }, {
-            date: "08.11.2017",
-            time: ["8.00", "9.00", "10.00", "12.00", "17.00"]
-        }]
-    }],
-    worker: undefined,
-    date: undefined,
-    time: undefined
-};
-var worker = function worker() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
-    var action = arguments[1];
-
-    switch (action.type) {
-        case "SELECT_WORKER":
-            {
-                return Object.assign({}, state, {
-                    worker: action.selectWorker });
-            }
-        case "SELECT_DATE":
-            {
-                return Object.assign({}, state, {
-                    date: action.selectDate });
-            }
-        case "SELECT_TIME":
-            {
-                return Object.assign({}, state, {
-                    time: action.selectTime });
-            }
-        default:
-            return state;
-    }
-};
-
-exports.default = worker;
-
-/***/ }),
+/* 846 */,
 /* 847 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -61211,7 +60912,7 @@ Object.defineProperty(exports, "__esModule", {
 var initState = {
     captchaKey: "6LfTizUUAAAAAPrKN5EuUDOKNgIBk1ec0aYi3jyD",
     formatDate: "DD.MM.YYYY",
-    formatTime: "HH.mm",
+    formatTime: "HH:mm",
     userURL: "/admin/user"
 };
 var app = function app() {
@@ -62381,187 +62082,8 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 879 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _bookingForm = __webpack_require__(753);
-
-var _bookingForm2 = _interopRequireDefault(_bookingForm);
-
-var _index = __webpack_require__(123);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _index3 = __webpack_require__(124);
-
-var _index4 = _interopRequireDefault(_index3);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Main = function (_React$Component) {
-    _inherits(Main, _React$Component);
-
-    function Main() {
-        _classCallCheck(this, Main);
-
-        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
-    }
-
-    _createClass(Main, [{
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(_index2.default, { text: '\u0411\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435' }),
-                _react2.default.createElement(_bookingForm2.default, null),
-                _react2.default.createElement(_index4.default, null)
-            );
-        }
-    }]);
-
-    return Main;
-}(_react2.default.Component);
-
-;
-exports.default = Main;
-
-/***/ }),
-/* 880 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactGoogleRecaptcha = __webpack_require__(855);
-
-var _reactGoogleRecaptcha2 = _interopRequireDefault(_reactGoogleRecaptcha);
-
-var _index = __webpack_require__(755);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _index3 = __webpack_require__(756);
-
-var _index4 = _interopRequireDefault(_index3);
-
-var _index5 = __webpack_require__(765);
-
-var _index6 = _interopRequireDefault(_index5);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Form = function (_React$Component) {
-    _inherits(Form, _React$Component);
-
-    function Form(props) {
-        _classCallCheck(this, Form);
-
-        var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
-
-        _this.captcha = "";
-        _this.onChange = _this.onChange.bind(_this);
-        _this.handleChange = _this.handleChange.bind(_this);
-        return _this;
-    }
-
-    _createClass(Form, [{
-        key: "handleChange",
-        value: function handleChange(e) {
-            e.preventDefault();
-            console.log({
-                date: this.props.date,
-                time: this.props.time,
-                captcha: this.captcha,
-                files: this.refs.files.files
-            });
-        }
-    }, {
-        key: "onChange",
-        value: function onChange(value) {
-            this.captcha = value;
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            console.log(this.props.freeDates);
-            return _react2.default.createElement(
-                "form",
-                { className: "default-form" },
-                _react2.default.createElement("input", { type: "text", placeholder: "\u0426\u0435\u043B\u044C \u0432\u0438\u0437\u0438\u0442\u0430", required: true }),
-                _react2.default.createElement("textarea", { placeholder: "\u0414\u0435\u0442\u0430\u043B\u0438 \u043F\u043E\u043B\u043E\u043C\u043A\u0438", rows: 2, maxLength: 64 }),
-                _react2.default.createElement("input", { type: "text", placeholder: "\u0416\u0435\u043B\u0430\u0435\u043C\u0430\u044F \u0434\u0438\u0430\u0433\u043D\u043E\u0441\u0442\u0438\u043A\u0430 ", required: true }),
-                _react2.default.createElement(_index2.default, {
-                    changeSelectedWorker: this.props.selectWorker,
-                    selectedWorker: this.props.worker,
-                    workers: this.props.workers
-                }),
-                _react2.default.createElement(_index4.default, {
-                    changeSelectDate: this.props.selectDate,
-                    workingDays: this.props.freeDates,
-                    date: this.props.date,
-                    format: this.props.formatDate
-                }),
-                _react2.default.createElement(_index6.default, {
-                    time: this.props.time,
-                    freeTimes: this.props.freeTimes,
-                    selectTime: this.props.selectTime,
-                    format: this.props.formatTime
-                }),
-                _react2.default.createElement("input", { type: "file", ref: "files", name: "photo", accept: "image/*", required: true, multiple: true, title: "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u0435 \u043E\u0434\u043D\u0443 \u0438\u043B\u0438 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u0439" }),
-                _react2.default.createElement(_reactGoogleRecaptcha2.default, {
-                    ref: "recaptcha",
-                    sitekey: this.props.captchaKey,
-                    onChange: this.onChange
-                }),
-                _react2.default.createElement("input", { type: "submit", className: "default-btm", value: "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C", required: true, onClick: this.handleChange })
-            );
-        }
-    }]);
-
-    return Form;
-}(_react2.default.Component);
-
-;
-
-exports.default = Form;
-
-/***/ }),
+/* 879 */,
+/* 880 */,
 /* 881 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -62582,9 +62104,9 @@ var _addWorker = __webpack_require__(882);
 
 var _addWorker2 = _interopRequireDefault(_addWorker);
 
-var _workers = __webpack_require__(885);
+var _listWorker = __webpack_require__(883);
 
-var _workers2 = _interopRequireDefault(_workers);
+var _listWorker2 = _interopRequireDefault(_listWorker);
 
 var _index = __webpack_require__(123);
 
@@ -62617,9 +62139,17 @@ var Main = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(_index2.default, { text: '\u0420\u0430\u0431\u043E\u0447\u0438\u0435' }),
-                _react2.default.createElement(_addWorker2.default, null),
-                _react2.default.createElement(_workers2.default, { deleteBtm: false }),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'content' },
+                    _react2.default.createElement(_index2.default, { text: '\u0420\u0430\u0431\u043E\u0447\u0438\u0435' }),
+                    _react2.default.createElement(_addWorker2.default, null),
+                    _react2.default.createElement(_listWorker2.default, {
+                        deleteBtm: false,
+                        workers: this.props.workers,
+                        url: this.props.url
+                    })
+                ),
                 _react2.default.createElement(_index4.default, null)
             );
         }
@@ -62822,11 +62352,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reactRedux = __webpack_require__(258);
 
-var _listWorker = __webpack_require__(883);
+var _index = __webpack_require__(881);
 
-var _listWorker2 = _interopRequireDefault(_listWorker);
+var _index2 = _interopRequireDefault(_index);
 
-__webpack_require__(841);
+var _actions = __webpack_require__(841);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -62838,10 +62368,25 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        reset: function reset() {
+            dispatch((0, _actions.setStartTime)(undefined));
+            dispatch((0, _actions.setWorkDate)(undefined));
+            dispatch((0, _actions.setEndTime)(undefined));
+        },
+        setStartTime: function setStartTime(time) {
+            dispatch((0, _actions.setStartTime)(time));
+        },
+        setEndTime: function setEndTime(time) {
+            dispatch((0, _actions.setEndTime)(time));
+        },
+        setDate: function setDate(date) {
+            dispatch((0, _actions.setWorkDate)(date));
+        }
+    };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_listWorker2.default);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_index2.default);
 
 /***/ }),
 /* 886 */
@@ -62911,6 +62456,956 @@ Element.defaultProps = {
 };
 
 exports.default = Element;
+
+/***/ }),
+/* 887 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reservationForm = __webpack_require__(888);
+
+var _reservationForm2 = _interopRequireDefault(_reservationForm);
+
+var _index = __webpack_require__(123);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _index3 = __webpack_require__(124);
+
+var _index4 = _interopRequireDefault(_index3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Main = function (_React$Component) {
+    _inherits(Main, _React$Component);
+
+    function Main() {
+        _classCallCheck(this, Main);
+
+        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+    }
+
+    _createClass(Main, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'content' },
+                    _react2.default.createElement(_index2.default, { text: '\u0411\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435' }),
+                    _react2.default.createElement(_reservationForm2.default, null)
+                ),
+                _react2.default.createElement(_index4.default, null)
+            );
+        }
+    }]);
+
+    return Main;
+}(_react2.default.Component);
+
+;
+exports.default = Main;
+
+/***/ }),
+/* 888 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _reactRedux = __webpack_require__(258);
+
+var _reservationForm = __webpack_require__(889);
+
+var _reservationForm2 = _interopRequireDefault(_reservationForm);
+
+var _actions = __webpack_require__(841);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var getFreeDates = function getFreeDates(state) {
+    var worker = getWorker(state.workers, state.worker);
+    return worker ? worker.freeTime.map(function (element) {
+        return element.date;
+    }) : [];
+};
+var getFreeTimes = function getFreeTimes(state) {
+    var worker = getWorker(state.workers, state.worker);
+    return worker && state.date ? worker.freeTime.find(function (element) {
+        return element.date == state.date;
+    }).time : [];
+};
+var getWorker = function getWorker(workers, idWorker) {
+    return workers.find(function (element) {
+        return element.id == idWorker;
+    });
+};
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        workers: state.bookingDate.workers.map(function (element) {
+            return { id: element.id, name: element.name };
+        }),
+        date: state.bookingDate.date,
+        worker: state.bookingDate.worker,
+        time: state.bookingDate.time,
+        freeDates: getFreeDates(state.bookingDate),
+        freeTimes: getFreeTimes(state.bookingDate),
+        formatDate: state.app.formatDate,
+        formatTime: state.app.formatTime,
+        captchaKey: state.app.captchaKey
+    };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        selectWorker: function selectWorker(idWorker) {
+            dispatch((0, _actions.selectDate)(undefined));
+            dispatch((0, _actions.selectTime)(undefined));
+            dispatch((0, _actions.selectWorker)(idWorker));
+        },
+        selectDate: function selectDate(date) {
+            dispatch((0, _actions.selectTime)(undefined));
+            dispatch((0, _actions.selectDate)(date));
+        },
+        selectTime: function selectTime(time) {
+            dispatch((0, _actions.selectTime)(time));
+        }
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_reservationForm2.default);
+
+/***/ }),
+/* 889 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactGoogleRecaptcha = __webpack_require__(855);
+
+var _reactGoogleRecaptcha2 = _interopRequireDefault(_reactGoogleRecaptcha);
+
+var _index = __webpack_require__(755);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _datePicker = __webpack_require__(890);
+
+var _datePicker2 = _interopRequireDefault(_datePicker);
+
+var _timePicker = __webpack_require__(891);
+
+var _timePicker2 = _interopRequireDefault(_timePicker);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Form = function (_React$Component) {
+    _inherits(Form, _React$Component);
+
+    function Form(props) {
+        _classCallCheck(this, Form);
+
+        var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+
+        _this.captcha = "";
+        _this.onChange = _this.onChange.bind(_this);
+        _this.handleChange = _this.handleChange.bind(_this);
+        return _this;
+    }
+
+    _createClass(Form, [{
+        key: "handleChange",
+        value: function handleChange(e) {
+            e.preventDefault();
+            console.log({
+                date: this.props.date,
+                time: this.props.time,
+                captcha: this.captcha,
+                files: this.refs.files.files
+            });
+        }
+    }, {
+        key: "onChange",
+        value: function onChange(value) {
+            this.captcha = value;
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            console.log(this.props.freeDates);
+            return _react2.default.createElement(
+                "form",
+                { className: "default-form" },
+                _react2.default.createElement("input", { type: "text", placeholder: "\u0426\u0435\u043B\u044C \u0432\u0438\u0437\u0438\u0442\u0430", required: true }),
+                _react2.default.createElement("textarea", { placeholder: "\u0414\u0435\u0442\u0430\u043B\u0438 \u043F\u043E\u043B\u043E\u043C\u043A\u0438", rows: 2, maxLength: 64 }),
+                _react2.default.createElement("input", { type: "text", placeholder: "\u0416\u0435\u043B\u0430\u0435\u043C\u0430\u044F \u0434\u0438\u0430\u0433\u043D\u043E\u0441\u0442\u0438\u043A\u0430 ", required: true }),
+                _react2.default.createElement(_index2.default, {
+                    changeSelectedWorker: this.props.selectWorker,
+                    selectedWorker: this.props.worker,
+                    workers: this.props.workers
+                }),
+                _react2.default.createElement(_datePicker2.default, {
+                    changeSelectDate: this.props.selectDate,
+                    workingDays: this.props.freeDates,
+                    date: this.props.date,
+                    format: this.props.formatDate
+                }),
+                _react2.default.createElement(_timePicker2.default, {
+                    time: this.props.time,
+                    freeTimes: this.props.freeTimes,
+                    selectTime: this.props.selectTime,
+                    format: this.props.formatTime
+                }),
+                _react2.default.createElement("input", { type: "file", ref: "files", name: "photo", accept: "image/*", required: true, multiple: true, title: "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u0435 \u043E\u0434\u043D\u0443 \u0438\u043B\u0438 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u0439" }),
+                _react2.default.createElement(_reactGoogleRecaptcha2.default, {
+                    ref: "recaptcha",
+                    sitekey: this.props.captchaKey,
+                    onChange: this.onChange
+                }),
+                _react2.default.createElement("input", { type: "submit", className: "default-btm", value: "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C", required: true, onClick: this.handleChange })
+            );
+        }
+    }]);
+
+    return Form;
+}(_react2.default.Component);
+
+;
+
+exports.default = Form;
+
+/***/ }),
+/* 890 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDatepicker = __webpack_require__(757);
+
+var _reactDatepicker2 = _interopRequireDefault(_reactDatepicker);
+
+var _moment = __webpack_require__(1);
+
+var _moment2 = _interopRequireDefault(_moment);
+
+__webpack_require__(762);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// CSS Modules, react-datepicker-cssmodules.css
+// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+
+var Picker = function (_React$Component) {
+    _inherits(Picker, _React$Component);
+
+    function Picker(props) {
+        _classCallCheck(this, Picker);
+
+        var _this = _possibleConstructorReturn(this, (Picker.__proto__ || Object.getPrototypeOf(Picker)).call(this, props));
+
+        _this.handleChange = _this.handleChange.bind(_this);
+        return _this;
+    }
+
+    _createClass(Picker, [{
+        key: 'handleChange',
+        value: function handleChange(date) {
+            this.props.changeSelectDate(date.format(this.props.format));
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(_reactDatepicker2.default, {
+                selected: this.props.date ? (0, _moment2.default)(this.props.date, this.props.format) : null,
+                onChange: this.handleChange,
+                dateFormat: this.props.format,
+                locale: 'ru-ru',
+                placeholderText: '\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0434\u0430\u0442\u0443',
+                includeDates: this.props.workingDays.map(function (element) {
+                    return (0, _moment2.default)(element, _this2.props.format);
+                })
+            });
+        }
+    }]);
+
+    return Picker;
+}(_react2.default.Component);
+
+exports.default = Picker;
+
+/***/ }),
+/* 891 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _moment = __webpack_require__(1);
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _rcTimePicker = __webpack_require__(766);
+
+var _rcTimePicker2 = _interopRequireDefault(_rcTimePicker);
+
+__webpack_require__(839);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Picker = function (_React$Component) {
+    _inherits(Picker, _React$Component);
+
+    function Picker(props) {
+        _classCallCheck(this, Picker);
+
+        var _this = _possibleConstructorReturn(this, (Picker.__proto__ || Object.getPrototypeOf(Picker)).call(this, props));
+
+        _this.disabledHours = _this.disabledHours.bind(_this);
+        _this.time = _this.props.time ? (0, _moment2.default)(_this.props.time, _this.props.format) : null;
+        _this.onChange = _this.onChange.bind(_this);
+        return _this;
+    }
+
+    _createClass(Picker, [{
+        key: 'disabledHours',
+        value: function disabledHours() {
+            var _this2 = this;
+
+            var arrFreeHour = this.props.freeTimes.map(function (element) {
+                return (0, _moment2.default)(element, _this2.props.format).hour();
+            });
+            var arr = [];
+            for (var value = 0; value < 24; value++) {
+                if (arrFreeHour.indexOf(value) < 0) {
+                    arr.push(value);
+                }
+            }
+            return arr;
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(value) {
+            value.minute(0).second(0);
+            this.props.selectTime(value.format(this.props.format));
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(_rcTimePicker2.default, {
+                showSecond: false,
+                onChange: this.onChange,
+                disabledHours: this.disabledHours,
+                minuteStep: 60,
+                placeholder: '\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0432\u0440\u0435\u043C\u044F'
+            });
+        }
+    }]);
+
+    return Picker;
+}(_react2.default.Component);
+
+;
+
+exports.default = Picker;
+
+/***/ }),
+/* 892 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var initState = {
+    workers: [{
+        id: 1,
+        name: "Nikolay",
+        freeTime: [{
+            date: "27.10.2017",
+            time: ["8.00", "9.00", "10.00"]
+        }, {
+            date: "28.10.2017",
+            time: ["8.00", "10.00", "12.00", "17.00"]
+        }, {
+            date: "30.10.2017",
+            time: ["8.00", "9.00", "10.00", "12.00", "17.00"]
+        }, {
+            date: "31.10.2017",
+            time: ["8.00", "9.00", "12.00", "17.00"]
+        }]
+    }, {
+        id: 6,
+        name: "Sergey",
+        freeTime: [{
+            date: "26.10.2017",
+            time: ["17.00"]
+        }, {
+            date: "27.10.2017",
+            time: ["8.00", "12.00", "17.00"]
+        }, {
+            date: "28.10.2017",
+            time: ["9.00", "10.00", "12.00", "17.00"]
+        }, {
+            date: "31.10.2017",
+            time: ["8.00", "12.00", "17.00"]
+        }]
+    }, {
+        id: 5,
+        name: "Nikita",
+        freeTime: [{
+            date: "31.10.2017",
+            time: ["8.00"]
+        }, {
+            date: "01.11.2017",
+            time: ["8.00", "9.00", "17.00"]
+        }, {
+            date: "08.11.2017",
+            time: ["8.00", "9.00", "10.00", "12.00", "17.00"]
+        }]
+    }],
+    worker: undefined,
+    date: undefined,
+    time: undefined
+};
+var worker = function worker() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case "SELECT_WORKER":
+            {
+                return Object.assign({}, state, {
+                    worker: action.selectWorker });
+            }
+        case "SELECT_DATE":
+            {
+                return Object.assign({}, state, {
+                    date: action.selectDate });
+            }
+        case "SELECT_TIME":
+            {
+                return Object.assign({}, state, {
+                    time: action.selectTime });
+            }
+        default:
+            return state;
+    }
+};
+
+exports.default = worker;
+
+/***/ }),
+/* 893 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var initState = {
+    worker: {
+        id: 5,
+        name: "Nikita"
+    },
+    workingDates: ["31.10.2017", "01.11.2017", "02.11.2017", "04.11.2017", "06.11.2017", "08.11.2017"],
+    date: undefined,
+    startTime: undefined,
+    endTime: undefined
+};
+var workers = function workers() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case "SET_START_TIME":
+            {
+                return Object.assign({}, state, {
+                    startTime: action.stertTime });
+            }
+        case "SET_WORK_DATE":
+            {
+                return Object.assign({}, state, {
+                    date: action.workDate });
+            }
+        case "SELECT_END_TIME":
+            {
+                return Object.assign({}, state, {
+                    endTime: action.endTime });
+            }
+        default:
+            return state;
+    }
+};
+
+exports.default = workers;
+
+/***/ }),
+/* 894 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = __webpack_require__(123);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _index3 = __webpack_require__(124);
+
+var _index4 = _interopRequireDefault(_index3);
+
+var _worker = __webpack_require__(895);
+
+var _worker2 = _interopRequireDefault(_worker);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Main = function (_React$Component) {
+    _inherits(Main, _React$Component);
+
+    function Main() {
+        _classCallCheck(this, Main);
+
+        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+    }
+
+    _createClass(Main, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'content' },
+                    _react2.default.createElement(_index2.default, { text: '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0440\u0430\u0431\u043E\u0447\u0435\u0435 \u0432\u0440\u0435\u043C\u044F' }),
+                    _react2.default.createElement(_worker2.default, null)
+                ),
+                _react2.default.createElement(_index4.default, null)
+            );
+        }
+    }]);
+
+    return Main;
+}(_react2.default.Component);
+
+;
+exports.default = Main;
+
+/***/ }),
+/* 895 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _reactRedux = __webpack_require__(258);
+
+var _addWorkDate = __webpack_require__(896);
+
+var _addWorkDate2 = _interopRequireDefault(_addWorkDate);
+
+var _actions = __webpack_require__(841);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        worker: state.worker.worker,
+        format: state.app.formatDate,
+        date: state.worker.date,
+        workingDates: state.worker.workingDates,
+        formatTime: state.app.formatTime,
+        startTime: state.worker.startTime,
+        endTime: state.worker.endTime
+    };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        reset: function reset() {
+            dispatch((0, _actions.setStartTime)(undefined));
+            dispatch((0, _actions.setWorkDate)(undefined));
+            dispatch((0, _actions.setEndTime)(undefined));
+        },
+        setStartTime: function setStartTime(time) {
+            dispatch((0, _actions.setStartTime)(time));
+        },
+        setEndTime: function setEndTime(time) {
+            dispatch((0, _actions.setEndTime)(time));
+        },
+        setDate: function setDate(date) {
+            dispatch((0, _actions.setWorkDate)(date));
+        }
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_addWorkDate2.default);
+
+/***/ }),
+/* 896 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDatepicker = __webpack_require__(757);
+
+var _reactDatepicker2 = _interopRequireDefault(_reactDatepicker);
+
+var _moment = __webpack_require__(1);
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _timePicker = __webpack_require__(898);
+
+var _timePicker2 = _interopRequireDefault(_timePicker);
+
+var _index = __webpack_require__(123);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _index3 = __webpack_require__(124);
+
+var _index4 = _interopRequireDefault(_index3);
+
+__webpack_require__(762);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Main = function (_React$Component) {
+    _inherits(Main, _React$Component);
+
+    function Main(props) {
+        _classCallCheck(this, Main);
+
+        var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+
+        _this.setStartTime = _this.setStartTime.bind(_this);
+        _this.setEndTime = _this.setEndTime.bind(_this);
+        _this.setDate = _this.setDate.bind(_this);
+        _this.disabledHours = _this.disabledHours.bind(_this);
+        _this.addWorkTime = _this.addWorkTime.bind(_this);
+        return _this;
+    }
+
+    _createClass(Main, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.props.reset();
+        }
+    }, {
+        key: 'setStartTime',
+        value: function setStartTime(value) {
+            this.props.setStartTime(value.format(this.props.formatTime));
+        }
+    }, {
+        key: 'setEndTime',
+        value: function setEndTime(value) {
+            this.props.setEndTime(value.format(this.props.formatTime));
+        }
+    }, {
+        key: 'setDate',
+        value: function setDate(value) {
+            this.props.setDate(value.format(this.props.format));
+        }
+    }, {
+        key: 'disabledHours',
+        value: function disabledHours() {
+            var hours = [];
+            var curentHour = 0;
+            var loopVar = Boolean(this.props.startTime);
+            while (loopVar) {
+                hours.push(curentHour);
+                curentHour++;
+                loopVar = !(curentHour == (0, _moment2.default)(this.props.startTime, this.props.formatTime).hour() + 1);
+            }
+            return hours;
+        }
+    }, {
+        key: 'addWorkTime',
+        value: function addWorkTime(event) {
+            event.preventDefault();
+            var id = this.props.worker.id;
+            var date = this.props.date;
+            var startTime = this.props.startTime;
+            var endTime = this.props.endTime;
+            console.log(id, date, startTime, endTime);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'p',
+                    null,
+                    this.props.worker.name
+                ),
+                _react2.default.createElement(
+                    'form',
+                    null,
+                    _react2.default.createElement(_reactDatepicker2.default, {
+                        minDate: (0, _moment2.default)(),
+                        maxDate: (0, _moment2.default)().add(1, "months"),
+                        selected: this.props.date ? (0, _moment2.default)(this.props.date, this.props.format) : null,
+                        onChange: this.setDate,
+                        dateFormat: this.props.format,
+                        locale: 'ru-ru',
+                        placeholderText: '\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0434\u0430\u0442\u0443',
+                        excludeDates: this.props.workingDates.map(function (element) {
+                            return (0, _moment2.default)(element, _this2.props.format);
+                        })
+                    }),
+                    _react2.default.createElement(_timePicker2.default, {
+                        onChange: this.setStartTime,
+                        formatTime: this.props.formatTime
+                    }),
+                    _react2.default.createElement(_timePicker2.default, {
+                        onChange: this.setEndTime,
+                        disabledHours: this.disabledHours,
+                        formatTime: this.props.formatTime
+                    }),
+                    _react2.default.createElement('input', { type: 'submit', value: '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0432\u0440\u0435\u043C\u044F', onClick: this.addWorkTime })
+                )
+            );
+        }
+    }]);
+
+    return Main;
+}(_react2.default.Component);
+
+;
+exports.default = Main;
+
+/***/ }),
+/* 897 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var selectWorker = exports.selectWorker = function selectWorker(worker) {
+    return {
+        type: 'SELECT_WORKER',
+        selectWorker: worker
+    };
+};
+var selectDate = exports.selectDate = function selectDate(date) {
+    return {
+        type: 'SELECT_DATE',
+        selectDate: date
+    };
+};
+var selectTime = exports.selectTime = function selectTime(time) {
+    return {
+        type: 'SELECT_TIME',
+        selectTime: time
+    };
+};
+
+/***/ }),
+/* 898 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDatepicker = __webpack_require__(757);
+
+var _reactDatepicker2 = _interopRequireDefault(_reactDatepicker);
+
+var _rcTimePicker = __webpack_require__(766);
+
+var _rcTimePicker2 = _interopRequireDefault(_rcTimePicker);
+
+var _moment = __webpack_require__(1);
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _index = __webpack_require__(123);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _index3 = __webpack_require__(124);
+
+var _index4 = _interopRequireDefault(_index3);
+
+__webpack_require__(762);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Picker = function (_React$Component) {
+    _inherits(Picker, _React$Component);
+
+    function Picker() {
+        _classCallCheck(this, Picker);
+
+        return _possibleConstructorReturn(this, (Picker.__proto__ || Object.getPrototypeOf(Picker)).apply(this, arguments));
+    }
+
+    _createClass(Picker, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(_rcTimePicker2.default, {
+                onChange: this.props.onChange,
+                defaultValue: (0, _moment2.default)("00.00", this.props.formatTime),
+                disabledHours: this.props.disabledHours,
+                showSecond: false,
+                minuteStep: 60,
+                placeholder: '\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0432\u0440\u0435\u043C\u044F'
+            });
+        }
+    }]);
+
+    return Picker;
+}(_react2.default.Component);
+
+;
+Picker.defaultProps = {
+    disabledHours: function disabledHours() {
+        return [];
+    }
+};
+exports.default = Picker;
 
 /***/ })
 /******/ ]);

@@ -31,7 +31,6 @@ class Picker extends React.Component{
         return <TimePicker
             showSecond={false}
             onChange={this.onChange}
-            defaultValue={this.time}
             disabledHours={this.disabledHours}
             minuteStep={60}
             placeholder="Выберете время"

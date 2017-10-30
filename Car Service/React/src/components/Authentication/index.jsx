@@ -6,9 +6,10 @@ import Footer from './../Footer/index.jsx';
 class Authentication extends React.Component{
     render(){
         return (<div>
-            <Header text="Вход"/>
-            <Form/>
-            <Footer/>
+            <div className="content">
+                <Header text="Вход"/>
+                <Form/>
+            </div>
         </div>);
     }
 };

@@ -115,15 +115,26 @@ a {
   color: inherit;
   text-decoration: none;
 }
+* {
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+}
+#app {
+  height: 100%;
+}
 #app [data-reactroot] {
   display: flex;
   flex-direction: column;
+  height: 100%;
   justify-content: space-between;
   align-items: center;
   text-align: center;
   font-family: 'Open Sans', sans-serif;
   font-size: 42px;
-  min-height: 100vh;
   color: #07c;
 }
 #app [data-reactroot]:before {
@@ -139,11 +150,19 @@ a {
   width: 100%;
   height: 100%;
 }
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
 .footer {
+  flex: 0 0 auto;
   font-size: 15px;
   color: white;
 }
 .head {
+  flex: 0 0 auto;
+  text-align: center;
   font-size: 128px;
   line-height: 1;
 }

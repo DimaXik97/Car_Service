@@ -3,8 +3,8 @@ import ReCAPTCHA from "react-google-recaptcha";
  
 
 import SelectWorker from "./../../components/SelectWorker/index.jsx"
-import DatePicker from "./../DatePicker/index.jsx"
-import TimePicker from "./../TimePicker/index.jsx"
+import DatePicker from "./datePicker.jsx"
+import TimePicker from "./timePicker.jsx"
 class Form extends React.Component{
     constructor(props) {
         super(props);

@@ -1,17 +1,18 @@
 import React from 'react';
+
 import Header from './../Header/index.jsx';
 import Footer from './../Footer/index.jsx';
-import Content from './content.jsx';
+import AddWorkDate from './../../containers/worker.js'
 
-class Start extends React.Component{
+class Main extends React.Component{
     render(){
         return (<div>
             <div className="content">
-                <Header text="Добро пожаловать в Car Service"/>
-                <Content/>
+                <Header text="Добавить рабочее время"/>
+                <AddWorkDate/>
             </div>
             <Footer/>
         </div>);
     }
 };
-export default Start;
+export default Main;
