@@ -1,8 +1,8 @@
 const initState={
     captchaKey: "6LfTizUUAAAAAPrKN5EuUDOKNgIBk1ec0aYi3jyD",
     formatDate: "DD.MM.YYYY",
-    formatTime: "HH:mm",
-    userURL: "/admin/user"
+    formatTime: "HH.mm",
+    workerURL: "/admin/worker"
 };
 const app = (state = initState, action) => {
     switch (action.type) {

@@ -10,7 +10,7 @@ class ListWorker extends React.Component{
         console.log(id);
     }
     render(){
-        return (<div className="list">
+        return (<ul className="list">
             {this.props.workers.map((element,num)=>{
                 return <ListElement
                     key={num}
@@ -19,7 +19,7 @@ class ListWorker extends React.Component{
                     deleteFunc={this.deleteElement}
                 />
             })}
-            </div>);
+            </ul>);
     }
 };
 export default ListWorker;
