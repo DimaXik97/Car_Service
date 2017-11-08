@@ -9,6 +9,7 @@ namespace Car_Service.Controllers
 {
     public class DefaultController : ApiController
     {
+        [Authorize(Roles = "admin")]
         public IEnumerable<string> Get()
         {
             return new List<string> { "OK", "Ok1" };
