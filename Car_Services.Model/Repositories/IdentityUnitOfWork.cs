@@ -1,4 +1,5 @@
-﻿using Car_Service.Model.EF;
+﻿using Car_Service.DAL.Interfaces;
+using Car_Service.Model.EF;
 using Car_Service.Model.Entities;
 using Car_Service.Model.Identity;
 using Car_Service.Model.Interfaces;
@@ -14,13 +15,20 @@ namespace Car_Service.DAL.Repositories
 
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
+        private IWorkerManager workerManager;
+        private IWorkTimeManager workTimeManager;
+        private IImageManager imageManager;
+        private IReservationManager reservationManager;
 
         public IdentityUnitOfWork(string connectionString)
         {
             db = new ApplicationContext(connectionString);
             userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
             roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(db));
-            
+            workerManager = new WorkerManager(db);
+            workTimeManager = new WorkTimeManager(db);
+            imageManager = new ImageManager(db);
+            reservationManager = new ReservationManager(db);
         }
 
         public ApplicationUserManager UserManager
@@ -31,6 +39,26 @@ namespace Car_Service.DAL.Repositories
         public ApplicationRoleManager RoleManager
         {
             get { return roleManager; }
+        }
+
+        public IWorkerManager WorkerManager
+        {
+            get { return workerManager; }
+        }
+
+        public IWorkTimeManager WorkTimeManager
+        {
+            get { return workTimeManager; }
+        }
+
+        public IImageManager ImageManager
+        {
+            get { return imageManager; }
+        }
+
+        public IReservationManager ReservationManager
+        {
+            get { return reservationManager; }
         }
 
         public async Task SaveAsync()
