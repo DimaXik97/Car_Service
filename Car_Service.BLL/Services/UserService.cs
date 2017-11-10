@@ -1,7 +1,7 @@
 ﻿using Car_Service.BLL.DTO;
 using Car_Service.BLL.Infrastructure;
 using Car_Service.BLL.Interfaces;
-using Car_Service.Model.Entities;
+using Car_Service.DAL.Entities;
 using Car_Service.Model.Interfaces;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
