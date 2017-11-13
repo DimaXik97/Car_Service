@@ -9,10 +9,9 @@ namespace Car_Service.DAL.Entities
     public class WorkTime
     {
         public int Id { get; set; }
-        public string Date { get; set; }
-        public string TimeStart { get; set; }
-        public string TimeEnd { get; set; }
+        public DateTime DateStart { get; set; }
+        public DateTime DateEnd { get; set; }
 
-        public Worker Worker { get; set; }
+        public virtual Worker Worker { get; set; }
     }
 }

@@ -1,7 +1,10 @@
-﻿using Car_Service.DAL.EF;
+﻿using System;
+using System.Collections.Generic;
+using Car_Service.DAL.EF;
 using Car_Service.DAL.Entities;
 using Car_Service.DAL.Interfaces;
-
+using System.Linq;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Car_Service.DAL.Repositories
 {
@@ -12,7 +15,10 @@ namespace Car_Service.DAL.Repositories
         {
             Database = db;
         }
-
+        public List<WorkTime> Get()
+        {
+            return Database.WorkTime.ToList();
+        }
         public void Create(WorkTime item)
         {
             Database.WorkTime.Add(item);
@@ -23,5 +29,7 @@ namespace Car_Service.DAL.Repositories
         {
             Database.Dispose();
         }
+
+        
     }
 }

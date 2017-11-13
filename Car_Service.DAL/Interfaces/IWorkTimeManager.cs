@@ -9,6 +9,7 @@ namespace Car_Service.DAL.Interfaces
 {
     public interface IWorkTimeManager : IDisposable
     {
+        List<WorkTime> Get();
         void Create(WorkTime item);
     }
 }

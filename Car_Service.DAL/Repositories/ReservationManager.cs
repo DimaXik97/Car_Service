@@ -1,7 +1,8 @@
 ﻿using Car_Service.DAL.EF;
 using Car_Service.DAL.Entities;
 using Car_Service.DAL.Interfaces;
-
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Car_Service.DAL.Repositories
 {
@@ -12,7 +13,10 @@ namespace Car_Service.DAL.Repositories
         {
             Database = db;
         }
-
+        public List<Reservation> Get()
+        {
+            return Database.Reservation.ToList();
+        }
         public void Create(Reservation item)
         {
             Database.Reservation.Add(item);

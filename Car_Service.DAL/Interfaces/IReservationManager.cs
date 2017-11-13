@@ -9,6 +9,7 @@ namespace Car_Service.DAL.Interfaces
 {
     public interface IReservationManager : IDisposable
     {
+        List<Reservation> Get();
         void Create(Reservation item);
     }
 }

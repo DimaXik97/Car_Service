@@ -11,10 +11,8 @@ namespace Car_Service.BLL.DTO
         [Required]
         public string SurName { get; set; }
         [Phone]
-        [Required]
         public string Telephone { get; set; }
         [EmailAddress]
-        [Required]
         public string Email { get; set; }
     }
 }

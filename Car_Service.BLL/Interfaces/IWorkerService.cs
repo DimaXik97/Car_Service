@@ -14,5 +14,7 @@ namespace Car_Service.BLL.Interfaces
     {
         List<dynamic> GetWorker();
         Task<OperationDetails> AddWorker(WorkerDTO model);
+        OperationDetails AddWorkTime(WorkTimeDTO model);
+        List<dynamic> FreeDate(int workId);
     }
 }

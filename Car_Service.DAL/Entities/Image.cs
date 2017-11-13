@@ -11,6 +11,6 @@ namespace Car_Service.DAL.Entities
         public int Id { get; set; }
         public string URL { get; set; }
 
-        public Reservation Reservation { get; set; }
+        public virtual Reservation Reservation { get; set; }
     }
 }
