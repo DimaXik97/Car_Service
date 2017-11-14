@@ -4,7 +4,7 @@ import App from '../components/App/index.jsx';
 import {} from '../actions';
 
 const mapStateToProps = state => ({
-   user: undefined
+   user: true
 })
 
 const mapDispatchToProps = dispatch => ({

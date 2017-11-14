@@ -185,8 +185,10 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Controllers\WorkerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\CustomMultipartFileStreamProvider.cs" />
     <Compile Include="Providers\OAuthProvider.cs" />
   </ItemGroup>
   <ItemGroup>
