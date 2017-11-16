@@ -1,4 +1,6 @@
-﻿using Car_Service.DAL.Repositories;
+﻿using Car_Service.BLL.Interfaces;
+using Car_Service.BLL.Services;
+using Car_Service.DAL.Repositories;
 using Car_Service.Model.Interfaces;
 using Ninject.Modules;
 
@@ -14,8 +16,7 @@ namespace Car_Service.BLL.Infrastructure
         public override void Load()
         {
             Bind<IUnitOfWork>().To<IdentityUnitOfWork>().WithConstructorArgument(_connectionString);
+            Bind<IWorkerService>().To<WorkerService>();
         }
-
-
     }
 }

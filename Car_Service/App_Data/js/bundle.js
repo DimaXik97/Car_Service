@@ -55602,7 +55602,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    user: undefined
+    user: { role: "admin" }
   };
 };
 
@@ -59240,12 +59240,27 @@ var Form = function (_React$Component) {
         key: "handleChange",
         value: function handleChange(e) {
             e.preventDefault();
-            console.log({
+            var t = {
                 date: this.props.date,
                 time: this.props.time,
                 captcha: this.captcha,
                 files: this.refs.files.files
-            });
+            };
+            var data = new FormData();
+            for (var x = 0; x < this.refs.files.files.length; x++) {
+                data.append("file", this.refs.files.files[x]);
+            }
+            data.append("date", this.props.date);
+            data.append("timeStart", this.props.time);
+            data.append("captcha", this.captcha);
+            console.log(data);
+            var xhr = new XMLHttpRequest();
+
+            // 2. Конфигурируем его: GET-запрос на URL 'phones.json'
+            xhr.open('POST', 'http://localhost:29975/api/reservation', false);
+
+            // 3. Отсылаем запрос
+            xhr.send(data);
         }
     }, {
         key: "onChange",

@@ -23,9 +23,9 @@ namespace Car_Service.App_Start
 
         private static void RegisterServices(KernelBase kernel)
         { 
-
             kernel.Bind<IUserService>().To<UserService>();
             kernel.Bind<IWorkerService>().To<WorkerService>();
+            kernel.Bind<IReservationService>().To<ReservationService>();
         }
     }
 }
