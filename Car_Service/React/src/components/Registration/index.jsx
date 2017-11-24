@@ -7,7 +7,7 @@ class Registration extends React.Component{
     render(){
         return (<div>
             <Header text="Регистрация"/>
-            <Form/>
+            <Form registration={this.props.registration} />
             <Footer/>
         </div>);
     }

@@ -21,9 +21,7 @@ class Form extends React.Component{
             let name=this.refs.Name.value;
             let email=this.refs.Email.value;
             let password = this.refs.Password1.value;
-            console.log("name",name);
-            console.log("email", email);
-            console.log("password", password);
+            this.props.registration(name, email, password);
         }
             
     }

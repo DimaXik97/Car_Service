@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Car_Service.DAL.Entities;
 
 namespace Car_Service.BLL.Services
 {
@@ -20,10 +21,12 @@ namespace Car_Service.BLL.Services
         private string ReCaptchaSecretKey = "6LfTizUUAAAAAOH-_rnNKMXpi-iUzRLUjJ7adpzn";
         string ImagePath { get;}
         IUnitOfWork Database { get; set; }
+        IWorkerService WorkerService { get; set; }
 
         public ReservationService(IUnitOfWork uow)
         {
             Database = uow;
+            WorkerService = new WorkerService(uow);
         }
 
         public void Dispose()
@@ -31,16 +34,40 @@ namespace Car_Service.BLL.Services
             Database.Dispose();
         }
 
-        public async Task<OperationDetails> Create(ReservationDTO model) 
+        public async Task<OperationDetails> Create(ReservationDTO model, string curentUserId) 
         {
-            var isVerify= await verifyCaptcha(model.Captcha, ReCaptchaSecretKey);
+            var isVerify = true;//await verifyCaptcha(model.Captcha, ReCaptchaSecretKey);
             if(isVerify) 
             {
-
-                return new OperationDetails(true, "", "");
+                /*var freeDates= WorkerService.FreeDate(model.WorkerId);
+                bool isDatesValid = checkTime(model, freeDates);*/
+                var reservation = new Reservation
+                {
+                    ApplicationUser = await Database.UserManager.FindByIdAsync(curentUserId),
+                    Worker = Database.WorkerManager.Get().Find(s => s.Id == model.WorkerId),
+                    Purpose = model.Purpose,
+                    BreakdownDetails = model.BreakdownDetails,
+                    DesiredDiagnosis = model.DesiredDiagnosis,
+                    DateStart = model.TimeStart,
+                    DateEnd = model.TimeEnd
+                };
+                Database.ReservationManager.Create(reservation);
+                var file=await UploadImage(model.File, reservation.Id);
+                return new OperationDetails(true, file.ToString(), "");
             }
             else return new OperationDetails(false, "Error captcha", "");
         }
+       /* private bool checkTime(ReservationDTO model, FreeDateDTO freeDates)
+        {
+            DateTime startDate = model.TimeStart;
+            while(startDate<model.TimeEnd)
+            {
+                if (freeDates.FreeDates.Find(s => s == startDate) == null)
+                    return false;
+                startDate.AddMinutes(freeDates.ValueSplit);
+            }
+            return true;
+        }*/
         private async Task<List<string>> UploadImage(List<ImageDTO> images, int idReservation)
         {
             List<string> urlImages = new List<string>();

@@ -1,16 +1,19 @@
 import { connect } from 'react-redux'
 
-import App from '../components/App/index.jsx';
-import {initUser} from '../actions';
+import Authentiocation from '../components/Authentication/index.jsx';
+import {loginUser} from '../actions';
 
 const mapStateToProps = state => ({
   user: state.app.user
 })
 
 const mapDispatchToProps = dispatch => ({
+    login:(email, pass)=>{
+        dispatch(loginUser(email, pass))
+    }
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App)
+)(Authentiocation)

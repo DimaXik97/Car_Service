@@ -16,7 +16,6 @@ namespace Car_Service.BLL.Infrastructure
         public override void Load()
         {
             Bind<IUnitOfWork>().To<IdentityUnitOfWork>().WithConstructorArgument(_connectionString);
-            Bind<IWorkerService>().To<WorkerService>();
         }
     }
 }

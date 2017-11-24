@@ -21,9 +21,9 @@ namespace Car_Service.BLL.Services
             Database = uow;
         }
 
-        public List<dynamic> GetWorker()
+        public List<WorkerDTO> GetWorker()
         {
-            return Database.WorkerManager.Get().Select(s=>new { firstName=s.FirstName, surName=s.SurName}).ToList<dynamic>();
+            return Database.WorkerManager.Get().Select(s=>new WorkerDTO { Id=s.Id, Name=s.FirstName, SurName=s.SurName, Telephone=s.Telephone, Email=s.Email}).ToList();
         }
         public async Task<OperationDetails> AddWorker(WorkerDTO model)
         {
@@ -44,41 +44,67 @@ namespace Car_Service.BLL.Services
         }
         public OperationDetails AddWorkTime(WorkTimeDTO model)
         {
-            string formatString = "dd.MM.yyyy/HH.mm";
             DateTime curentDate = DateTime.Now;
-            DateTime startDate = DateTime.ParseExact(string.Format("{0}/{1}",model.Date,model.StartTime), formatString, null);
-            DateTime endDate = DateTime.ParseExact(string.Format("{0}/{1}", model.Date, model.EndTime), formatString, CultureInfo.InvariantCulture);
             Worker worker = Database.WorkerManager.Get().Find(s => s.Id == model.UserId);
+            model.StartTime.ToLocalTime();
+            model.EndTime.ToLocalTime();
             if (worker == null)
                 return new OperationDetails(false, "Рабочий не найден", "");
-            else if(startDate < curentDate || endDate < startDate)
+            else if(model.StartTime < curentDate || model.EndTime < model.StartTime)
                 return new OperationDetails(false, "Ошибка даты", "");
-            var isWorkToday = Database.WorkTimeManager.Get().Find(s => (s.Worker == worker)&&(s.DateStart.Date.CompareTo(startDate.Date)==0))!=null;
-            if(isWorkToday)
-                return new OperationDetails(false, "Уже работает в эту дату", "");
+            var workerWorkTime = Database.WorkTimeManager.Get().Where(s => (s.Worker == worker));
+            if (workerWorkTime == null)
+                return new OperationDetails(false, "", "");
             else
             {
-                WorkTime workTime = new WorkTime{
-                    DateStart = startDate,
-                    DateEnd = endDate,
-                    Worker=worker
-                };
-                Database.WorkTimeManager.Create(workTime);
-                return new OperationDetails(true, "Время работы успешно добавлено", "");
+                foreach (var x in workerWorkTime)
+                {
+                    if (((model.StartTime >= x.DateStart) && (model.StartTime < x.DateEnd)) || ((model.EndTime > x.DateStart) && (model.EndTime <= x.DateEnd)) || ((x.DateStart >= model.StartTime) && (x.DateEnd <= model.EndTime)))
+                        return new OperationDetails(false, "Уже работает в эту дату", "");
+                }
+                    
             }
-
+            
+            WorkTime workTime = new WorkTime{
+                DateStart = model.StartTime,
+                DateEnd = model.EndTime,
+                Worker=worker
+            };
+            Database.WorkTimeManager.Create(workTime);
+            return new OperationDetails(true, "Время работы успешно добавлено", "");
         }
-        public List<dynamic> FreeDate(int workerId)
+        public WorkTimesDTO workerTimes(int workerId)
         {
-            Dictionary<DateTime, List<DateTime>> freeDates = new Dictionary<DateTime, List<DateTime>>();
+            var worker = Database.WorkerManager.Get().Find(s => s.Id == workerId);
+            if (worker != null)
+            {
+                var workTime = Database.WorkTimeManager.Get().Where(s => s.Worker.Id == workerId && s.DateStart.CompareTo(DateTime.Now) > 0).Select(s=> { return new WorkTimesDTO.WorkTime { StartTime = s.DateStart, EndTime = s.DateEnd }; }).ToList<WorkTimesDTO.WorkTime>();
+                return new WorkTimesDTO
+                {
+                    WorkerId = workerId,
+                    WorkTimesWorker = workTime
+                };
+            }
+            else
+                return null;
+        }
+        /*public FreeDateDTO FreeDate(int workerId)
+        {
+            List<DateTime> freeDates = new List<DateTime>();
+            var worker = Database.WorkerManager.Get().Find(s => s.Id == workerId);
             var workDates = Database.WorkTimeManager.Get().Where(s => s.Worker.Id == workerId && s.DateStart.CompareTo(DateTime.Now)>0);
             foreach(var workDate in workDates)
             {
                 var reservationTime = Database.ReservationManager.Get().Where(s => s.DateStart.Date == workDate.DateStart.Date&&s.Worker.Id==workerId).ToList();
                 var freeTimes = GetFreeTime(workDate.DateStart, workDate.DateEnd, reservationTime);
-                freeDates.Add(workDate.DateStart.Date, freeTimes);
+                freeDates.AddRange(freeTimes);
             }
-            return ToFormat(freeDates);
+            return new FreeDateDTO {
+                WorkerName = string.Format("{0} {1}", worker.SurName, worker.FirstName),
+                TypeSplit = "minute",
+                ValueSplit = 60,
+                FreeDates = freeDates
+            };
         }
         private List<DateTime> GetFreeTime(DateTime startTime, DateTime endTime, List<Reservation> reservationTime)
         {
@@ -93,18 +119,15 @@ namespace Car_Service.BLL.Services
                 }
                 if(!IsReservation)
                     intervalTime.Add(startTime);
-                startTime = startTime.AddHours(1);
+                startTime = startTime.AddMinutes(60);
             }
             return intervalTime;
-        }
-        private List<dynamic> ToFormat(Dictionary<DateTime, List<DateTime>> freeDates)
-        {
-            return freeDates.Select(s => new { date = s.Key.ToString("dd.MM.yyyy"), time = s.Value.Select(t => t.ToString("HH.mm")) }).ToList<dynamic>();
-        }
-
+        }*/
         public void Dispose()
         {
             Database.Dispose();
         }
+
+        
     }
 }

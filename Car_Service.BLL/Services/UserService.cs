@@ -48,7 +48,11 @@ namespace Car_Service.BLL.Services
             ApplicationUser user = await Database.UserManager.FindAsync(Email, Password);
             // авторизуем его и возвращаем объект ClaimsIdentity
             if (user != null)
+            {
                 claim = await Database.UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ExternalBearer);
+                claim.AddClaim(new Claim("id", user.Id));
+            }
+                
             return claim;
         }
         public async Task SetInitialData(UserDTO adminDto, List<string> roles)

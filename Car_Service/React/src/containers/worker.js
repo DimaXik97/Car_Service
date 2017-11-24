@@ -1,32 +1,32 @@
 import { connect } from 'react-redux'
 
-import Worker from '../components/Worker/addWorkDate.jsx';
-import {setStartTime,setWorkDate,setEndTime} from '../actions';
+import Worker from '../components/Worker/index.jsx';
+import {setStartTime, setEndTime, addWorkTime,getWorker} from '../actions';
 
 const mapStateToProps = state => ({
     worker: state.worker.worker,
-    format: state.app.formatDate,
-    date: state.worker.date,
-    workingDates: state.worker.workingDates,
+
     formatTime: state.app.formatTime,
     startTime: state.worker.startTime,
     endTime: state.worker.endTime
 })
 
 const mapDispatchToProps = dispatch => ({
+    addWorkTime:(id, startTime, endTime)=>{
+        dispatch(addWorkTime(id, startTime, endTime))
+    },
     reset:()=>{
         dispatch(setStartTime(undefined));
-        dispatch(setWorkDate(undefined));
         dispatch(setEndTime(undefined));
     },
-    setStartTime:(time)=>{
-        dispatch(setStartTime(time));
+    setStartTime:(date)=>{
+        dispatch(setStartTime(date));
     },
-    setEndTime:(time)=>{
-        dispatch(setEndTime(time));
+    setEndTime:(data)=>{
+        dispatch(setEndTime(data));
     },
-    setDate:(date)=>{
-        dispatch(setWorkDate(date));
+    getWorker:(id)=>{
+        dispatch(getWorker(id))
     }
 })
 

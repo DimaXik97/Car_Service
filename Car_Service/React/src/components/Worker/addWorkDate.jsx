@@ -13,71 +13,46 @@ import 'react-datepicker/dist/react-datepicker.css';
 class Main extends React.Component{
     constructor(props) {
         super(props);
-        this.setStartTime=this.setStartTime.bind(this);
-        this.setEndTime=this.setEndTime.bind(this);
-        this.setDate=this.setDate.bind(this);
-        this.disabledHours=this.disabledHours.bind(this);
         this.addWorkTime=this.addWorkTime.bind(this);
     }
     componentWillMount(){
-        this.props.reset();
-    }
-
-    setStartTime(value) {
-        this.props.setStartTime(value.format(this.props.formatTime))
-    }
-    setEndTime(value){
-        this.props.setEndTime(value.format(this.props.formatTime))
-    }
-    setDate(value){
-        this.props.setDate(value.format(this.props.format))
-    }
-
-    disabledHours(){
-        let hours = [];
-        let curentHour=0;
-        let loopVar = Boolean(this.props.startTime);
-        while(loopVar)
-        {
-            hours.push(curentHour);
-            curentHour++;
-            loopVar=!(curentHour==moment(this.props.startTime,this.props.formatTime).hour()+1);
-        }
-        return hours;
+        //console.log("dasd",this.props)
+        //this.props.getUser(this.props.match.params.id);
     }
     addWorkTime(event){
         event.preventDefault();
         let id=this.props.worker.id;
-        let date=this.props.date;
         let startTime = this.props.startTime;
         let endTime= this.props.endTime;
-        console.log(id, date, startTime, endTime);
+        this.props.addWorkTime(id, startTime, endTime);
+        this.props.reset();
     }
-
     render(){
         return (<div>
             <p>{this.props.worker.name}</p>
             <form>
                 <DatePicker
                     minDate={moment()}
-                    maxDate={moment().add(1, "months")}
-                    selected={this.props.date?moment(this.props.date, this.props.format):null}
-                    onChange={this.setDate}
-                    dateFormat={this.props.format}
-                    locale="ru-ru"
-                    placeholderText="Выберете дату"
-                    excludeDates={this.props.workingDates.map((element)=>{
-                        return moment(element, this.props.format);
-                    })}
+                    maxDate={moment().add(1,"months")}
+                    selected={this.props.startTime}
+                    onChange={this.props.setStartTime}
+                    shouldCloseOnSelect={false}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={60}
+                    dateFormat="LLL"
                 />
-                <TimePicker
-                    onChange={this.setStartTime}
-                    formatTime={this.props.formatTime}
-                />
-                <TimePicker
-                    onChange={this.setEndTime}
-                    disabledHours={this.disabledHours}
-                    formatTime={this.props.formatTime}
+                <DatePicker
+                    minDate={moment()}
+                    maxDate={moment().add(1,"months")}
+                    selected={this.props.endTime}
+                    onChange={this.props.setEndTime}
+                    shouldCloseOnSelect={false}
+                    showTimeSelect
+                    shouldCloseOnSelect={false}
+                    timeFormat="HH:mm"
+                    timeIntervals={60}
+                    dateFormat="LLL"
                 />
                 <input type="submit" value="Добавить время" onClick={this.addWorkTime}/>
             </form>

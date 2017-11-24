@@ -10,15 +10,14 @@ namespace Car_Service.BLL.DTO
     public class ReservationDTO
     {
         public int WorkerId { get; set; }
+        public DateTime TimeStart { get; set; }
+        public DateTime TimeEnd { get; set; }
         [Required]
-        public string Date { get; set; }
-        public string TimeStart { get; set; }
-        public string TimeEnd { get; set; }
         public string Purpose { get; set; }
-        public string BreakdownDetails { get; set; }
-        public string DesiredDiagnosis { get; set; }
         [Required]
-        public string Captcha { get; set; }
+        public string BreakdownDetails { get; set; }
+        [Required]
+        public string DesiredDiagnosis { get; set; }
         public List<ImageDTO> File { get; set; }
         public class ImageDTO
         {

@@ -11,8 +11,7 @@ class Form extends React.Component{
             event.preventDefault();
             let email= this.refs.Email.value;
             let password = this.refs.Password.value;
-            console.log("email", email);
-            console.log("pass", password);
+            this.props.login(email, password);
         }
             
     }

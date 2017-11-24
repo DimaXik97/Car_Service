@@ -12,9 +12,10 @@ namespace Car_Service.BLL.Interfaces
 {
     public interface IWorkerService : IDisposable
     {
-        List<dynamic> GetWorker();
+        List<WorkerDTO> GetWorker();
+
         Task<OperationDetails> AddWorker(WorkerDTO model);
         OperationDetails AddWorkTime(WorkTimeDTO model);
-        List<dynamic> FreeDate(int workId);
+        WorkTimesDTO workerTimes(int workerId);
     }
 }

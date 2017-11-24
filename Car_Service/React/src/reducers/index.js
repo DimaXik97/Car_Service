@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
 
-import bookingDate from './reservationDate'
+import reservation from './reservationDate'
 import app from './app'
 import workers from './workers'
 import worker from './worker'
 
 const rootReducer = combineReducers({
-    bookingDate,
+    reservation,
     app,
     workers,
     worker

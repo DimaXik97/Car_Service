@@ -21,7 +21,6 @@ namespace Car_Service.Providers
 
         public override async Task ExecutePostProcessingAsync()
         {
-
             foreach (var file in Contents)
             {
                 switch (file.Headers.ContentDisposition.Name.Trim('\"'))
@@ -34,19 +33,14 @@ namespace Car_Service.Providers
                             Reservation.File.Add(new ImageDTO { ImageBytes = image, Extension = fileExtension });
                             break;
                         }
-                    case "date":
-                        {
-                            Reservation.Date = await file.ReadAsStringAsync();
-                            break;
-                        }
                     case "timeStart":
                         {
-                            Reservation.TimeStart = await file.ReadAsStringAsync();
+                            Reservation.TimeStart = DateTime.Parse("11/21/2017 9:00:00 AM");
                             break;
                         }
                     case "timeEnd":
                         {
-                            Reservation.TimeEnd = await file.ReadAsStringAsync();
+                            Reservation.TimeEnd = DateTime.Parse("11/21/2017 12:00:00 AM");
                             break;
                         }
                     case "purpose":
@@ -62,11 +56,6 @@ namespace Car_Service.Providers
                     case "desiredDiagnosis":
                         {
                             Reservation.DesiredDiagnosis = await file.ReadAsStringAsync();
-                            break;
-                        }
-                    case "captcha":
-                        {
-                            Reservation.Captcha = await file.ReadAsStringAsync();
                             break;
                         }
                     case "workerId":

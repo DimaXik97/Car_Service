@@ -1,10 +1,5 @@
 const initState={
-    worker: {
-        id: 5,
-        name: "Nikita"
-    },
-    workingDates: ["31.10.2017","01.11.2017","02.11.2017","04.11.2017","06.11.2017","08.11.2017"],
-    date: undefined,
+    worker: {},
     startTime: undefined,
     endTime: undefined,
 }; 
@@ -12,18 +7,24 @@ const workers = (state = initState, action) => {
     switch (action.type) {
         case "SET_START_TIME": {
             return Object.assign({}, state, {
-                startTime: action.stertTime});
+                startTime: action.date});
         }
-        case "SET_WORK_DATE": {
+        case "SET_END_TIME": {
             return Object.assign({}, state, {
-                date: action.workDate});
+                endTime: action.date});
         }
-        case "SELECT_END_TIME": {
+        case "SET_WORKER": {
             return Object.assign({}, state, {
-                endTime: action.endTime});
-        }
-    default:
-      return state
+                worker: {
+                    id: action.id,
+                    name: action.name,
+                    telephone: action.telephone,
+                    email: action.email
+                }
+            })
+        };
+        default:
+            return state
     }
 }
 

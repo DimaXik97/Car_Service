@@ -13590,6 +13590,18 @@ Object.keys(_reservation).forEach(function (key) {
   });
 });
 
+var _workers = __webpack_require__(968);
+
+Object.keys(_workers).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _workers[key];
+    }
+  });
+});
+
 var _worker = __webpack_require__(918);
 
 Object.keys(_worker).forEach(function (key) {
@@ -13598,6 +13610,18 @@ Object.keys(_worker).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _worker[key];
+    }
+  });
+});
+
+var _app = __webpack_require__(936);
+
+Object.keys(_app).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _app[key];
     }
   });
 });
@@ -42987,7 +43011,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var sagaMiddleware = (0, _reduxSaga2.default)();
 var store = (0, _redux.createStore)(_reducers2.default, (0, _reduxDevtoolsExtension.composeWithDevTools)((0, _redux.applyMiddleware)(sagaMiddleware)));
 
-//sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(_saga2.default);
 
 exports.default = _app2.default;
 
@@ -55596,13 +55620,13 @@ var _index = __webpack_require__(784);
 
 var _index2 = _interopRequireDefault(_index);
 
-__webpack_require__(141);
+var _actions = __webpack_require__(141);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    user: { role: "admin" }
+    user: state.app.user
   };
 };
 
@@ -55639,25 +55663,25 @@ var _index = __webpack_require__(812);
 
 var _index2 = _interopRequireDefault(_index);
 
-var _index3 = __webpack_require__(814);
+var _registration = __webpack_require__(966);
 
-var _index4 = _interopRequireDefault(_index3);
+var _registration2 = _interopRequireDefault(_registration);
 
-var _index5 = __webpack_require__(816);
+var _reservation = __webpack_require__(970);
 
-var _index6 = _interopRequireDefault(_index5);
+var _reservation2 = _interopRequireDefault(_reservation);
 
-var _index7 = __webpack_require__(919);
+var _authentication = __webpack_require__(937);
 
-var _index8 = _interopRequireDefault(_index7);
+var _authentication2 = _interopRequireDefault(_authentication);
 
 var _workers = __webpack_require__(921);
 
 var _workers2 = _interopRequireDefault(_workers);
 
-var _index9 = __webpack_require__(926);
+var _worker = __webpack_require__(927);
 
-var _index10 = _interopRequireDefault(_index9);
+var _worker2 = _interopRequireDefault(_worker);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55682,19 +55706,19 @@ var App = function (_React$Component) {
             var _this2 = this;
 
             return _react2.default.createElement(
-                _reactRouterDom.BrowserRouter,
-                null,
+                _reactRouterDom.Router,
+                { history: _history2.default },
                 _react2.default.createElement(
                     _reactRouterDom.Switch,
                     null,
-                    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', render: function render() {
-                            return _this2.props.user ? _react2.default.createElement(_index6.default, null) : _react2.default.createElement(_index2.default, null);
+                    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', render: function render(props) {
+                            return _this2.props.user.token ? _react2.default.createElement(_reservation2.default, props) : _react2.default.createElement(_index2.default, props);
                         } }),
-                    _react2.default.createElement(_reactRouterDom.Route, { path: '/login', render: function render() {
-                            return _this2.props.user ? _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' }) : _react2.default.createElement(_index8.default, null);
+                    _react2.default.createElement(_reactRouterDom.Route, { path: '/login', render: function render(props) {
+                            return _this2.props.user.token ? _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' }) : _react2.default.createElement(_authentication2.default, props);
                         } }),
-                    _react2.default.createElement(_reactRouterDom.Route, { path: '/registration', render: function render() {
-                            return _this2.props.user ? _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' }) : _react2.default.createElement(_index4.default, null);
+                    _react2.default.createElement(_reactRouterDom.Route, { path: '/registration', render: function render(props) {
+                            return _this2.props.user.token ? _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' }) : _react2.default.createElement(_registration2.default, props);
                         } }),
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/admin', render: function render() {
                             return _this2.props.user.role == "admin" ? _react2.default.createElement(
@@ -55703,12 +55727,8 @@ var App = function (_React$Component) {
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/admin', render: function render() {
                                         return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/admin/worker' });
                                     } }),
-                                _react2.default.createElement(_reactRouterDom.Route, { path: '/admin/worker/:id', render: function render() {
-                                        return _react2.default.createElement(_index10.default, null);
-                                    } }),
-                                _react2.default.createElement(_reactRouterDom.Route, { path: '/admin/worker', render: function render() {
-                                        return _react2.default.createElement(_workers2.default, null);
-                                    } })
+                                _react2.default.createElement(_reactRouterDom.Route, { path: "/admin/worker/:id", component: _worker2.default }),
+                                _react2.default.createElement(_reactRouterDom.Route, { path: '/admin/worker', component: _workers2.default })
                             ) : _react2.default.createElement(_reactRouterDom.Redirect, { to: '/login' });
                         } })
                 )
@@ -58748,6 +58768,18 @@ var withRouter = function withRouter(Component) {
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createBrowserHistory = __webpack_require__(787);
+
+var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = (0, _createBrowserHistory2.default)();
+
 /***/ }),
 /* 812 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -58834,6 +58866,8 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouterDom = __webpack_require__(785);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58852,35 +58886,35 @@ var Content = function (_React$Component) {
     }
 
     _createClass(Content, [{
-        key: "render",
+        key: 'render',
         value: function render() {
             return _react2.default.createElement(
-                "div",
+                'div',
                 null,
                 _react2.default.createElement(
-                    "p",
+                    'p',
                     null,
-                    "\u0427\u0442\u043E\u0431\u044B \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C \u0441\u0430\u0439\u0442 \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0443\u0439\u0442\u0435\u0441\u044C \u0438\u043B\u0438 \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u0443\u0439\u0442\u0435\u0441\u044C"
+                    '\u0427\u0442\u043E\u0431\u044B \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C \u0441\u0430\u0439\u0442 \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0443\u0439\u0442\u0435\u0441\u044C \u0438\u043B\u0438 \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u0443\u0439\u0442\u0435\u0441\u044C'
                 ),
                 _react2.default.createElement(
-                    "ul",
+                    'ul',
                     null,
                     _react2.default.createElement(
-                        "li",
+                        'li',
                         null,
                         _react2.default.createElement(
-                            "a",
-                            { className: "default-btm", href: "" },
-                            "\u0412\u043E\u0439\u0442\u0438"
+                            _reactRouterDom.Link,
+                            { to: '/login' },
+                            '\u0412\u043E\u0439\u0442\u0438'
                         )
                     ),
                     _react2.default.createElement(
-                        "li",
+                        'li',
                         null,
                         _react2.default.createElement(
-                            "a",
-                            { className: "default-btm", href: "" },
-                            "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F"
+                            _reactRouterDom.Link,
+                            { to: '/registration' },
+                            '\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F'
                         )
                     )
                 )
@@ -58947,7 +58981,7 @@ var Registration = function (_React$Component) {
                 'div',
                 null,
                 _react2.default.createElement(_index2.default, { text: '\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F' }),
-                _react2.default.createElement(_form2.default, null),
+                _react2.default.createElement(_form2.default, { registration: this.props.registration }),
                 _react2.default.createElement(_index4.default, null)
             );
         }
@@ -59012,9 +59046,7 @@ var Form = function (_React$Component) {
                 var name = this.refs.Name.value;
                 var email = this.refs.Email.value;
                 var password = this.refs.Password1.value;
-                console.log("name", name);
-                console.log("email", email);
-                console.log("password", password);
+                this.props.registration(name, email, password);
             }
         }
     }, {
@@ -59056,9 +59088,9 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reservationForm = __webpack_require__(817);
+var _reservation = __webpack_require__(971);
 
-var _reservationForm2 = _interopRequireDefault(_reservationForm);
+var _reservation2 = _interopRequireDefault(_reservation);
 
 var _index = __webpack_require__(62);
 
@@ -59095,7 +59127,14 @@ var Main = function (_React$Component) {
                     'div',
                     { className: 'content' },
                     _react2.default.createElement(_index2.default, { text: '\u0411\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435' }),
-                    _react2.default.createElement(_reservationForm2.default, null)
+                    _react2.default.createElement(_reservation2.default, {
+                        workers: this.props.workers,
+                        getWorkers: this.props.getWorkers,
+                        captchaKey: this.props.captchaKey,
+                        changeWorker: this.props.changeWorker,
+                        worker: this.props.worker,
+                        addReservation: this.props.addReservation
+                    })
                 ),
                 _react2.default.createElement(_index4.default, null)
             );
@@ -59109,210 +59148,8 @@ var Main = function (_React$Component) {
 exports.default = Main;
 
 /***/ }),
-/* 817 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _reactRedux = __webpack_require__(103);
-
-var _reservationForm = __webpack_require__(818);
-
-var _reservationForm2 = _interopRequireDefault(_reservationForm);
-
-var _actions = __webpack_require__(141);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var getFreeDates = function getFreeDates(state) {
-    var worker = getWorker(state.workers, state.worker);
-    return worker ? worker.freeTime.map(function (element) {
-        return element.date;
-    }) : [];
-};
-var getFreeTimes = function getFreeTimes(state) {
-    var worker = getWorker(state.workers, state.worker);
-    return worker && state.date ? worker.freeTime.find(function (element) {
-        return element.date == state.date;
-    }).time : [];
-};
-var getWorker = function getWorker(workers, idWorker) {
-    return workers.find(function (element) {
-        return element.id == idWorker;
-    });
-};
-var mapStateToProps = function mapStateToProps(state) {
-    return {
-        workers: state.bookingDate.workers.map(function (element) {
-            return { id: element.id, name: element.name };
-        }),
-        date: state.bookingDate.date,
-        worker: state.bookingDate.worker,
-        time: state.bookingDate.time,
-        freeDates: getFreeDates(state.bookingDate),
-        freeTimes: getFreeTimes(state.bookingDate),
-        formatDate: state.app.formatDate,
-        formatTime: state.app.formatTime,
-        captchaKey: state.app.captchaKey
-    };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-    return {
-        selectWorker: function selectWorker(idWorker) {
-            dispatch((0, _actions.selectDate)(undefined));
-            dispatch((0, _actions.selectTime)(undefined));
-            dispatch((0, _actions.selectWorker)(idWorker));
-        },
-        selectDate: function selectDate(date) {
-            dispatch((0, _actions.selectTime)(undefined));
-            dispatch((0, _actions.selectDate)(date));
-        },
-        selectTime: function selectTime(time) {
-            dispatch((0, _actions.selectTime)(time));
-        }
-    };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_reservationForm2.default);
-
-/***/ }),
-/* 818 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactGoogleRecaptcha = __webpack_require__(819);
-
-var _reactGoogleRecaptcha2 = _interopRequireDefault(_reactGoogleRecaptcha);
-
-var _index = __webpack_require__(872);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _datePicker = __webpack_require__(873);
-
-var _datePicker2 = _interopRequireDefault(_datePicker);
-
-var _timePicker = __webpack_require__(880);
-
-var _timePicker2 = _interopRequireDefault(_timePicker);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Form = function (_React$Component) {
-    _inherits(Form, _React$Component);
-
-    function Form(props) {
-        _classCallCheck(this, Form);
-
-        var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
-
-        _this.captcha = "";
-        _this.onChange = _this.onChange.bind(_this);
-        _this.handleChange = _this.handleChange.bind(_this);
-        return _this;
-    }
-
-    _createClass(Form, [{
-        key: "handleChange",
-        value: function handleChange(e) {
-            e.preventDefault();
-            var t = {
-                date: this.props.date,
-                time: this.props.time,
-                captcha: this.captcha,
-                files: this.refs.files.files
-            };
-            var data = new FormData();
-            for (var x = 0; x < this.refs.files.files.length; x++) {
-                data.append("file", this.refs.files.files[x]);
-            }
-            data.append("date", this.props.date);
-            data.append("timeStart", this.props.time);
-            data.append("captcha", this.captcha);
-            console.log(data);
-            var xhr = new XMLHttpRequest();
-
-            // 2. Конфигурируем его: GET-запрос на URL 'phones.json'
-            xhr.open('POST', 'http://localhost:29975/api/reservation', false);
-
-            // 3. Отсылаем запрос
-            xhr.send(data);
-        }
-    }, {
-        key: "onChange",
-        value: function onChange(value) {
-            this.captcha = value;
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            console.log(this.props.freeDates);
-            return _react2.default.createElement(
-                "form",
-                { className: "default-form" },
-                _react2.default.createElement("input", { type: "text", placeholder: "\u0426\u0435\u043B\u044C \u0432\u0438\u0437\u0438\u0442\u0430", required: true }),
-                _react2.default.createElement("textarea", { placeholder: "\u0414\u0435\u0442\u0430\u043B\u0438 \u043F\u043E\u043B\u043E\u043C\u043A\u0438", rows: 2, maxLength: 64 }),
-                _react2.default.createElement("input", { type: "text", placeholder: "\u0416\u0435\u043B\u0430\u0435\u043C\u0430\u044F \u0434\u0438\u0430\u0433\u043D\u043E\u0441\u0442\u0438\u043A\u0430 ", required: true }),
-                _react2.default.createElement(_index2.default, {
-                    changeSelectedWorker: this.props.selectWorker,
-                    selectedWorker: this.props.worker,
-                    workers: this.props.workers
-                }),
-                _react2.default.createElement(_datePicker2.default, {
-                    changeSelectDate: this.props.selectDate,
-                    workingDays: this.props.freeDates,
-                    date: this.props.date,
-                    format: this.props.formatDate
-                }),
-                _react2.default.createElement(_timePicker2.default, {
-                    time: this.props.time,
-                    freeTimes: this.props.freeTimes,
-                    selectTime: this.props.selectTime,
-                    format: this.props.formatTime
-                }),
-                _react2.default.createElement("input", { type: "file", ref: "files", name: "photo", accept: "image/*", required: true, multiple: true, title: "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u0435 \u043E\u0434\u043D\u0443 \u0438\u043B\u0438 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u0439" }),
-                _react2.default.createElement(_reactGoogleRecaptcha2.default, {
-                    ref: "recaptcha",
-                    sitekey: this.props.captchaKey,
-                    onChange: this.onChange
-                }),
-                _react2.default.createElement("input", { type: "submit", className: "default-btm", value: "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C", required: true, onClick: this.handleChange })
-            );
-        }
-    }]);
-
-    return Form;
-}(_react2.default.Component);
-
-;
-
-exports.default = Form;
-
-/***/ }),
+/* 817 */,
+/* 818 */,
 /* 819 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -66658,16 +66495,16 @@ var selectWorker = exports.selectWorker = function selectWorker(worker) {
         selectWorker: worker
     };
 };
-var selectDate = exports.selectDate = function selectDate(date) {
+var addReservation = exports.addReservation = function addReservation(worker, purpose, desiredDiagnosis, breakdownDetails, files, captcha, secretCaptchaKey) {
     return {
-        type: 'SELECT_DATE',
-        selectDate: date
-    };
-};
-var selectTime = exports.selectTime = function selectTime(time) {
-    return {
-        type: 'SELECT_TIME',
-        selectTime: time
+        type: 'ADD_RESERVATION',
+        worker: worker,
+        purpose: purpose,
+        desiredDiagnosis: desiredDiagnosis,
+        breakdownDetails: breakdownDetails,
+        files: files,
+        captcha: captcha,
+        secretCaptchaKey: secretCaptchaKey
     };
 };
 
@@ -66681,22 +66518,39 @@ var selectTime = exports.selectTime = function selectTime(time) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var setStartTime = exports.setStartTime = function setStartTime(time) {
+var setStartTime = exports.setStartTime = function setStartTime(date) {
     return {
         type: 'SET_START_TIME',
-        stertTime: time
+        date: date
     };
 };
-var setWorkDate = exports.setWorkDate = function setWorkDate(date) {
+var setEndTime = exports.setEndTime = function setEndTime(date) {
     return {
-        type: 'SET_WORK_DATE',
-        workDate: date
+        type: 'SET_END_TIME',
+        date: date
     };
 };
-var setEndTime = exports.setEndTime = function setEndTime(time) {
+var setWorker = exports.setWorker = function setWorker(id, name, telephone, email) {
     return {
-        type: 'SELECT_END_TIME',
-        endTime: time
+        type: 'SET_WORKER',
+        id: id,
+        name: name,
+        telephone: telephone,
+        email: email
+    };
+};
+var getWorker = exports.getWorker = function getWorker(id) {
+    return {
+        type: 'GET_WORKER',
+        id: id
+    };
+};
+var addWorkTime = exports.addWorkTime = function addWorkTime(id, startTime, endTime) {
+    return {
+        type: 'ADD_WORK_TIME',
+        id: id,
+        startTime: startTime,
+        endTime: endTime
     };
 };
 
@@ -66756,7 +66610,7 @@ var Authentication = function (_React$Component) {
                     'div',
                     { className: 'content' },
                     _react2.default.createElement(_index2.default, { text: '\u0412\u0445\u043E\u0434' }),
-                    _react2.default.createElement(_form2.default, null)
+                    _react2.default.createElement(_form2.default, { login: this.props.login })
                 )
             );
         }
@@ -66812,8 +66666,7 @@ var Form = function (_React$Component) {
                 event.preventDefault();
                 var email = this.refs.Email.value;
                 var password = this.refs.Password.value;
-                console.log("email", email);
-                console.log("pass", password);
+                this.props.login(email, password);
             }
         }
     }, {
@@ -66844,7 +66697,7 @@ exports.default = Form;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _reactRedux = __webpack_require__(103);
@@ -66853,19 +66706,27 @@ var _index = __webpack_require__(922);
 
 var _index2 = _interopRequireDefault(_index);
 
-__webpack_require__(141);
+var _actions = __webpack_require__(141);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
-    return {
-        workers: state.workers.workers,
-        url: state.app.workerURL
-    };
+  return {
+    workers: state.workers.workers,
+    url: state.app.workerURL
+  };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-    return {};
+  return {
+    addWorker: function addWorker(surname, firstname, email, telephone) {
+      dispatch((0, _actions.addWorker)(surname, firstname, email, telephone));
+      dispatch((0, _actions.getWorkers)());
+    },
+    initWorkers: function initWorkers() {
+      dispatch((0, _actions.getWorkers)());
+    }
+  };
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_index2.default);
@@ -66914,15 +66775,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Main = function (_React$Component) {
     _inherits(Main, _React$Component);
 
-    function Main() {
+    function Main(props) {
         _classCallCheck(this, Main);
 
-        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+
+        _this.props.initWorkers();
+        return _this;
     }
 
     _createClass(Main, [{
         key: 'render',
         value: function render() {
+            console.log(this.props);
             return _react2.default.createElement(
                 'div',
                 null,
@@ -66930,7 +66795,9 @@ var Main = function (_React$Component) {
                     'div',
                     { className: 'content' },
                     _react2.default.createElement(_index2.default, { text: '\u0420\u0430\u0431\u043E\u0447\u0438\u0435' }),
-                    _react2.default.createElement(_addWorker2.default, null),
+                    _react2.default.createElement(_addWorker2.default, {
+                        addWorker: this.props.addWorker
+                    }),
                     _react2.default.createElement(_listWorker2.default, {
                         deleteBtm: false,
                         workers: this.props.workers,
@@ -66987,19 +66854,27 @@ var SelectWorker = function (_React$Component) {
 
     _createClass(SelectWorker, [{
         key: "addWorker",
-        value: function addWorker() {
-            var surName = this.refs.surName.value;
-            var firstName = this.refs.firstName.value;
-            console.log({ surName: surName, firstName: firstName });
+        value: function addWorker(event) {
+            if (this.refs.Form.checkValidity()) {
+                event.preventDefault();
+                var surName = this.refs.surName.value;
+                var firstName = this.refs.firstName.value;
+                var email = this.refs.email.value;
+                var telephone = this.refs.tel.value;
+                this.props.addWorker(surName, firstName, email, telephone);
+                this.refs.Form.reset();
+            }
         }
     }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "form",
-                null,
+                { ref: "Form" },
                 _react2.default.createElement("input", { type: "text", ref: "surName" }),
                 _react2.default.createElement("input", { type: "text", ref: "firstName" }),
+                _react2.default.createElement("input", { type: "email", ref: "email" }),
+                _react2.default.createElement("input", { type: "tel", ref: "tel" }),
                 _react2.default.createElement("input", { type: "submit", value: "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C", onClick: this.addWorker })
             );
         }
@@ -67177,9 +67052,9 @@ var _index3 = __webpack_require__(63);
 
 var _index4 = _interopRequireDefault(_index3);
 
-var _worker = __webpack_require__(927);
+var _addWorkDate = __webpack_require__(928);
 
-var _worker2 = _interopRequireDefault(_worker);
+var _addWorkDate2 = _interopRequireDefault(_addWorkDate);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67189,18 +67064,24 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Main = function (_React$Component) {
-    _inherits(Main, _React$Component);
+var Worker = function (_React$Component) {
+    _inherits(Worker, _React$Component);
 
-    function Main() {
-        _classCallCheck(this, Main);
+    function Worker(props) {
+        _classCallCheck(this, Worker);
 
-        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (Worker.__proto__ || Object.getPrototypeOf(Worker)).call(this, props));
     }
 
-    _createClass(Main, [{
+    _createClass(Worker, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.props.getWorker(this.props.match.params.id);
+        }
+    }, {
         key: 'render',
         value: function render() {
+            console.log(this.props);
             return _react2.default.createElement(
                 'div',
                 null,
@@ -67208,18 +67089,26 @@ var Main = function (_React$Component) {
                     'div',
                     { className: 'content' },
                     _react2.default.createElement(_index2.default, { text: '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0440\u0430\u0431\u043E\u0447\u0435\u0435 \u0432\u0440\u0435\u043C\u044F' }),
-                    _react2.default.createElement(_worker2.default, null)
+                    _react2.default.createElement(_addWorkDate2.default, {
+                        addWorkTime: this.props.addWorkTime,
+                        reset: this.props.reset,
+                        setStartTime: this.props.setStartTime,
+                        setEndTime: this.props.setEndTime,
+                        worker: this.props.worker,
+                        startTime: this.props.startTime,
+                        endTime: this.props.endTime
+                    })
                 ),
                 _react2.default.createElement(_index4.default, null)
             );
         }
     }]);
 
-    return Main;
+    return Worker;
 }(_react2.default.Component);
 
 ;
-exports.default = Main;
+exports.default = Worker;
 
 /***/ }),
 /* 927 */
@@ -67234,9 +67123,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reactRedux = __webpack_require__(103);
 
-var _addWorkDate = __webpack_require__(928);
+var _index = __webpack_require__(926);
 
-var _addWorkDate2 = _interopRequireDefault(_addWorkDate);
+var _index2 = _interopRequireDefault(_index);
 
 var _actions = __webpack_require__(141);
 
@@ -67245,9 +67134,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var mapStateToProps = function mapStateToProps(state) {
     return {
         worker: state.worker.worker,
-        format: state.app.formatDate,
-        date: state.worker.date,
-        workingDates: state.worker.workingDates,
+
         formatTime: state.app.formatTime,
         startTime: state.worker.startTime,
         endTime: state.worker.endTime
@@ -67256,24 +67143,26 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
+        addWorkTime: function addWorkTime(id, startTime, endTime) {
+            dispatch((0, _actions.addWorkTime)(id, startTime, endTime));
+        },
         reset: function reset() {
             dispatch((0, _actions.setStartTime)(undefined));
-            dispatch((0, _actions.setWorkDate)(undefined));
             dispatch((0, _actions.setEndTime)(undefined));
         },
-        setStartTime: function setStartTime(time) {
-            dispatch((0, _actions.setStartTime)(time));
+        setStartTime: function setStartTime(date) {
+            dispatch((0, _actions.setStartTime)(date));
         },
-        setEndTime: function setEndTime(time) {
-            dispatch((0, _actions.setEndTime)(time));
+        setEndTime: function setEndTime(data) {
+            dispatch((0, _actions.setEndTime)(data));
         },
-        setDate: function setDate(date) {
-            dispatch((0, _actions.setWorkDate)(date));
+        getWorker: function getWorker(id) {
+            dispatch((0, _actions.getWorker)(id));
         }
     };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_addWorkDate2.default);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_index2.default);
 
 /***/ }),
 /* 928 */
@@ -67316,6 +67205,8 @@ __webpack_require__(215);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -67330,10 +67221,6 @@ var Main = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
-        _this.setStartTime = _this.setStartTime.bind(_this);
-        _this.setEndTime = _this.setEndTime.bind(_this);
-        _this.setDate = _this.setDate.bind(_this);
-        _this.disabledHours = _this.disabledHours.bind(_this);
         _this.addWorkTime = _this.addWorkTime.bind(_this);
         return _this;
     }
@@ -67341,50 +67228,23 @@ var Main = function (_React$Component) {
     _createClass(Main, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
-            this.props.reset();
-        }
-    }, {
-        key: 'setStartTime',
-        value: function setStartTime(value) {
-            this.props.setStartTime(value.format(this.props.formatTime));
-        }
-    }, {
-        key: 'setEndTime',
-        value: function setEndTime(value) {
-            this.props.setEndTime(value.format(this.props.formatTime));
-        }
-    }, {
-        key: 'setDate',
-        value: function setDate(value) {
-            this.props.setDate(value.format(this.props.format));
-        }
-    }, {
-        key: 'disabledHours',
-        value: function disabledHours() {
-            var hours = [];
-            var curentHour = 0;
-            var loopVar = Boolean(this.props.startTime);
-            while (loopVar) {
-                hours.push(curentHour);
-                curentHour++;
-                loopVar = !(curentHour == (0, _moment2.default)(this.props.startTime, this.props.formatTime).hour() + 1);
-            }
-            return hours;
+            //console.log("dasd",this.props)
+            //this.props.getUser(this.props.match.params.id);
         }
     }, {
         key: 'addWorkTime',
         value: function addWorkTime(event) {
             event.preventDefault();
             var id = this.props.worker.id;
-            var date = this.props.date;
             var startTime = this.props.startTime;
             var endTime = this.props.endTime;
-            console.log(id, date, startTime, endTime);
+            this.props.addWorkTime(id, startTime, endTime);
+            this.props.reset();
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _React$createElement;
 
             return _react2.default.createElement(
                 'div',
@@ -67400,24 +67260,22 @@ var Main = function (_React$Component) {
                     _react2.default.createElement(_reactDatepicker2.default, {
                         minDate: (0, _moment2.default)(),
                         maxDate: (0, _moment2.default)().add(1, "months"),
-                        selected: this.props.date ? (0, _moment2.default)(this.props.date, this.props.format) : null,
-                        onChange: this.setDate,
-                        dateFormat: this.props.format,
-                        locale: 'ru-ru',
-                        placeholderText: '\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0434\u0430\u0442\u0443',
-                        excludeDates: this.props.workingDates.map(function (element) {
-                            return (0, _moment2.default)(element, _this2.props.format);
-                        })
+                        selected: this.props.startTime,
+                        onChange: this.props.setStartTime,
+                        shouldCloseOnSelect: false,
+                        showTimeSelect: true,
+                        timeFormat: 'HH:mm',
+                        timeIntervals: 60,
+                        dateFormat: 'LLL'
                     }),
-                    _react2.default.createElement(_timePicker2.default, {
-                        onChange: this.setStartTime,
-                        formatTime: this.props.formatTime
-                    }),
-                    _react2.default.createElement(_timePicker2.default, {
-                        onChange: this.setEndTime,
-                        disabledHours: this.disabledHours,
-                        formatTime: this.props.formatTime
-                    }),
+                    _react2.default.createElement(_reactDatepicker2.default, (_React$createElement = {
+                        minDate: (0, _moment2.default)(),
+                        maxDate: (0, _moment2.default)().add(1, "months"),
+                        selected: this.props.endTime,
+                        onChange: this.props.setEndTime,
+                        shouldCloseOnSelect: false,
+                        showTimeSelect: true
+                    }, _defineProperty(_React$createElement, 'shouldCloseOnSelect', false), _defineProperty(_React$createElement, 'timeFormat', 'HH:mm'), _defineProperty(_React$createElement, 'timeIntervals', 60), _defineProperty(_React$createElement, 'dateFormat', 'LLL'), _React$createElement)),
                     _react2.default.createElement('input', { type: 'submit', value: '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0432\u0440\u0435\u043C\u044F', onClick: this.addWorkTime })
                 )
             );
@@ -67543,7 +67401,7 @@ var _worker2 = _interopRequireDefault(_worker);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var rootReducer = (0, _redux.combineReducers)({
-    bookingDate: _reservationDate2.default,
+    reservation: _reservationDate2.default,
     app: _app2.default,
     workers: _workers2.default,
     worker: _worker2.default
@@ -67562,55 +67420,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var initState = {
-    workers: [{
-        id: 1,
-        name: "Nikolay",
-        freeTime: [{
-            date: "27.10.2017",
-            time: ["8.00", "9.00", "10.00"]
-        }, {
-            date: "28.10.2017",
-            time: ["8.00", "10.00", "12.00", "17.00"]
-        }, {
-            date: "30.10.2017",
-            time: ["8.00", "9.00", "10.00", "12.00", "17.00"]
-        }, {
-            date: "31.10.2017",
-            time: ["8.00", "9.00", "12.00", "17.00"]
-        }]
-    }, {
-        id: 6,
-        name: "Sergey",
-        freeTime: [{
-            date: "26.10.2017",
-            time: ["17.00"]
-        }, {
-            date: "27.10.2017",
-            time: ["8.00", "12.00", "17.00"]
-        }, {
-            date: "28.10.2017",
-            time: ["9.00", "10.00", "12.00", "17.00"]
-        }, {
-            date: "31.10.2017",
-            time: ["8.00", "12.00", "17.00"]
-        }]
-    }, {
-        id: 5,
-        name: "Nikita",
-        freeTime: [{
-            date: "31.10.2017",
-            time: ["8.00"]
-        }, {
-            date: "01.11.2017",
-            time: ["8.00", "9.00", "17.00"]
-        }, {
-            date: "08.11.2017",
-            time: ["8.00", "9.00", "10.00", "12.00", "17.00"]
-        }]
-    }],
     worker: undefined,
-    date: undefined,
-    time: undefined
+    startTime: undefined,
+    endTime: undefined
 };
 var worker = function worker() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
@@ -67621,16 +67433,6 @@ var worker = function worker() {
             {
                 return Object.assign({}, state, {
                     worker: action.selectWorker });
-            }
-        case "SELECT_DATE":
-            {
-                return Object.assign({}, state, {
-                    date: action.selectDate });
-            }
-        case "SELECT_TIME":
-            {
-                return Object.assign({}, state, {
-                    time: action.selectTime });
             }
         default:
             return state;
@@ -67653,13 +67455,31 @@ var initState = {
     captchaKey: "6LfTizUUAAAAAPrKN5EuUDOKNgIBk1ec0aYi3jyD",
     formatDate: "DD.MM.YYYY",
     formatTime: "HH.mm",
-    workerURL: "/admin/worker"
+    workerURL: "/admin/worker",
+    user: { token: window.localStorage.getItem("app_token"),
+        role: window.localStorage.getItem("app_role") }
 };
 var app = function app() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
     var action = arguments[1];
 
     switch (action.type) {
+        case "INIT_USER":
+            {
+                return Object.assign({}, state, {
+                    user: {
+                        token: action.token,
+                        role: action.role
+                    } });
+            }
+        case "DESTROY_USER":
+            {
+                return Object.assign({}, state, {
+                    user: {
+                        token: null,
+                        role: null
+                    } });
+            }
         default:
             return state;
     }
@@ -67678,31 +67498,19 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var initState = {
-    workers: [{
-        id: 1,
-        name: "Nikolay"
-    }, {
-        id: 2,
-        name: "Viktor"
-    }, {
-        id: 3,
-        name: "Maksim"
-    }, {
-        id: 4,
-        name: "Vladislav"
-    }, {
-        id: 5,
-        name: "Nikita"
-    }, {
-        id: 6,
-        name: "Sergey"
-    }]
+    workers: []
 };
 var workers = function workers() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
     var action = arguments[1];
 
     switch (action.type) {
+        case "SET_WORKERS":
+            {
+                return Object.assign({}, state, {
+                    workers: action.workers
+                });
+            }
         default:
             return state;
     }
@@ -67721,12 +67529,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var initState = {
-    worker: {
-        id: 5,
-        name: "Nikita"
-    },
-    workingDates: ["31.10.2017", "01.11.2017", "02.11.2017", "04.11.2017", "06.11.2017", "08.11.2017"],
-    date: undefined,
+    worker: {},
     startTime: undefined,
     endTime: undefined
 };
@@ -67738,18 +67541,24 @@ var workers = function workers() {
         case "SET_START_TIME":
             {
                 return Object.assign({}, state, {
-                    startTime: action.stertTime });
+                    startTime: action.date });
             }
-        case "SET_WORK_DATE":
+        case "SET_END_TIME":
             {
                 return Object.assign({}, state, {
-                    date: action.workDate });
+                    endTime: action.date });
             }
-        case "SELECT_END_TIME":
+        case "SET_WORKER":
             {
                 return Object.assign({}, state, {
-                    endTime: action.endTime });
-            }
+                    worker: {
+                        id: action.id,
+                        name: action.name,
+                        telephone: action.telephone,
+                        email: action.email
+                    }
+                });
+            };
         default:
             return state;
     }
@@ -67763,6 +67572,2532 @@ exports.default = workers;
 
 "use strict";
 
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = rootSaga;
+
+var _effects = __webpack_require__(781);
+
+var _user = __webpack_require__(945);
+
+var _user2 = _interopRequireDefault(_user);
+
+var _workers = __webpack_require__(967);
+
+var _workers2 = _interopRequireDefault(_workers);
+
+var _worker = __webpack_require__(969);
+
+var _worker2 = _interopRequireDefault(_worker);
+
+var _reservation = __webpack_require__(973);
+
+var _reservation2 = _interopRequireDefault(_reservation);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
+
+function rootSaga() {
+  return regeneratorRuntime.wrap(function rootSaga$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return (0, _effects.fork)(_user2.default);
+
+        case 2:
+          _context.next = 4;
+          return (0, _effects.fork)(_workers2.default);
+
+        case 4:
+          _context.next = 6;
+          return (0, _effects.fork)(_worker2.default);
+
+        case 6:
+          _context.next = 8;
+          return (0, _effects.fork)(_reservation2.default);
+
+        case 8:
+        case 'end':
+          return _context.stop();
+      }
+    }
+  }, _marked, this);
+}
+
+/***/ }),
+/* 936 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var loginUser = exports.loginUser = function loginUser(email, pass) {
+    return {
+        type: 'LOGIN_USER',
+        email: email,
+        pass: pass
+    };
+};
+var initUser = exports.initUser = function initUser(token, role) {
+    return {
+        type: 'INIT_USER',
+        token: token,
+        role: role
+    };
+};
+var destroyUser = exports.destroyUser = function destroyUser() {
+    return {
+        type: 'DESTROY_USER'
+    };
+};
+var registrationUser = exports.registrationUser = function registrationUser(userName, email, pass) {
+    return {
+        type: 'REGISTRATION_USER',
+        email: email,
+        userName: userName,
+        pass: pass
+    };
+};
+
+/***/ }),
+/* 937 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _reactRedux = __webpack_require__(103);
+
+var _index = __webpack_require__(919);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _actions = __webpack_require__(141);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    user: state.app.user
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    login: function login(email, pass) {
+      dispatch((0, _actions.loginUser)(email, pass));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_index2.default);
+
+/***/ }),
+/* 938 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bind = __webpack_require__(940);
+var isBuffer = __webpack_require__(949);
+
+/*global toString:true*/
+
+// utils is a library of generic helper functions non-specific to axios
+
+var toString = Object.prototype.toString;
+
+/**
+ * Determine if a value is an Array
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Array, otherwise false
+ */
+function isArray(val) {
+  return toString.call(val) === '[object Array]';
+}
+
+/**
+ * Determine if a value is an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an ArrayBuffer, otherwise false
+ */
+function isArrayBuffer(val) {
+  return toString.call(val) === '[object ArrayBuffer]';
+}
+
+/**
+ * Determine if a value is a FormData
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an FormData, otherwise false
+ */
+function isFormData(val) {
+  return (typeof FormData !== 'undefined') && (val instanceof FormData);
+}
+
+/**
+ * Determine if a value is a view on an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
+ */
+function isArrayBufferView(val) {
+  var result;
+  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
+    result = ArrayBuffer.isView(val);
+  } else {
+    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
+  }
+  return result;
+}
+
+/**
+ * Determine if a value is a String
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a String, otherwise false
+ */
+function isString(val) {
+  return typeof val === 'string';
+}
+
+/**
+ * Determine if a value is a Number
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Number, otherwise false
+ */
+function isNumber(val) {
+  return typeof val === 'number';
+}
+
+/**
+ * Determine if a value is undefined
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if the value is undefined, otherwise false
+ */
+function isUndefined(val) {
+  return typeof val === 'undefined';
+}
+
+/**
+ * Determine if a value is an Object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Object, otherwise false
+ */
+function isObject(val) {
+  return val !== null && typeof val === 'object';
+}
+
+/**
+ * Determine if a value is a Date
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Date, otherwise false
+ */
+function isDate(val) {
+  return toString.call(val) === '[object Date]';
+}
+
+/**
+ * Determine if a value is a File
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a File, otherwise false
+ */
+function isFile(val) {
+  return toString.call(val) === '[object File]';
+}
+
+/**
+ * Determine if a value is a Blob
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Blob, otherwise false
+ */
+function isBlob(val) {
+  return toString.call(val) === '[object Blob]';
+}
+
+/**
+ * Determine if a value is a Function
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Function, otherwise false
+ */
+function isFunction(val) {
+  return toString.call(val) === '[object Function]';
+}
+
+/**
+ * Determine if a value is a Stream
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Stream, otherwise false
+ */
+function isStream(val) {
+  return isObject(val) && isFunction(val.pipe);
+}
+
+/**
+ * Determine if a value is a URLSearchParams object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+ */
+function isURLSearchParams(val) {
+  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+}
+
+/**
+ * Trim excess whitespace off the beginning and end of a string
+ *
+ * @param {String} str The String to trim
+ * @returns {String} The String freed of excess whitespace
+ */
+function trim(str) {
+  return str.replace(/^\s*/, '').replace(/\s*$/, '');
+}
+
+/**
+ * Determine if we're running in a standard browser environment
+ *
+ * This allows axios to run in a web worker, and react-native.
+ * Both environments support XMLHttpRequest, but not fully standard globals.
+ *
+ * web workers:
+ *  typeof window -> undefined
+ *  typeof document -> undefined
+ *
+ * react-native:
+ *  navigator.product -> 'ReactNative'
+ */
+function isStandardBrowserEnv() {
+  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+    return false;
+  }
+  return (
+    typeof window !== 'undefined' &&
+    typeof document !== 'undefined'
+  );
+}
+
+/**
+ * Iterate over an Array or an Object invoking a function for each item.
+ *
+ * If `obj` is an Array callback will be called passing
+ * the value, index, and complete array for each item.
+ *
+ * If 'obj' is an Object callback will be called passing
+ * the value, key, and complete object for each property.
+ *
+ * @param {Object|Array} obj The object to iterate
+ * @param {Function} fn The callback to invoke for each item
+ */
+function forEach(obj, fn) {
+  // Don't bother if no value provided
+  if (obj === null || typeof obj === 'undefined') {
+    return;
+  }
+
+  // Force an array if not already something iterable
+  if (typeof obj !== 'object' && !isArray(obj)) {
+    /*eslint no-param-reassign:0*/
+    obj = [obj];
+  }
+
+  if (isArray(obj)) {
+    // Iterate over array values
+    for (var i = 0, l = obj.length; i < l; i++) {
+      fn.call(null, obj[i], i, obj);
+    }
+  } else {
+    // Iterate over object keys
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        fn.call(null, obj[key], key, obj);
+      }
+    }
+  }
+}
+
+/**
+ * Accepts varargs expecting each argument to be an object, then
+ * immutably merges the properties of each object and returns result.
+ *
+ * When multiple objects contain the same key the later object in
+ * the arguments list will take precedence.
+ *
+ * Example:
+ *
+ * ```js
+ * var result = merge({foo: 123}, {foo: 456});
+ * console.log(result.foo); // outputs 456
+ * ```
+ *
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+function merge(/* obj1, obj2, obj3, ... */) {
+  var result = {};
+  function assignValue(val, key) {
+    if (typeof result[key] === 'object' && typeof val === 'object') {
+      result[key] = merge(result[key], val);
+    } else {
+      result[key] = val;
+    }
+  }
+
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+  return result;
+}
+
+/**
+ * Extends object a by mutably adding to it the properties of object b.
+ *
+ * @param {Object} a The object to be extended
+ * @param {Object} b The object to copy properties from
+ * @param {Object} thisArg The object to bind function to
+ * @return {Object} The resulting value of object a
+ */
+function extend(a, b, thisArg) {
+  forEach(b, function assignValue(val, key) {
+    if (thisArg && typeof val === 'function') {
+      a[key] = bind(val, thisArg);
+    } else {
+      a[key] = val;
+    }
+  });
+  return a;
+}
+
+module.exports = {
+  isArray: isArray,
+  isArrayBuffer: isArrayBuffer,
+  isBuffer: isBuffer,
+  isFormData: isFormData,
+  isArrayBufferView: isArrayBufferView,
+  isString: isString,
+  isNumber: isNumber,
+  isObject: isObject,
+  isUndefined: isUndefined,
+  isDate: isDate,
+  isFile: isFile,
+  isBlob: isBlob,
+  isFunction: isFunction,
+  isStream: isStream,
+  isURLSearchParams: isURLSearchParams,
+  isStandardBrowserEnv: isStandardBrowserEnv,
+  forEach: forEach,
+  merge: merge,
+  extend: extend,
+  trim: trim
+};
+
+
+/***/ }),
+/* 939 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(938);
+var normalizeHeaderName = __webpack_require__(951);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(941);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(941);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 940 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
+/* 941 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(938);
+var settle = __webpack_require__(952);
+var buildURL = __webpack_require__(954);
+var parseHeaders = __webpack_require__(955);
+var isURLSameOrigin = __webpack_require__(956);
+var createError = __webpack_require__(942);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(957);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if (process.env.NODE_ENV !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+        request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(958);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+        if (config.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 942 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(953);
+
+/**
+ * Create an Error with the specified message, config, error code, request and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
+};
+
+
+/***/ }),
+/* 943 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+/* 944 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+/* 945 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.login = login;
+exports.logOut = logOut;
+exports.registration = registration;
+exports.default = rootSaga;
+
+var _effects = __webpack_require__(781);
+
+var _actions = __webpack_require__(141);
+
+var _helpers = __webpack_require__(946);
+
+var _history = __webpack_require__(811);
+
+var _history2 = _interopRequireDefault(_history);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(login),
+    _marked2 = /*#__PURE__*/regeneratorRuntime.mark(logOut),
+    _marked3 = /*#__PURE__*/regeneratorRuntime.mark(registration),
+    _marked4 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
+
+var urlToken = "http://localhost:29975/api/token";
+var urlRegistration = "http://localhost:29975/api/account/regiser";
+
+function login(action) {
+    var details, formBody, property, encodedKey, encodedValue, auth;
+    return regeneratorRuntime.wrap(function login$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    details = {
+                        username: action.email,
+                        password: action.pass,
+                        grant_type: "password"
+                    };
+                    formBody = [];
+
+                    for (property in details) {
+                        encodedKey = encodeURIComponent(property);
+                        encodedValue = encodeURIComponent(details[property]);
+
+                        formBody.push(encodedKey + "=" + encodedValue);
+                    }
+                    formBody = formBody.join("&");
+                    _context.next = 6;
+                    return (0, _effects.call)(_helpers.postURLEncode, urlToken, formBody);
+
+                case 6:
+                    auth = _context.sent;
+
+                    if (!auth.succsses) {
+                        _context.next = 12;
+                        break;
+                    }
+
+                    _context.next = 10;
+                    return (0, _effects.put)((0, _actions.initUser)(auth.data.access_token, auth.data.role));
+
+                case 10:
+                    window.localStorage.setItem("app_token", auth.data.access_token);
+                    window.localStorage.setItem("app_role", auth.data.role);
+
+                case 12:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+function logOut() {
+    return regeneratorRuntime.wrap(function logOut$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    _context2.next = 2;
+                    return (0, _effects.put)((0, _actions.destroyUser)());
+
+                case 2:
+                    window.localStorage.clear("app_token");
+                    window.localStorage.clear("app_role");
+
+                case 4:
+                case 'end':
+                    return _context2.stop();
+            }
+        }
+    }, _marked2, this);
+}
+function registration(action) {
+    var data, registration;
+    return regeneratorRuntime.wrap(function registration$(_context3) {
+        while (1) {
+            switch (_context3.prev = _context3.next) {
+                case 0:
+                    data = {
+                        Email: action.email,
+                        Username: action.userName,
+                        Password: action.pass
+                    };
+                    _context3.next = 3;
+                    return (0, _effects.call)(_helpers.postJSON, urlRegistration, data);
+
+                case 3:
+                    registration = _context3.sent;
+
+                    if (!registration.succsses) {
+                        _context3.next = 7;
+                        break;
+                    }
+
+                    _context3.next = 7;
+                    return (0, _effects.call)(_history2.default.push, "/login");
+
+                case 7:
+                case 'end':
+                    return _context3.stop();
+            }
+        }
+    }, _marked3, this);
+}
+function rootSaga() {
+    return regeneratorRuntime.wrap(function rootSaga$(_context4) {
+        while (1) {
+            switch (_context4.prev = _context4.next) {
+                case 0:
+                    _context4.next = 2;
+                    return (0, _effects.takeEvery)('LOGIN_USER', login);
+
+                case 2:
+                    _context4.next = 4;
+                    return (0, _effects.takeEvery)('LOGOUT_USER', logOut);
+
+                case 4:
+                    _context4.next = 6;
+                    return (0, _effects.takeEvery)('REGISTRATION_USER', registration);
+
+                case 6:
+                case 'end':
+                    return _context4.stop();
+            }
+        }
+    }, _marked4, this);
+}
+
+/***/ }),
+/* 946 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getJSON = exports.postJSON = exports.postURLEncode = undefined;
+
+var _axios = __webpack_require__(947);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var postURLEncode = exports.postURLEncode = function postURLEncode(url, data) {
+    console.log(data);
+    return (0, _axios2.default)({
+        method: 'post',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+        },
+        url: url,
+        data: data
+    }).then(function (res) {
+        if (res.status == 200) return {
+            succsses: true,
+            data: res.data
+        };else return {
+            succsses: false,
+            data: res.status + " " + res.message
+        };
+    }).catch(function (error) {
+        return {
+            succsses: false,
+            data: error
+        };
+    });
+};
+var postJSON = exports.postJSON = function postJSON(url, data) {
+    console.log(data);
+    return (0, _axios2.default)({
+        method: 'post',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem("app_token")
+        },
+        url: url,
+        data: data
+    }).then(function (res) {
+        if (res.status == 200) return {
+            succsses: true,
+            data: res.data
+        };else return {
+            succsses: false,
+            data: res.status + " " + res.message
+        };
+    }).catch(function (error) {
+        return {
+            succsses: false,
+            data: error
+        };
+    });
+};
+var getJSON = exports.getJSON = function getJSON(url) {
+    return (0, _axios2.default)({
+        method: 'get',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem("app_token")
+        },
+        url: url
+    }).then(function (res) {
+        if (res.status == 200) return {
+            succsses: true,
+            data: res.data
+        };else return {
+            succsses: false,
+            error: res.status + " " + res.message
+        };
+    }).catch(function (error) {
+        return {
+            succsses: false,
+            error: error
+        };
+    });
+};
+
+/***/ }),
+/* 947 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(948);
+
+/***/ }),
+/* 948 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(938);
+var bind = __webpack_require__(940);
+var Axios = __webpack_require__(950);
+var defaults = __webpack_require__(939);
+
+/**
+ * Create an instance of Axios
+ *
+ * @param {Object} defaultConfig The default config for the instance
+ * @return {Axios} A new instance of Axios
+ */
+function createInstance(defaultConfig) {
+  var context = new Axios(defaultConfig);
+  var instance = bind(Axios.prototype.request, context);
+
+  // Copy axios.prototype to instance
+  utils.extend(instance, Axios.prototype, context);
+
+  // Copy context to instance
+  utils.extend(instance, context);
+
+  return instance;
+}
+
+// Create the default instance to be exported
+var axios = createInstance(defaults);
+
+// Expose Axios class to allow class inheritance
+axios.Axios = Axios;
+
+// Factory for creating new instances
+axios.create = function create(instanceConfig) {
+  return createInstance(utils.merge(defaults, instanceConfig));
+};
+
+// Expose Cancel & CancelToken
+axios.Cancel = __webpack_require__(944);
+axios.CancelToken = __webpack_require__(964);
+axios.isCancel = __webpack_require__(943);
+
+// Expose all/spread
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+axios.spread = __webpack_require__(965);
+
+module.exports = axios;
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = axios;
+
+
+/***/ }),
+/* 949 */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+// The _isBuffer check is for Safari 5-7 support, because it's missing
+// Object.prototype.constructor. Remove this eventually
+module.exports = function (obj) {
+  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
+}
+
+function isBuffer (obj) {
+  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+// For Node v0.10 support. Remove this eventually.
+function isSlowBuffer (obj) {
+  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+}
+
+
+/***/ }),
+/* 950 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var defaults = __webpack_require__(939);
+var utils = __webpack_require__(938);
+var InterceptorManager = __webpack_require__(959);
+var dispatchRequest = __webpack_require__(960);
+var isAbsoluteURL = __webpack_require__(962);
+var combineURLs = __webpack_require__(963);
+
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = utils.merge({
+      url: arguments[0]
+    }, arguments[1]);
+  }
+
+  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
+  config.method = config.method.toLowerCase();
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
+
+  // Hook up interceptors middleware
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+
+  return promise;
+};
+
+// Provide aliases for supported request methods
+utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url
+    }));
+  };
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, data, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+
+module.exports = Axios;
+
+
+/***/ }),
+/* 951 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(938);
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
+};
+
+
+/***/ }),
+/* 952 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__(942);
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  // Note: status is not exposed by XDomainRequest
+  if (!response.status || !validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError(
+      'Request failed with status code ' + response.status,
+      response.config,
+      null,
+      response.request,
+      response
+    ));
+  }
+};
+
+
+/***/ }),
+/* 953 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, request, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+  error.request = request;
+  error.response = response;
+  return error;
+};
+
+
+/***/ }),
+/* 954 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(938);
+
+function encode(val) {
+  return encodeURIComponent(val).
+    replace(/%40/gi, '@').
+    replace(/%3A/gi, ':').
+    replace(/%24/g, '$').
+    replace(/%2C/gi, ',').
+    replace(/%20/g, '+').
+    replace(/%5B/gi, '[').
+    replace(/%5D/gi, ']');
+}
+
+/**
+ * Build a URL by appending params to the end
+ *
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
+ */
+module.exports = function buildURL(url, params, paramsSerializer) {
+  /*eslint no-param-reassign:0*/
+  if (!params) {
+    return url;
+  }
+
+  var serializedParams;
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    var parts = [];
+
+    utils.forEach(params, function serialize(val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+
+      if (utils.isArray(val)) {
+        key = key + '[]';
+      }
+
+      if (!utils.isArray(val)) {
+        val = [val];
+      }
+
+      utils.forEach(val, function parseValue(v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+
+    serializedParams = parts.join('&');
+  }
+
+  if (serializedParams) {
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+  }
+
+  return url;
+};
+
+
+/***/ }),
+/* 955 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(938);
+
+/**
+ * Parse headers into an object
+ *
+ * ```
+ * Date: Wed, 27 Aug 2014 08:58:49 GMT
+ * Content-Type: application/json
+ * Connection: keep-alive
+ * Transfer-Encoding: chunked
+ * ```
+ *
+ * @param {String} headers Headers needing to be parsed
+ * @returns {Object} Headers parsed into an object
+ */
+module.exports = function parseHeaders(headers) {
+  var parsed = {};
+  var key;
+  var val;
+  var i;
+
+  if (!headers) { return parsed; }
+
+  utils.forEach(headers.split('\n'), function parser(line) {
+    i = line.indexOf(':');
+    key = utils.trim(line.substr(0, i)).toLowerCase();
+    val = utils.trim(line.substr(i + 1));
+
+    if (key) {
+      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+    }
+  });
+
+  return parsed;
+};
+
+
+/***/ }),
+/* 956 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(938);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+  (function standardBrowserEnv() {
+    var msie = /(msie|trident)/i.test(navigator.userAgent);
+    var urlParsingNode = document.createElement('a');
+    var originURL;
+
+    /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+    function resolveURL(url) {
+      var href = url;
+
+      if (msie) {
+        // IE needs attribute set twice to normalize properties
+        urlParsingNode.setAttribute('href', href);
+        href = urlParsingNode.href;
+      }
+
+      urlParsingNode.setAttribute('href', href);
+
+      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+      return {
+        href: urlParsingNode.href,
+        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+        host: urlParsingNode.host,
+        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+        hostname: urlParsingNode.hostname,
+        port: urlParsingNode.port,
+        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+                  urlParsingNode.pathname :
+                  '/' + urlParsingNode.pathname
+      };
+    }
+
+    originURL = resolveURL(window.location.href);
+
+    /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+    return function isURLSameOrigin(requestURL) {
+      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+      return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+    };
+  })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return function isURLSameOrigin() {
+      return true;
+    };
+  })()
+);
+
+
+/***/ }),
+/* 957 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+
+var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+function E() {
+  this.message = 'String contains an invalid character';
+}
+E.prototype = new Error;
+E.prototype.code = 5;
+E.prototype.name = 'InvalidCharacterError';
+
+function btoa(input) {
+  var str = String(input);
+  var output = '';
+  for (
+    // initialize result and counter
+    var block, charCode, idx = 0, map = chars;
+    // if the next str index does not exist:
+    //   change the mapping table to "="
+    //   check if d has no fractional digits
+    str.charAt(idx | 0) || (map = '=', idx % 1);
+    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+  ) {
+    charCode = str.charCodeAt(idx += 3 / 4);
+    if (charCode > 0xFF) {
+      throw new E();
+    }
+    block = block << 8 | charCode;
+  }
+  return output;
+}
+
+module.exports = btoa;
+
+
+/***/ }),
+/* 958 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(938);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs support document.cookie
+  (function standardBrowserEnv() {
+    return {
+      write: function write(name, value, expires, path, domain, secure) {
+        var cookie = [];
+        cookie.push(name + '=' + encodeURIComponent(value));
+
+        if (utils.isNumber(expires)) {
+          cookie.push('expires=' + new Date(expires).toGMTString());
+        }
+
+        if (utils.isString(path)) {
+          cookie.push('path=' + path);
+        }
+
+        if (utils.isString(domain)) {
+          cookie.push('domain=' + domain);
+        }
+
+        if (secure === true) {
+          cookie.push('secure');
+        }
+
+        document.cookie = cookie.join('; ');
+      },
+
+      read: function read(name) {
+        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+        return (match ? decodeURIComponent(match[3]) : null);
+      },
+
+      remove: function remove(name) {
+        this.write(name, '', Date.now() - 86400000);
+      }
+    };
+  })() :
+
+  // Non standard browser env (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return {
+      write: function write() {},
+      read: function read() { return null; },
+      remove: function remove() {}
+    };
+  })()
+);
+
+
+/***/ }),
+/* 959 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(938);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+/* 960 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(938);
+var transformData = __webpack_require__(961);
+var isCancel = __webpack_require__(943);
+var defaults = __webpack_require__(939);
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+
+/**
+ * Dispatch a request to the server using the configured adapter.
+ *
+ * @param {object} config The config that is to be used for the request
+ * @returns {Promise} The Promise to be fulfilled
+ */
+module.exports = function dispatchRequest(config) {
+  throwIfCancellationRequested(config);
+
+  // Ensure headers exist
+  config.headers = config.headers || {};
+
+  // Transform request data
+  config.data = transformData(
+    config.data,
+    config.headers,
+    config.transformRequest
+  );
+
+  // Flatten headers
+  config.headers = utils.merge(
+    config.headers.common || {},
+    config.headers[config.method] || {},
+    config.headers || {}
+  );
+
+  utils.forEach(
+    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+    function cleanHeaderConfig(method) {
+      delete config.headers[method];
+    }
+  );
+
+  var adapter = config.adapter || defaults.adapter;
+
+  return adapter(config).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config);
+
+    // Transform response data
+    response.data = transformData(
+      response.data,
+      response.headers,
+      config.transformResponse
+    );
+
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      // Transform response data
+      if (reason && reason.response) {
+        reason.response.data = transformData(
+          reason.response.data,
+          reason.response.headers,
+          config.transformResponse
+        );
+      }
+    }
+
+    return Promise.reject(reason);
+  });
+};
+
+
+/***/ }),
+/* 961 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(938);
+
+/**
+ * Transform the data for a request or a response
+ *
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
+ */
+module.exports = function transformData(data, headers, fns) {
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn(data, headers);
+  });
+
+  return data;
+};
+
+
+/***/ }),
+/* 962 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+/* 963 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL
+    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+    : baseURL;
+};
+
+
+/***/ }),
+/* 964 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(944);
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+
+/***/ }),
+/* 965 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
+
+/***/ }),
+/* 966 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _reactRedux = __webpack_require__(103);
+
+var _index = __webpack_require__(814);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _actions = __webpack_require__(141);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {};
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        registration: function registration(name, email, pass) {
+            dispatch((0, _actions.registrationUser)(name, email, pass));
+        }
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_index2.default);
+
+/***/ }),
+/* 967 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.addUser = addUser;
+exports.getAllWorkers = getAllWorkers;
+exports.default = rootSaga;
+
+var _effects = __webpack_require__(781);
+
+var _actions = __webpack_require__(141);
+
+var _helpers = __webpack_require__(946);
+
+var _history = __webpack_require__(811);
+
+var _history2 = _interopRequireDefault(_history);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(addUser),
+    _marked2 = /*#__PURE__*/regeneratorRuntime.mark(getAllWorkers),
+    _marked3 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
+
+var urlWorker = "http://localhost:29975/api/worker";
+
+function addUser(action) {
+    var data, result;
+    return regeneratorRuntime.wrap(function addUser$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    data = {
+                        surName: action.surName,
+                        name: action.firstName,
+                        email: action.email,
+                        telephone: action.telephone
+                    };
+                    _context.next = 3;
+                    return (0, _effects.call)(_helpers.postJSON, urlWorker, data);
+
+                case 3:
+                    result = _context.sent;
+
+                    if (!result.succsses) {
+                        _context.next = 7;
+                        break;
+                    }
+
+                    _context.next = 7;
+                    return (0, _effects.put)((0, _actions.getWorkers)());
+
+                case 7:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+function getAllWorkers() {
+    var result;
+    return regeneratorRuntime.wrap(function getAllWorkers$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    _context2.next = 2;
+                    return (0, _effects.call)(_helpers.getJSON, urlWorker);
+
+                case 2:
+                    result = _context2.sent;
+
+                    if (!result.succsses) {
+                        _context2.next = 6;
+                        break;
+                    }
+
+                    _context2.next = 6;
+                    return (0, _effects.put)((0, _actions.setWorkers)(result.data.map(function (s) {
+                        return { id: s.Id, name: s.Name + ' ' + s.SurName };
+                    })));
+
+                case 6:
+                case 'end':
+                    return _context2.stop();
+            }
+        }
+    }, _marked2, this);
+}
+function rootSaga() {
+    return regeneratorRuntime.wrap(function rootSaga$(_context3) {
+        while (1) {
+            switch (_context3.prev = _context3.next) {
+                case 0:
+                    _context3.next = 2;
+                    return (0, _effects.takeEvery)('ADD_WORKER', addUser);
+
+                case 2:
+                    _context3.next = 4;
+                    return (0, _effects.takeEvery)('GET_WORKERS', getAllWorkers);
+
+                case 4:
+                case 'end':
+                    return _context3.stop();
+            }
+        }
+    }, _marked3, this);
+}
+
+/***/ }),
+/* 968 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var addWorker = exports.addWorker = function addWorker(surName, firstName, email, telephone) {
+    return {
+        type: 'ADD_WORKER',
+        surName: surName,
+        firstName: firstName,
+        email: email,
+        telephone: telephone
+    };
+};
+var setWorkers = exports.setWorkers = function setWorkers(workers) {
+    return {
+        type: 'SET_WORKERS',
+        workers: workers
+    };
+};
+var getWorkers = exports.getWorkers = function getWorkers() {
+    return {
+        type: 'GET_WORKERS'
+    };
+};
+
+/***/ }),
+/* 969 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.addTime = addTime;
+exports.getWorker = getWorker;
+exports.default = rootSaga;
+
+var _effects = __webpack_require__(781);
+
+var _actions = __webpack_require__(141);
+
+var _helpers = __webpack_require__(946);
+
+var _history = __webpack_require__(811);
+
+var _history2 = _interopRequireDefault(_history);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(addTime),
+    _marked2 = /*#__PURE__*/regeneratorRuntime.mark(getWorker),
+    _marked3 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
+
+var urlWorker = "http://localhost:29975/api/worker";
+
+function addTime(action) {
+    var data, result;
+    return regeneratorRuntime.wrap(function addTime$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    data = {
+                        startTime: action.startTime,
+                        endTime: action.endTime
+                    };
+                    _context.next = 3;
+                    return (0, _effects.call)(_helpers.postJSON, urlWorker + '/' + action.id + '/workTime', data);
+
+                case 3:
+                    result = _context.sent;
+
+                    if (result.succsses) {
+                        alert("OK");
+                    }
+
+                case 5:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+function getWorker(action) {
+    var result;
+    return regeneratorRuntime.wrap(function getWorker$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    _context2.next = 2;
+                    return (0, _effects.call)(_helpers.getJSON, urlWorker + '/' + action.id);
+
+                case 2:
+                    result = _context2.sent;
+
+                    console.log(result);
+
+                    if (!result.succsses) {
+                        _context2.next = 7;
+                        break;
+                    }
+
+                    _context2.next = 7;
+                    return (0, _effects.put)((0, _actions.setWorker)(result.data.Id, result.data.Name + ' ' + result.data.SurName, result.data.Telephone, result.data.Email));
+
+                case 7:
+                case 'end':
+                    return _context2.stop();
+            }
+        }
+    }, _marked2, this);
+}
+function rootSaga() {
+    return regeneratorRuntime.wrap(function rootSaga$(_context3) {
+        while (1) {
+            switch (_context3.prev = _context3.next) {
+                case 0:
+                    _context3.next = 2;
+                    return (0, _effects.takeEvery)('ADD_WORK_TIME', addTime);
+
+                case 2:
+                    _context3.next = 4;
+                    return (0, _effects.takeEvery)('GET_WORKER', getWorker);
+
+                case 4:
+                case 'end':
+                    return _context3.stop();
+            }
+        }
+    }, _marked3, this);
+}
+
+/***/ }),
+/* 970 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _reactRedux = __webpack_require__(103);
+
+var _index = __webpack_require__(816);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _actions = __webpack_require__(141);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*const getFreeDates=state=>{
+    let worker=getWorker(state.workers, state.worker);
+    return worker?worker.freeTime.map(element=>{
+            return element.date;
+        }):[]
+} 
+const getFreeTimes=state=>{
+    let worker=getWorker(state.workers, state.worker);
+    return worker&&state.date?worker.freeTime.find(element=>{
+        return element.date==state.date
+    }).time:[]
+}
+const getWorker=(workers, idWorker)=>{
+    return workers.find((element)=>{
+        return element.id==idWorker;
+    })
+}*/
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        workers: state.workers.workers,
+        captchaKey: state.app.captchaKey,
+        worker: state.reservation.worker
+        //selectedWorker: state.workers.workers.find(s=>s.id==state.reservation.worker)
+        /*
+        date: state.bookingDate.date,
+        worker: state.bookingDate.worker,
+        time: state.bookingDate.time,
+        freeDates:getFreeDates(state.bookingDate),
+        freeTimes: getFreeTimes(state.bookingDate),
+        formatDate: state.app.formatDate,
+        formatTime: state.app.formatTime,
+        */
+    };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        getWorkers: function getWorkers() {
+            dispatch((0, _actions.getWorkers)());
+        },
+        changeWorker: function changeWorker(id) {
+            dispatch((0, _actions.selectWorker)(id));
+        },
+        addReservation: function addReservation(worker, purpose, desiredDiagnosis, breakdownDetails, files, captcha, secretCaptchaKey) {
+            dispatch((0, _actions.addReservation)(worker, purpose, desiredDiagnosis, breakdownDetails, files, captcha, secretCaptchaKey));
+        }
+        /*selectWorker:(idWorker)=>{
+            dispatch(selectDate(undefined));
+            dispatch(selectTime(undefined));
+            dispatch(selectWorker(idWorker));
+        },
+        selectDate:(date)=>{
+            dispatch(selectTime(undefined));
+            dispatch(selectDate(date));
+        },
+        selectTime:(time)=>{
+            dispatch(selectTime(time));
+        }*/
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_index2.default);
+
+/***/ }),
+/* 971 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactGoogleRecaptcha = __webpack_require__(819);
+
+var _reactGoogleRecaptcha2 = _interopRequireDefault(_reactGoogleRecaptcha);
+
+var _index = __webpack_require__(872);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _datePicker = __webpack_require__(873);
+
+var _datePicker2 = _interopRequireDefault(_datePicker);
+
+var _timePicker = __webpack_require__(880);
+
+var _timePicker2 = _interopRequireDefault(_timePicker);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Form = function (_React$Component) {
+    _inherits(Form, _React$Component);
+
+    function Form(props) {
+        _classCallCheck(this, Form);
+
+        var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+
+        _this.captcha = "";
+        _this.onChange = _this.onChange.bind(_this);
+        _this.handleChange = _this.handleChange.bind(_this);
+        return _this;
+    }
+
+    _createClass(Form, [{
+        key: "componentWillMount",
+        value: function componentWillMount() {
+            this.props.getWorkers();
+        }
+    }, {
+        key: "handleChange",
+        value: function handleChange(e) {
+            e.preventDefault();
+            var captcha = this.captcha;
+            var files = [];
+            var purpose = this.refs.purpose.value;
+            var breakdownDetails = this.refs.breakdownDetails.value;
+            var desiredDiagnosis = this.refs.desiredDiagnosis.value;
+            var worker = this.props.worker;
+            for (var x = 0; x < this.refs.files.files.length; x++) {
+                files.push(this.refs.files.files[x]);
+            }
+            this.props.addReservation(worker, purpose, desiredDiagnosis, breakdownDetails, files, captcha, "secretCaptchaKey");
+            /*e.preventDefault();
+            let t={
+                date: this.props.date,
+                time: this.props.time,
+                captcha: this.captcha,
+                files: this.refs.files.files
+            };
+            let data = new FormData();
+            
+            data.append("date",this.props.date);
+            data.append("timeStart",this.props.time);
+            data.append("captcha",this.captcha);
+            console.log(data);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:29975/api/reservation', false);
+              // 3. Отсылаем запрос
+            xhr.send(data);*/
+        }
+    }, {
+        key: "onChange",
+        value: function onChange(value) {
+            this.captcha = value;
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            console.log("sasd", this.props);
+            return _react2.default.createElement(
+                "form",
+                { className: "default-form" },
+                _react2.default.createElement("input", { type: "text", placeholder: "\u0426\u0435\u043B\u044C \u0432\u0438\u0437\u0438\u0442\u0430", required: true, ref: "purpose" }),
+                _react2.default.createElement("textarea", { placeholder: "\u0414\u0435\u0442\u0430\u043B\u0438 \u043F\u043E\u043B\u043E\u043C\u043A\u0438", rows: 2, maxLength: 64, ref: "breakdownDetails" }),
+                _react2.default.createElement("input", { type: "text", placeholder: "\u0416\u0435\u043B\u0430\u0435\u043C\u0430\u044F \u0434\u0438\u0430\u0433\u043D\u043E\u0441\u0442\u0438\u043A\u0430 ", required: true, ref: "desiredDiagnosis" }),
+                _react2.default.createElement(_index2.default, {
+                    changeSelectedWorker: this.props.changeWorker,
+                    workers: this.props.workers
+                }),
+                _react2.default.createElement("input", { type: "file", ref: "files", name: "photo", accept: "image/*", required: true, multiple: true, title: "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u0435 \u043E\u0434\u043D\u0443 \u0438\u043B\u0438 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u0439" }),
+                _react2.default.createElement(_reactGoogleRecaptcha2.default, {
+                    ref: "recaptcha",
+                    sitekey: this.props.captchaKey,
+                    onChange: this.onChange
+                }),
+                _react2.default.createElement("input", { type: "submit", className: "default-btm", value: "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C", required: true, onClick: this.handleChange })
+            );
+        }
+    }]);
+
+    return Form;
+}(_react2.default.Component);
+
+;
+
+exports.default = Form;
+/*<DatePicker
+                    minDate={moment()}
+                    maxDate={moment().add(1,"months")}
+                    selected={this.props.startTime}
+                    onChange={this.props.setStartTime}
+                    shouldCloseOnSelect={false}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={60}
+                    dateFormat="LLL"
+                />
+                <DatePicker
+                    minDate={moment()}
+                    maxDate={moment().add(1,"months")}
+                    selected={this.props.startTime}
+                    onChange={this.props.setStartTime}
+                    shouldCloseOnSelect={false}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={60}
+                    dateFormat="LLL"
+                />*/
+
+/***/ }),
+/* 972 */,
+/* 973 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.reservation = reservation;
+exports.default = rootSaga;
+
+var _effects = __webpack_require__(781);
+
+var _actions = __webpack_require__(141);
+
+var _helpers = __webpack_require__(946);
+
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(reservation),
+    _marked2 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
+
+var urlReservation = "http://localhost:29975/api/reservation";
+
+function reservation(action) {
+    var data, x, result;
+    return regeneratorRuntime.wrap(function reservation$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    console.log(action);
+                    data = new FormData();
+
+                    for (x = 0; x < action.files.length; x++) {
+                        data.append("file", action.files[x]);
+                    }
+                    data.append("workerId", action.worker);
+                    data.append("purpose", action.purpose);
+                    data.append("breakdownDetails", action.breakdownDetails);
+                    data.append("desiredDiagnosis", action.desiredDiagnosis);
+                    _context.next = 9;
+                    return (0, _effects.call)(_helpers.postJSON, urlReservation, data);
+
+                case 9:
+                    result = _context.sent;
+
+                    console.log(result);
+                    if (result.succsses) {
+                        alert("OK");
+                    }
+
+                case 12:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+
+function rootSaga() {
+    return regeneratorRuntime.wrap(function rootSaga$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    _context2.next = 2;
+                    return (0, _effects.takeEvery)('ADD_RESERVATION', reservation);
+
+                case 2:
+                case 'end':
+                    return _context2.stop();
+            }
+        }
+    }, _marked2, this);
+}
 
 /***/ })
 /******/ ]);

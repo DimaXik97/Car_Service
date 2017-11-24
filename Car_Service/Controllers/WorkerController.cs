@@ -22,6 +22,15 @@ namespace Car_Service.Controllers
         {
             return Ok(WorkerService.GetWorker());
         }
+
+        [Route("api/worker/{workerId}")]
+        [HttpGet]
+        public IHttpActionResult Get(int workerId)
+        {
+            return Ok(WorkerService.GetWorker().Find(s=>s.Id== workerId));
+        }
+
+        [Authorize(Roles = "admin")]
         public async Task<IHttpActionResult> Post([FromBody] WorkerDTO worker)
         {
             if (ModelState.IsValid && worker != null)
@@ -35,6 +44,26 @@ namespace Car_Service.Controllers
             else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
         }
 
+        [Route("api/worker/{workerId}/workTime")]
+        [HttpGet]
+        public IHttpActionResult GetWorkDate(int workerId)
+        {
+            try
+            {
+                var result = WorkerService.workerTimes(workerId);
+                if (result == null)
+                    return BadRequest("Рабочий не найден");
+                else
+                    return Ok(result);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Внутренняя ошибка");
+            }
+
+        }
+
+        [Authorize(Roles = "admin")]
         [Route("api/worker/{workerId}/workTime")]
         [HttpPost] 
         public IHttpActionResult SetWorkTime([FromBody] WorkTimeDTO workTime,int workerId)
@@ -50,22 +79,5 @@ namespace Car_Service.Controllers
             }
             else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
         }
-
-        [Route("api/worker/{workerId}/freeDate")]
-        [HttpGet]
-        public IHttpActionResult GetFreeDate(int workerId)
-        {
-            try
-            {
-                var result = WorkerService.FreeDate(workerId);
-                return Ok(result);
-            }
-            catch (Exception)
-            {
-                return BadRequest("Внутренняя ошибка");
-            }
-            
-        }
-
     }
 }

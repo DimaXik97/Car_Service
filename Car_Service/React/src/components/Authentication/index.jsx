@@ -8,7 +8,7 @@ class Authentication extends React.Component{
         return (<div>
             <div className="content">
                 <Header text="Вход"/>
-                <Form/>
+                <Form login={this.props.login}/>
             </div>
         </div>);
     }

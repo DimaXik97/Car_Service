@@ -10,7 +10,6 @@ namespace Car_Service.DAL.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "Car_Service.DAL.EF.ApplicationContext";
         }
 
         protected override void Seed(Car_Service.DAL.EF.ApplicationContext context)

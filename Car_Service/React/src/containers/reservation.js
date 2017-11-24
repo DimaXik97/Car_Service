@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
 
-import ReservationForm from '../components/Reservation/reservationForm.jsx';
-import {selectWorker,selectDate, selectTime} from '../actions';
-const getFreeDates=state=>{
+import ReservationForm from '../components/Reservation/index.jsx';
+import {getWorkers,selectWorker,addReservation} from '../actions';
+/*const getFreeDates=state=>{
     let worker=getWorker(state.workers, state.worker);
     return worker?worker.freeTime.map(element=>{
             return element.date;
@@ -18,11 +18,13 @@ const getWorker=(workers, idWorker)=>{
     return workers.find((element)=>{
         return element.id==idWorker;
     })
-}
+}*/
 const mapStateToProps = state => ({
-    workers: state.bookingDate.workers.map((element)=>{
-        return {id:element.id, name: element.name};
-    }),
+    workers: state.workers.workers,
+    captchaKey: state.app.captchaKey,
+    worker: state.reservation.worker
+    //selectedWorker: state.workers.workers.find(s=>s.id==state.reservation.worker)
+    /*
     date: state.bookingDate.date,
     worker: state.bookingDate.worker,
     time: state.bookingDate.time,
@@ -30,11 +32,20 @@ const mapStateToProps = state => ({
     freeTimes: getFreeTimes(state.bookingDate),
     formatDate: state.app.formatDate,
     formatTime: state.app.formatTime,
-    captchaKey: state.app.captchaKey
+    */
 })
 
 const mapDispatchToProps = dispatch => ({
-    selectWorker:(idWorker)=>{
+    getWorkers:()=>{
+        dispatch(getWorkers());
+    },
+    changeWorker:(id)=>{
+        dispatch(selectWorker(id))
+    },
+    addReservation:(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, secretCaptchaKey)=>{
+        dispatch(addReservation(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, secretCaptchaKey))
+    }
+    /*selectWorker:(idWorker)=>{
         dispatch(selectDate(undefined));
         dispatch(selectTime(undefined));
         dispatch(selectWorker(idWorker));
@@ -45,7 +56,7 @@ const mapDispatchToProps = dispatch => ({
     },
     selectTime:(time)=>{
         dispatch(selectTime(time));
-    }
+    }*/
 })
 
 export default connect(
