@@ -65,11 +65,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\WorkTimesDTO.cs" />
+    <Compile Include="DTO\TimesDTO.cs" />
     <Compile Include="DTO\ReservationDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\WorkerDTO.cs" />
     <Compile Include="DTO\WorkTimeDTO.cs" />
+    <Compile Include="Helpers\SendEmail.cs" />
     <Compile Include="Infrastructure\OperationDetails.cs" />
     <Compile Include="Infrastructure\ReCaptcha.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />

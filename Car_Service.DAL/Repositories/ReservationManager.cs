@@ -20,15 +20,8 @@ namespace Car_Service.DAL.Repositories
         }
         public void Create(Reservation item)
         {
-            try
-            {
-                Database.Reservation.Add(item);
-                Database.SaveChanges();
-            }
-            catch (Exception e)
-            {
-
-            }
+            Database.Reservation.Add(item);
+            Database.SaveChanges();
             
         }
 

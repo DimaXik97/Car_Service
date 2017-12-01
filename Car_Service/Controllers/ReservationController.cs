@@ -1,6 +1,7 @@
 ﻿using Car_Service.BLL.DTO;
 using Car_Service.BLL.Interfaces;
 using Car_Service.Providers;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -35,10 +36,23 @@ namespace Car_Service.Controllers
             {
                 var identity = (ClaimsIdentity)User.Identity;
                 var userId = identity.Claims.FirstOrDefault(s=>s.Type=="id").Value;
-                return Ok(await ReservationService.Create(reservation, userId));
+                var result = await ReservationService.Create(reservation, userId);
+                if (result.Succedeed)
+                    return Ok();
+                else return BadRequest();
             }
             else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
   
+        }
+        [Route("api/reservation/confirm/{guid}")]
+        [HttpGet]
+        public IHttpActionResult ConfirmReservation(Guid guid)
+        {
+            var result = ReservationService.Confirm(guid);
+            if (result.Succedeed)
+                return Ok();
+            else
+                return BadRequest(result.Message);
         }
     }
 }

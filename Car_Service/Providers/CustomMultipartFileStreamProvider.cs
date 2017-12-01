@@ -35,12 +35,12 @@ namespace Car_Service.Providers
                         }
                     case "timeStart":
                         {
-                            Reservation.TimeStart = DateTime.Parse("11/21/2017 9:00:00 AM");
+                            Reservation.TimeStart =Convert.ToDateTime(await file.ReadAsStringAsync()).ToUniversalTime();
                             break;
                         }
                     case "timeEnd":
                         {
-                            Reservation.TimeEnd = DateTime.Parse("11/21/2017 12:00:00 AM");
+                            Reservation.TimeEnd = Convert.ToDateTime(await file.ReadAsStringAsync()).ToUniversalTime();
                             break;
                         }
                     case "purpose":
@@ -63,6 +63,10 @@ namespace Car_Service.Providers
                             Reservation.WorkerId = int.Parse(await file.ReadAsStringAsync());
                             break;
                         }
+                    case "captcha":{
+                            Reservation.Captcha = await file.ReadAsStringAsync();
+                            break;
+                    }
                 }
             }
         }

@@ -51,8 +51,7 @@ namespace Car_Service.BLL.Services
             {
                 claim = await Database.UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ExternalBearer);
                 claim.AddClaim(new Claim("id", user.Id));
-            }
-                
+            }   
             return claim;
         }
         public async Task SetInitialData(UserDTO adminDto, List<string> roles)

@@ -3,21 +3,22 @@ namespace Car_Service.DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class newDB : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "dbo.Images",
+                "dbo.ConfirmReservations",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        URL = c.String(),
-                        Reservation_Id = c.Int(),
+                        Id = c.Int(nullable: false),
+                        Guid = c.Guid(nullable: false),
+                        ExpireDate = c.DateTime(nullable: false),
+                        IsConfirm = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Reservations", t => t.Reservation_Id)
-                .Index(t => t.Reservation_Id);
+                .ForeignKey("dbo.Reservations", t => t.Id)
+                .Index(t => t.Id);
             
             CreateTable(
                 "dbo.Reservations",
@@ -97,6 +98,18 @@ namespace Car_Service.DAL.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.Images",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        URL = c.String(),
+                        Reservation_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Reservations", t => t.Reservation_Id)
+                .Index(t => t.Reservation_Id);
+            
+            CreateTable(
                 "dbo.Workers",
                 c => new
                     {
@@ -137,6 +150,7 @@ namespace Car_Service.DAL.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.ConfirmReservations", "Id", "dbo.Reservations");
             DropForeignKey("dbo.WorkTimes", "Worker_Id", "dbo.Workers");
             DropForeignKey("dbo.Reservations", "Worker_Id", "dbo.Workers");
             DropForeignKey("dbo.Images", "Reservation_Id", "dbo.Reservations");
@@ -146,6 +160,7 @@ namespace Car_Service.DAL.Migrations
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.WorkTimes", new[] { "Worker_Id" });
+            DropIndex("dbo.Images", new[] { "Reservation_Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
@@ -153,16 +168,17 @@ namespace Car_Service.DAL.Migrations
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Reservations", new[] { "Worker_Id" });
             DropIndex("dbo.Reservations", new[] { "ApplicationUser_Id" });
-            DropIndex("dbo.Images", new[] { "Reservation_Id" });
+            DropIndex("dbo.ConfirmReservations", new[] { "Id" });
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.WorkTimes");
             DropTable("dbo.Workers");
+            DropTable("dbo.Images");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.Reservations");
-            DropTable("dbo.Images");
+            DropTable("dbo.ConfirmReservations");
         }
     }
 }

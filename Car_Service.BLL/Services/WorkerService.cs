@@ -44,10 +44,8 @@ namespace Car_Service.BLL.Services
         }
         public OperationDetails AddWorkTime(WorkTimeDTO model)
         {
-            DateTime curentDate = DateTime.Now;
+            DateTime curentDate = DateTime.Now.ToUniversalTime();
             Worker worker = Database.WorkerManager.Get().Find(s => s.Id == model.UserId);
-            model.StartTime.ToLocalTime();
-            model.EndTime.ToLocalTime();
             if (worker == null)
                 return new OperationDetails(false, "Рабочий не найден", "");
             else if(model.StartTime < curentDate || model.EndTime < model.StartTime)
@@ -73,13 +71,13 @@ namespace Car_Service.BLL.Services
             Database.WorkTimeManager.Create(workTime);
             return new OperationDetails(true, "Время работы успешно добавлено", "");
         }
-        public WorkTimesDTO workerTimes(int workerId)
+        public TimesDTO workerTimes(int workerId)
         {
             var worker = Database.WorkerManager.Get().Find(s => s.Id == workerId);
-            if (worker != null)
+            if (worker != null) 
             {
-                var workTime = Database.WorkTimeManager.Get().Where(s => s.Worker.Id == workerId && s.DateStart.CompareTo(DateTime.Now) > 0).Select(s=> { return new WorkTimesDTO.WorkTime { StartTime = s.DateStart, EndTime = s.DateEnd }; }).ToList<WorkTimesDTO.WorkTime>();
-                return new WorkTimesDTO
+                var workTime = Database.WorkTimeManager.Get().Where(s => s.Worker.Id == workerId && (s.DateStart.Date>=DateTime.Now.ToUniversalTime().Date)).Select(s=> { return new TimesDTO.Time { StartTime = DateTime.SpecifyKind(s.DateStart, DateTimeKind.Utc), EndTime = DateTime.SpecifyKind(s.DateEnd, DateTimeKind.Utc) }; }).ToList<TimesDTO.Time>();
+                return new TimesDTO
                 {
                     WorkerId = workerId,
                     WorkTimesWorker = workTime
@@ -88,41 +86,21 @@ namespace Car_Service.BLL.Services
             else
                 return null;
         }
-        /*public FreeDateDTO FreeDate(int workerId)
+        public dynamic reservationTimes(int workerId)
         {
-            List<DateTime> freeDates = new List<DateTime>();
             var worker = Database.WorkerManager.Get().Find(s => s.Id == workerId);
-            var workDates = Database.WorkTimeManager.Get().Where(s => s.Worker.Id == workerId && s.DateStart.CompareTo(DateTime.Now)>0);
-            foreach(var workDate in workDates)
+            if (worker != null)
             {
-                var reservationTime = Database.ReservationManager.Get().Where(s => s.DateStart.Date == workDate.DateStart.Date&&s.Worker.Id==workerId).ToList();
-                var freeTimes = GetFreeTime(workDate.DateStart, workDate.DateEnd, reservationTime);
-                freeDates.AddRange(freeTimes);
-            }
-            return new FreeDateDTO {
-                WorkerName = string.Format("{0} {1}", worker.SurName, worker.FirstName),
-                TypeSplit = "minute",
-                ValueSplit = 60,
-                FreeDates = freeDates
-            };
-        }
-        private List<DateTime> GetFreeTime(DateTime startTime, DateTime endTime, List<Reservation> reservationTime)
-        {
-            List<DateTime> intervalTime = new List<DateTime>();
-            while (startTime < endTime)
-            {
-                bool IsReservation = false;
-                foreach (var element in reservationTime)
+                var workTime = Database.ReservationManager.Get().Where(s => s.Worker.Id == workerId && (s.DateStart.Date >= DateTime.Now.ToUniversalTime().Date) && (s.ConfirmReservation.IsConfirm || s.ConfirmReservation.ExpireDate >= DateTime.Now.ToUniversalTime())).Select(s => { return new TimesDTO.Time { StartTime = DateTime.SpecifyKind(s.DateStart, DateTimeKind.Utc), EndTime = DateTime.SpecifyKind(s.DateEnd, DateTimeKind.Utc) }; }).ToList<TimesDTO.Time>();
+                return new
                 {
-                    if (!(startTime >= element.DateStart && startTime < element.DateEnd))
-                        IsReservation = true;
-                }
-                if(!IsReservation)
-                    intervalTime.Add(startTime);
-                startTime = startTime.AddMinutes(60);
+                    WorkerId = workerId,
+                    ReservationTimeWorekr = workTime
+                };
             }
-            return intervalTime;
-        }*/
+            else
+                return null;
+        }
         public void Dispose()
         {
             Database.Dispose();

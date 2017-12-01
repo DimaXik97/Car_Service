@@ -49,7 +49,6 @@ class Main extends React.Component{
                     onChange={this.props.setEndTime}
                     shouldCloseOnSelect={false}
                     showTimeSelect
-                    shouldCloseOnSelect={false}
                     timeFormat="HH:mm"
                     timeIntervals={60}
                     dateFormat="LLL"

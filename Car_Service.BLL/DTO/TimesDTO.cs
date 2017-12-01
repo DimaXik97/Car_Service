@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Car_Service.BLL.DTO
 {
-    public class WorkTimesDTO
+    public class TimesDTO
     {
         public int WorkerId { get; set; }
-        public List<WorkTime> WorkTimesWorker { get; set; }
-        public class WorkTime
+        public List<Time> WorkTimesWorker { get; set; }
+        public class Time
         {
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }

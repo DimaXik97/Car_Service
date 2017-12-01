@@ -1,63 +1,63 @@
 import { connect } from 'react-redux'
 
 import ReservationForm from '../components/Reservation/index.jsx';
-import {getWorkers,selectWorker,addReservation} from '../actions';
-/*const getFreeDates=state=>{
-    let worker=getWorker(state.workers, state.worker);
-    return worker?worker.freeTime.map(element=>{
-            return element.date;
-        }):[]
-} 
-const getFreeTimes=state=>{
-    let worker=getWorker(state.workers, state.worker);
-    return worker&&state.date?worker.freeTime.find(element=>{
-        return element.date==state.date
-    }).time:[]
-}
-const getWorker=(workers, idWorker)=>{
-    return workers.find((element)=>{
-        return element.id==idWorker;
-    })
-}*/
+import moment from "moment";
+import {getEndTime,getWorkTimeWorker,getReservationTimeWorker,getWorkers,selectWorker,addReservation, setStartTimeReservation, setEndTimeReservation} from '../actions';
 const mapStateToProps = state => ({
     workers: state.workers.workers,
     captchaKey: state.app.captchaKey,
-    worker: state.reservation.worker
-    //selectedWorker: state.workers.workers.find(s=>s.id==state.reservation.worker)
-    /*
-    date: state.bookingDate.date,
-    worker: state.bookingDate.worker,
-    time: state.bookingDate.time,
-    freeDates:getFreeDates(state.bookingDate),
-    freeTimes: getFreeTimes(state.bookingDate),
-    formatDate: state.app.formatDate,
-    formatTime: state.app.formatTime,
-    */
+    worker: state.reservation.worker,
+    startTime: state.reservation.startTime,
+    endTime: state.reservation.endTime,
+    workDate: getFreeDate(state.reservation.freeTime),
+    workTime: getFreeTime(state.reservation.freeTime,state.reservation.startTime),
+    possibleEndDate: getFreeDate(state.reservation.possibleEndTime),
+    possibleEndTime: getFreeTime(state.reservation.possibleEndTime,state.reservation.endTime)
 })
-
 const mapDispatchToProps = dispatch => ({
     getWorkers:()=>{
         dispatch(getWorkers());
     },
     changeWorker:(id)=>{
-        dispatch(selectWorker(id))
+        dispatch(selectWorker(id));
+        dispatch(getWorkTimeWorker(id));
+        dispatch(getReservationTimeWorker(id));        
     },
-    addReservation:(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, secretCaptchaKey)=>{
-        dispatch(addReservation(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, secretCaptchaKey))
+    addReservation:(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, dataStart, dateEnd)=>{
+        dispatch(addReservation(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, dataStart, dateEnd))
+    },
+    setStartTimeReservation:(date)=>{
+        dispatch(setStartTimeReservation(date.minute(0).second(0).millisecond(0)));
+        dispatch(getEndTime());
+    },
+    setEndTimeReservation:(data)=>{
+        dispatch(setEndTimeReservation(data.minute(0).second(0).millisecond(0)));
     }
-    /*selectWorker:(idWorker)=>{
-        dispatch(selectDate(undefined));
-        dispatch(selectTime(undefined));
-        dispatch(selectWorker(idWorker));
-    },
-    selectDate:(date)=>{
-        dispatch(selectTime(undefined));
-        dispatch(selectDate(date));
-    },
-    selectTime:(time)=>{
-        dispatch(selectTime(time));
-    }*/
 })
+let getFreeDate=(freeTimes)=>{
+    if(freeTimes!=null)
+        return freeTimes.map(s=>{return moment(s.date, 'MM.DD.YYYY')});
+    else return [];
+}
+let getFreeTime=(freeTimes,startTime)=>{
+    if(freeTimes!=undefined)
+    {
+        console.log("123212");
+        let time = freeTimes.find(s=>{return s.date==(moment(startTime).format('MM.DD.YYYY'))})
+        if(time)
+            return time.freeTime;
+        else return get24hours();
+    }
+    else return get24hours();
+}
+let get24hours=()=>{
+    let time=[];
+    for(var i=0;i<24;i++)
+    {
+        time.push(moment().hours(i).minute(0).second(0));
+    }
+    return time;
+}
 
 export default connect(
   mapStateToProps,
