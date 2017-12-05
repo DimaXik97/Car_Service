@@ -1,13 +1,13 @@
 import React from 'react';
 import ReservationForm from './reservation.jsx';
-import Header from './../Header/index.jsx';
+import Header from './../../containers/header';
 import Footer from './../Footer/index.jsx';
 
 class Main extends React.Component{
     render(){
         return (<div>
             <div className="content">
-                <Header text="Бронирование"/>
+                <Header/>
                 <ReservationForm
                     workers={this.props.workers}
                     getWorkers={this.props.getWorkers}
@@ -23,7 +23,8 @@ class Main extends React.Component{
                     workTime={this.props.workTime}
                     possibleEndDate={this.props.possibleEndDate}
                     possibleEndTime={this.props.possibleEndTime}
-
+                    checked={this.props.checked}
+                    onChangeChecked={this.props.onChangeChecked}
                 />
             </div>
             <Footer/>

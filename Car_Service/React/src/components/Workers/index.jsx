@@ -1,7 +1,7 @@
 import React from 'react';
 import AddWorker from './addWorker.jsx';
 import ListWorkers from './listWorker.jsx';
-import Header from './../Header/index.jsx';
+import Header from './../../containers/header';
 import Footer from './../Footer/index.jsx';
 
 class Main extends React.Component{
@@ -10,18 +10,18 @@ class Main extends React.Component{
         this.props.initWorkers();
     }
     render(){
-        console.log(this.props)
         return (<div>
             <div className="content">
-                <Header text="Рабочие"/>
+                <Header/>
+                <div className="d-flex flex-row justify-content-around flex-wrap">
                 <AddWorker 
                     addWorker={this.props.addWorker}
                 />
                 <ListWorkers
-                    deleteBtm={false}
                     workers={this.props.workers}
                     url={this.props.url}
                 />
+                </div>
             </div>
             <Footer/>
         </div>);

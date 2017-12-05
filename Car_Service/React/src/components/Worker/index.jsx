@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Header from './../Header/index.jsx';
+import Header from './../../containers/header';
 import Footer from './../Footer/index.jsx';
 import AddWorkDate from './addWorkDate.jsx'
 
@@ -12,11 +12,9 @@ class Worker extends React.Component{
         this.props.getWorker(this.props.match.params.id)
     }
     render(){
-        console.log(this.props);
         return (<div>
-            <div className="content">
-                <Header text="Добавить рабочее время"/>
-                <AddWorkDate
+                <Header/>
+                <AddWorkDate 
                     addWorkTime={this.props.addWorkTime}
                     reset={this.props.reset}
                     setStartTime= {this.props.setStartTime}
@@ -25,7 +23,6 @@ class Worker extends React.Component{
                     startTime={this.props.startTime}
                     endTime={this.props.endTime}
                 />
-            </div>
             <Footer/>
         </div>);
     }

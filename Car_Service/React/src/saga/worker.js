@@ -16,7 +16,6 @@ export function* addTime(action){
 }
 export function* getWorker(action){
     let result = yield call (getJSON, `${urlWorker}/${action.id}`);
-    console.log(result);
     if(result.succsses){
         yield put(setWorker(result.data.Id, `${result.data.Name} ${result.data.SurName}`, result.data.Telephone, result.data.Email));
     }

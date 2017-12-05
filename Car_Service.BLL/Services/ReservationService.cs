@@ -8,10 +8,6 @@ using Car_Service.BLL.DTO;
 using Car_Service.BLL.Infrastructure;
 using static Car_Service.BLL.DTO.ReservationDTO;
 using System.IO;
-using System.Net.Http;
-using System.Diagnostics;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using Car_Service.DAL.Entities;
 using Car_Service.Helpers;
 
@@ -38,7 +34,6 @@ namespace Car_Service.BLL.Services
         public async Task<OperationDetails> Create(ReservationDTO model, string curentUserId) 
         {
             var curentUser = await Database.UserManager.FindByIdAsync(curentUserId);
-            model.isEmergency = true;
             var reservation = new Reservation
             {
                 ApplicationUser = curentUser,
@@ -85,13 +80,14 @@ namespace Car_Service.BLL.Services
             var workers = Database.WorkerManager.Get();
             foreach(var worker in workers)
             {
-                var workTimeWorker = Database.WorkTimeManager.Get().Where(s => s.Worker.Id == worker.Id).ToList();
+                var workTimeWorker = Database.WorkTimeManager.Get().Where(s => s.Worker.Id == worker.Id&&s.DateEnd>=DateTime.Now.ToUniversalTime()).ToList();
                 if (workTimeWorker.Count!=0)
                 {
-                    var minTime = workTimeWorker.Min(s => s.DateStart);
+                    var curentTime = new DateTime(((DateTime.Now.Ticks + TimeSpan.FromMinutes(60).Ticks - 1) / TimeSpan.FromMinutes(60).Ticks) * TimeSpan.FromMinutes(60).Ticks).ToUniversalTime();
+                    var minTime = (workTimeWorker.Find(s=> curentTime >= s.DateStart&& curentTime < s.DateEnd)!=null)? curentTime : workTimeWorker.Where(s=>s.DateStart>DateTime.Now.ToUniversalTime()).Min(s => s.DateStart);
                     while (minTime != null)
                     {
-                        var reservationTime = Database.ReservationManager.Get().Find(s => minTime >= s.DateStart && minTime < s.DateEnd);
+                        var reservationTime = Database.ReservationManager.Get().Find(s => (minTime >= s.DateStart && minTime < s.DateEnd)&& (s.ConfirmReservation.IsConfirm || s.ConfirmReservation.ExpireDate >= DateTime.Now.ToUniversalTime()));
                         if (reservationTime != null)
                         {
                             if (workTimeWorker.Any(s => reservationTime.DateEnd >= s.DateStart && reservationTime.DateEnd < s.DateEnd))
@@ -108,8 +104,8 @@ namespace Car_Service.BLL.Services
                 }
             }
             var result = minFreeTime.First(s => s.Value == minFreeTime.Min(k => k.Value));
-            dateStart = result.Value;
-            dateEnd= dateStart.AddHours(1);
+            dateStart = DateTime.SpecifyKind(result.Value, DateTimeKind.Utc);
+            dateEnd= DateTime.SpecifyKind(dateStart.AddHours(1), DateTimeKind.Utc);
             return result.Key;
         }
         private async Task UploadImage(List<ImageDTO> images, Reservation reservation)

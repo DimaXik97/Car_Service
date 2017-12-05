@@ -11,18 +11,21 @@ export const getFreeTime = (state) => state.reservation.freeTime;
 export const getStartTime = (state) => state.reservation.startTime;
 
 export function* reservation(action){
-    console.log(action);
     let data = new FormData();
     for (var x = 0; x < action.files.length; x++) {
         data.append("file", action.files[x]);
     }
-    data.append("workerId",action.worker);
+    data.append("isEmergency", action.isEmergency)
+    if(action.isEmergency)
+    {
+        data.append("workerId",action.worker);
+        data.append("timeStart", action.dateStart);
+        data.append("timeEnd" , action.dateEnd);
+    }
     data.append("purpose",action.purpose);
     data.append("breakdownDetails", action.breakdownDetails);
     data.append("desiredDiagnosis", action.desiredDiagnosis);
     data.append("captcha", action.captcha);
-    data.append("timeStart", action.dateStart);
-    data.append("timeEnd" , action.dateEnd);
     let result = yield call (postJSON, urlReservation, data);
     if(result.succsses){
         alert("OK");
@@ -32,7 +35,6 @@ export function* getWorkerTime(action){
     let freeTime=[];
     let workTime = yield call (getJSON, `${urlWorker}/${action.id}/workTime`);
     let reservationTime = yield call (getJSON, `${urlWorker}/${action.id}/reservationTime`); 
-    console.log("dsfsdf", get24hours());
     if(workTime.succsses&&reservationTime.succsses)
     {
         workTime.data.WorkTimesWorker.forEach(function(element) {
@@ -85,7 +87,6 @@ function getTime(element, freeTime,reservationTime)
             indexDate=freeTime.push({date: date, freeTime: get24hours(startTime)}) -1;
         }
         freeTime[indexDate].freeTime=freeTime[indexDate].freeTime.filter((s)=>{
-            console.log(s.hours()!=startTime.hours());
             return (s.hours()!=startTime.hours())||(reservationTime.find(s=>{return(startTime>=moment(s.StartTime)&&startTime<moment(s.EndTime))})!=null);
         })
         startTime.add(1,'hours');

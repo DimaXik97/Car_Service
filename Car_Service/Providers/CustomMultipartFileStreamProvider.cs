@@ -63,6 +63,11 @@ namespace Car_Service.Providers
                             Reservation.WorkerId = int.Parse(await file.ReadAsStringAsync());
                             break;
                         }
+                    case "isEmergency":
+                        {
+                            Reservation.isEmergency = bool.Parse(await file.ReadAsStringAsync());
+                            break;
+                        }
                     case "captcha":{
                             Reservation.Captcha = await file.ReadAsStringAsync();
                             break;

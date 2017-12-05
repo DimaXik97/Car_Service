@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const postURLEncode=(url, data)=>{
-    console.log(data);
   return axios({
         method: 'post',
         headers: {
@@ -29,7 +28,6 @@ export const postURLEncode=(url, data)=>{
       });
 }
 export const postJSON=(url, data)=>{
-    console.log(data);
     return axios({
         method: 'post',
         headers: {

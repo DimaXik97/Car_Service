@@ -2,7 +2,7 @@ export const selectWorker= (worker)=>({
     type: 'SELECT_WORKER',
     selectWorker: worker
 })
-export const addReservation=(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, dateStart, dateEnd)=>({
+export const addReservation=(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, dateStart, dateEnd, isEmergency)=>({
     type: 'ADD_RESERVATION',
     worker,
     purpose,
@@ -11,7 +11,8 @@ export const addReservation=(worker,purpose,desiredDiagnosis,breakdownDetails,fi
     files, 
     captcha,
     dateStart,
-    dateEnd
+    dateEnd,
+    isEmergency
 })
 export const setStartTimeReservation=(date)=>({
     type: 'SET_START_TIME_RESERVATION',
@@ -38,6 +39,10 @@ export const getEndTime=()=>({
 })
 export const setPossibleEndTime=(data)=>({
     type: 'SET_POSSIBLE_END_TIME',
+    data
+})
+export const changeEmergency=(data)=>({
+    type: 'CHANGE_IS_EMERGENCY',
     data
 })
 

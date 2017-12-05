@@ -91,7 +91,7 @@ namespace Car_Service.BLL.Services
             var worker = Database.WorkerManager.Get().Find(s => s.Id == workerId);
             if (worker != null)
             {
-                var workTime = Database.ReservationManager.Get().Where(s => s.Worker.Id == workerId && (s.DateStart.Date >= DateTime.Now.ToUniversalTime().Date) && (s.ConfirmReservation.IsConfirm || s.ConfirmReservation.ExpireDate >= DateTime.Now.ToUniversalTime())).Select(s => { return new TimesDTO.Time { StartTime = DateTime.SpecifyKind(s.DateStart, DateTimeKind.Utc), EndTime = DateTime.SpecifyKind(s.DateEnd, DateTimeKind.Utc) }; }).ToList<TimesDTO.Time>();
+                var workTime = Database.ReservationManager.Get().Where(s => s.Worker.Id == workerId && (s.DateStart.Date >= DateTime.Now.ToUniversalTime().Date) && (s.ConfirmReservation.IsConfirm || s.ConfirmReservation.ExpireDate >= DateTime.Now.ToUniversalTime())).ToList().Select(s => { return new TimesDTO.Time { StartTime = DateTime.SpecifyKind(s.DateStart, DateTimeKind.Utc), EndTime = DateTime.SpecifyKind(s.DateEnd, DateTimeKind.Utc) }; }).ToList<TimesDTO.Time>();
                 return new
                 {
                     WorkerId = workerId,

@@ -18,13 +18,26 @@ class SelectWorker extends React.Component{
         }   
     }
     render(){
-        return (<form ref="Form">
-            <input type="text" ref="surName"/>
-            <input type="text" ref="firstName"/>
-            <input type="email" ref="email"/>
-            <input type="tel" ref="tel"/>
-            <input type="submit" value="Добавить" onClick={this.addWorker}/>
-        </form>);
+        return (
+            <form ref="Form" >
+                <div className="form-group">
+                    <label>Name</label>
+                    <input type="text" ref="firstName" className="form-control" placeholder="Name" required/>
+                </div>
+                <div className="form-group">
+                    <label>Surname</label>
+                    <input type="text" ref="surName" className="form-control" placeholder="Surname" required/>
+                </div>
+                <div className="form-group">
+                    <label>Email address</label>
+                    <input type="email" ref="email" className="form-control" aria-describedby="emailHelp" placeholder="Enter email" required/>
+                </div>
+                <div className="form-group">
+                    <label>Telephone</label>
+                    <input ref="tel" type="tel" className="form-control" placeholder="Telephone" required/>
+                </div>
+                <button type="submit" className="btn btn-primary" onClick={this.addWorker}>Добавить</button>
+            </form>);
     }
 };
 export default SelectWorker;

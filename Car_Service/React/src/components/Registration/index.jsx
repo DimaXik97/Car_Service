@@ -1,12 +1,12 @@
 import React from 'react';
 import Form from './form.jsx';
-import Header from './../Header/index.jsx';
+import Header from './../../containers/header.js';
 import Footer from './../Footer/index.jsx';
 
 class Registration extends React.Component{
     render(){
         return (<div>
-            <Header text="Регистрация"/>
+            <Header/>
             <Form registration={this.props.registration} />
             <Footer/>
         </div>);

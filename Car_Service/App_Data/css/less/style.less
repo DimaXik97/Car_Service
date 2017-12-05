@@ -13,16 +13,13 @@
 	[data-reactroot]{
 		display: flex;
 		flex-direction: column;
+		min-width: 320px;
 		height: 100%;
 		justify-content: space-between;
-		align-items: center;
-		text-align: center;
 		font-family: 'Open Sans',sans-serif;
-		font-size: 42px;
-		color: #07c;
 		&:before{
 			content:"";
-			position: absolute;
+			position: fixed;
 			z-index: -1;
 			top: 0;
 			bottom: 0;
@@ -42,129 +39,13 @@
 }
 .footer{
 	flex: 0 0 auto;
-	font-size: 15px;
-	color: white;
+	align-items: center;
+	text-align: center;
 }
 .head{
 	flex: 0 0 auto;
 	text-align: center;
-	font-size: 128px;
-	line-height: 1;
 }
-.default-form{
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	margin: auto;
-	font-size: 40px;
-	textarea{
-		resize: none;
-		font-size: 26px;
-		overflow: auto;
-		text-align: left;
-	}
-}
-/*textarea{
-	resize: none;
-	height: 200px;
-	overflow: hidden;
-	padding: 0;
-}
-.default-btm{
-    border: 5px solid #07c;
-    text-transform: uppercase;
-    color: white;
-    background: #07c;
-    transition: all 0.4s ease;
-    cursor: pointer;
-    &:hover{
-        color:#07c;
-        background: white;
-    }
-}
-input,
-select,
-textarea{
-	width: 600px;
-	font-size: inherit;
-	border: 3px solid #07c;
-	text-align: center;
-	transition: box-shadow 0.4s ease, border 0.4s ease;
-}
-input[type="text"]:focus,
-input[type="text"].focus,
-input[type="email"]:focus,
-input[type="email"].focus,
-input[type="password"]:focus,
-input[type="password"].focus,
-textarea:focus,
-textarea.focus,
-select:focus,
-select.focus{
-  border: solid 5px #07c;
-  box-shadow: 0 0 15px 10px #969696;
-}
-
-form{
-	
-}*/
 li{
     list-style-type: none;
 }
-/*@media only screen and(max-width: 1023px){
-    #app{
-		[data-reactroot]{
-			font-size: 36px;
-		}
-	}
-	.footer{
-		font-size: 13px;
-	}
-	.head{
-		font-size: 110px;
-	}
-	.content{
-		font-size: 34px;
-	}
-	.default-btm{
-		border-width: 4px;
-		font-size: 65px;
-	}
-}
-@media only screen and(max-width: 767px){
-    #app{
-		[data-reactroot]{
-			font-size: 27px;
-			&:before{
-				background-image: url("../img/index-bg-768.jpg");
-			}
-		}
-	}
-	.head{
-		font-size: 50px;
-	}
-	.content{
-		font-size: 23px;
-	}
-	.default-btm{
-		border-width: 3px;
-		font-size: 35px;
-	}
-}
-@media only screen and(max-width: 479px){
-    #app{
-		[data-reactroot]{
-			font-size: 27px;
-		}
-	}
-	.head{
-		font-size: 82px;
-	}
-	.content{
-		font-size: 25px;
-	}
-	.default-btm{
-		border-width: 3px;
-		font-size: 48px;
-	}
-}*/

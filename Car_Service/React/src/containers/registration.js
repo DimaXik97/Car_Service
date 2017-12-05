@@ -7,8 +7,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    registration:(name, email, pass)=>{
-        dispatch(registrationUser(name, email, pass))
+    registration:( email, pass)=>{
+        dispatch(registrationUser( email, pass))
     }
 })
 

@@ -3,7 +3,8 @@ const initState={
     startTime:undefined,
     endTime: undefined,
     freeTime: undefined,
-    possibleEndTime: undefined
+    possibleEndTime: undefined,
+    isEmergency: true
 };
 const worker = (state = initState, action) => {
     switch (action.type) {
@@ -26,6 +27,10 @@ const worker = (state = initState, action) => {
         case 'SET_POSSIBLE_END_TIME':{
             return Object.assign({}, state, {
                 possibleEndTime: action.data});
+        }
+        case "CHANGE_IS_EMERGENCY":{
+            return Object.assign({}, state, {
+                isEmergency: action.data});
         }
     default:
       return state

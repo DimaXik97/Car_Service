@@ -11,9 +11,11 @@ export const initUser= (token, role)=>({
 export const destroyUser= ()=>({
     type: 'DESTROY_USER'
 })
-export const registrationUser=(userName, email, pass)=>({
+export const logoutUser= ()=>({
+    type: 'LOGOUT_USER'
+})
+export const registrationUser=( email, pass)=>({
     type: 'REGISTRATION_USER',
     email,
-    userName,
     pass
 })

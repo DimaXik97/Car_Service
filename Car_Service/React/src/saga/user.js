@@ -36,7 +36,6 @@ export function* logOut(){
 export function* registration(action){
     let data={
         Email: action.email,
-        Username: action.userName,
         Password: action.pass
     }
     let registration = yield call (postJSON, urlRegistration, data);

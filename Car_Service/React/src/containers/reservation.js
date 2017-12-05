@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 
 import ReservationForm from '../components/Reservation/index.jsx';
 import moment from "moment";
-import {getEndTime,getWorkTimeWorker,getReservationTimeWorker,getWorkers,selectWorker,addReservation, setStartTimeReservation, setEndTimeReservation} from '../actions';
+import {changeEmergency, getEndTime,getWorkTimeWorker,getReservationTimeWorker,getWorkers,selectWorker,addReservation, setStartTimeReservation, setEndTimeReservation} from '../actions';
 const mapStateToProps = state => ({
     workers: state.workers.workers,
     captchaKey: state.app.captchaKey,
@@ -12,7 +12,8 @@ const mapStateToProps = state => ({
     workDate: getFreeDate(state.reservation.freeTime),
     workTime: getFreeTime(state.reservation.freeTime,state.reservation.startTime),
     possibleEndDate: getFreeDate(state.reservation.possibleEndTime),
-    possibleEndTime: getFreeTime(state.reservation.possibleEndTime,state.reservation.endTime)
+    possibleEndTime: getFreeTime(state.reservation.possibleEndTime,state.reservation.endTime),
+    checked: state.reservation.isEmergency    
 })
 const mapDispatchToProps = dispatch => ({
     getWorkers:()=>{
@@ -23,8 +24,8 @@ const mapDispatchToProps = dispatch => ({
         dispatch(getWorkTimeWorker(id));
         dispatch(getReservationTimeWorker(id));        
     },
-    addReservation:(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, dataStart, dateEnd)=>{
-        dispatch(addReservation(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, dataStart, dateEnd))
+    addReservation:(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, dataStart, dateEnd, isEmergency)=>{
+        dispatch(addReservation(worker,purpose,desiredDiagnosis,breakdownDetails,files, captcha, dataStart, dateEnd, isEmergency))
     },
     setStartTimeReservation:(date)=>{
         dispatch(setStartTimeReservation(date.minute(0).second(0).millisecond(0)));
@@ -32,6 +33,9 @@ const mapDispatchToProps = dispatch => ({
     },
     setEndTimeReservation:(data)=>{
         dispatch(setEndTimeReservation(data.minute(0).second(0).millisecond(0)));
+    },
+    onChangeChecked:(data)=>{
+        dispatch(changeEmergency(data));
     }
 })
 let getFreeDate=(freeTimes)=>{
@@ -42,7 +46,6 @@ let getFreeDate=(freeTimes)=>{
 let getFreeTime=(freeTimes,startTime)=>{
     if(freeTimes!=undefined)
     {
-        console.log("123212");
         let time = freeTimes.find(s=>{return s.date==(moment(startTime).format('MM.DD.YYYY'))})
         if(time)
             return time.freeTime;
