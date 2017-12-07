@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 export const postURLEncode=(url, data)=>{
   return axios({
         method: 'post',
@@ -12,18 +13,18 @@ export const postURLEncode=(url, data)=>{
       .then(res => {
             if(res.status==200)
               return {
-                  succsses: true,
+                success: true,
                   data: res.data
               }
             else return {
-                succsses: false,
-                data: res.status + " "+ res.message 
+                success: false,
+                data: res.data.Message!=null?res.data.Message:"unknown error"
             }
       })
       .catch(error => {
         return {
-            succsses: false,
-            data: error
+            success: false,
+            data: error.response.data.error_description  
         }
       });
 }
@@ -39,18 +40,18 @@ export const postJSON=(url, data)=>{
     .then(res => {
             if(res.status==200)
             return {
-                succsses: true,
+                success: true,
                 data: res.data
             }
             else return {
-                succsses: false,
-                data: res.status + " "+ res.message 
+                success: false,
+                data: res.data.Message!=null?res.data.Message:"unknown error"
             }
     })
     .catch(error => {
         return {
-            succsses: false,
-            data: error
+            success: false,
+            data: error.response.data.Message!=null?error.response.data.Message:"unknown error"
         }
     });
 }
@@ -65,18 +66,18 @@ export const getJSON=(url)=>{
     .then(res => {
             if(res.status==200)
             return {
-                succsses: true,
+                success: true,
                 data: res.data
             }
             else return {
-                succsses: false,
-                error: res.status + " "+ res.message 
+                success: false,
+                data: res.data.Message!=null?res.data.Message:"unknown error"
             }
     })
     .catch(error => {
         return {
-            succsses: false,
-            error: error
+            success: false,
+            data: error.response.data.Message!=null?error.response.data.Message:"unknown error"
         }
     });
 }

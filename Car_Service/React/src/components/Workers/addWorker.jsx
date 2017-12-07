@@ -20,7 +20,7 @@ class SelectWorker extends React.Component{
     render(){
         return (
             <form ref="Form" >
-                <div className="form-group">
+                <div className="form-group" >
                     <label>Name</label>
                     <input type="text" ref="firstName" className="form-control" placeholder="Name" required/>
                 </div>

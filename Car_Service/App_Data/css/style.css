@@ -127,6 +127,9 @@ body {
   height: 100%;
 }
 #app [data-reactroot] {
+  height: 100%;
+}
+#app [data-reactroot] .body {
   display: flex;
   flex-direction: column;
   min-width: 320px;
@@ -134,7 +137,7 @@ body {
   justify-content: space-between;
   font-family: 'Open Sans', sans-serif;
 }
-#app [data-reactroot]:before {
+#app [data-reactroot] .body:before {
   content: "";
   position: fixed;
   z-index: -1;

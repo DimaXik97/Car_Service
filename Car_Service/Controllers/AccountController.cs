@@ -27,7 +27,7 @@ namespace Car_Service.Controllers
                 if (operationDetails.Succedeed)
                     return Ok();
                 else
-                    return BadRequest();
+                    return BadRequest(operationDetails.Message);
             }
             return BadRequest();
 

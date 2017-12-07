@@ -20,14 +20,13 @@ namespace Car_Service.BLL.Services
         {
             Database = uow;
         }
-
         public List<WorkerDTO> GetWorker()
         {
             return Database.WorkerManager.Get().Select(s=>new WorkerDTO { Id=s.Id, Name=s.FirstName, SurName=s.SurName, Telephone=s.Telephone, Email=s.Email}).ToList();
         }
-        public async Task<OperationDetails> AddWorker(WorkerDTO model)
-        {
-            var worker = Database.WorkerManager.Get().Find(s=>s.Email==model.Email);
+        public OperationDetails AddWorker(WorkerDTO model)
+        { 
+            var worker =  Database.WorkerManager.Get().Find(s=>s.Email==model.Email);
             if(worker==null)
             {
                 worker = new Worker
@@ -51,18 +50,11 @@ namespace Car_Service.BLL.Services
             else if(model.StartTime < curentDate || model.EndTime < model.StartTime)
                 return new OperationDetails(false, "Ошибка даты", "");
             var workerWorkTime = Database.WorkTimeManager.Get().Where(s => (s.Worker == worker));
-            if (workerWorkTime == null)
-                return new OperationDetails(false, "", "");
-            else
+            foreach (var x in workerWorkTime)
             {
-                foreach (var x in workerWorkTime)
-                {
-                    if (((model.StartTime >= x.DateStart) && (model.StartTime < x.DateEnd)) || ((model.EndTime > x.DateStart) && (model.EndTime <= x.DateEnd)) || ((x.DateStart >= model.StartTime) && (x.DateEnd <= model.EndTime)))
-                        return new OperationDetails(false, "Уже работает в эту дату", "");
-                }
-                    
+                if (((model.StartTime >= x.DateStart) && (model.StartTime < x.DateEnd)) || ((model.EndTime > x.DateStart) && (model.EndTime <= x.DateEnd)) || ((x.DateStart >= model.StartTime) && (x.DateEnd <= model.EndTime)))
+                    return new OperationDetails(false, "Уже работает в эту дату", "");
             }
-            
             WorkTime workTime = new WorkTime{
                 DateStart = model.StartTime,
                 DateEnd = model.EndTime,

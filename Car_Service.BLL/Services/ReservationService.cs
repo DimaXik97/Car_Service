@@ -15,7 +15,6 @@ namespace Car_Service.BLL.Services
 {
     public class ReservationService : IReservationService
     {
-        private string ReCaptchaSecretKey = "6LfTizUUAAAAAOH-_rnNKMXpi-iUzRLUjJ7adpzn";
         string ImagePath { get;}
         IUnitOfWork Database { get; set; }
         IWorkerService WorkerService { get; set; }
@@ -31,7 +30,7 @@ namespace Car_Service.BLL.Services
             Database.Dispose();
         }
 
-        public async Task<OperationDetails> Create(ReservationDTO model, string curentUserId) 
+        public async Task<OperationDetails> Create(ReservationDTO model, string curentUserId, string pathFolder) 
         {
             var curentUser = await Database.UserManager.FindByIdAsync(curentUserId);
             var reservation = new Reservation
@@ -43,7 +42,7 @@ namespace Car_Service.BLL.Services
                 DesiredDiagnosis = model.DesiredDiagnosis,
                 
             };
-            var isVerify = await verifyCaptcha(model.Captcha, ReCaptchaSecretKey);
+            var isVerify = await verifyCaptcha(model.Captcha);
             if (!isVerify)
             {
                 return new OperationDetails(false, "Error captcha", "");
@@ -68,7 +67,7 @@ namespace Car_Service.BLL.Services
                     return new OperationDetails(false, "Error date", "");
             }
             Database.ReservationManager.Create(reservation);
-            await UploadImage(model.File, reservation);
+            await UploadImage(model.File, reservation, pathFolder);
             var confirmReservation = new ConfirmReservation { Id = reservation.Id, Guid = Guid.NewGuid(), Reservation = reservation, IsConfirm = false, ExpireDate = DateTime.Now.AddMinutes(5).ToUniversalTime() };
             Database.ConfirmReservationManager.Create(confirmReservation);
             SendEmail.ConfirmReservation(reservation, confirmReservation);
@@ -108,13 +107,13 @@ namespace Car_Service.BLL.Services
             dateEnd= DateTime.SpecifyKind(dateStart.AddHours(1), DateTimeKind.Utc);
             return result.Key;
         }
-        private async Task UploadImage(List<ImageDTO> images, Reservation reservation)
+        private async Task UploadImage(List<ImageDTO> images, Reservation reservation, string pathFolder)
         {
             int i = 1;
             foreach (var image in images)
             {
                 string fileName = string.Format("{0}_{1}{2}", reservation.Id, i, image.Extension);
-                string path = string.Format("{0}/{1}", "D:\\Car_Service\\Car_Service\\App_Data", fileName);
+                string path = string.Format("{0}/{1}",pathFolder, fileName);
                 using (FileStream fs = new FileStream(path, FileMode.Create))
                 {
                     await fs.WriteAsync(image.ImageBytes, 0, image.ImageBytes.Length);
@@ -123,13 +122,15 @@ namespace Car_Service.BLL.Services
                 i++;
             }
         }
-        private async Task<bool> verifyCaptcha(string captcha, string sekretKey)
+        private async Task<bool> verifyCaptcha(string captcha)
         {
-            var responce = await ReCaptcha.GetRespons(captcha, sekretKey);
+            var responce = await ReCaptcha.GetRespons(captcha);
             return ReCaptcha.Validate(responce); ;
         }
         private async Task<bool> verifyTime(int workerId,DateTime dateStart, DateTime dateEnd)
         {
+            if (!(dateStart.Date>=DateTime.Now.ToUniversalTime().Date&&dateStart.Hour>=DateTime.Now.ToUniversalTime().Hour))
+                return false;
             var workTimes = Database.WorkTimeManager.Get().Where(s => s.Worker.Id == workerId ).ToList();
             var reservationTimes = Database.ReservationManager.Get().Where(s => s.Worker.Id == workerId&&(s.ConfirmReservation.IsConfirm||s.ConfirmReservation.ExpireDate>=DateTime.Now.ToUniversalTime())).ToList();
             if (workTimes.Where(s => dateStart >= s.DateStart && dateStart < s.DateEnd && dateEnd > s.DateStart && dateEnd <= s.DateEnd).Count() != 1)
@@ -151,7 +152,7 @@ namespace Car_Service.BLL.Services
                 return new OperationDetails(true, "", "");
             }
             else 
-                return new OperationDetails(false, "Error id or time extire", "");
+                return new OperationDetails(false, "Error guid or time extire", "");
         }
     }
 }

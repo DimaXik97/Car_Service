@@ -5,7 +5,7 @@ import Content from './content.jsx';
 
 class Start extends React.Component{
     render(){
-        return (<div>
+        return (<div className="body">
         <Header/>
         <Content/>
         <Footer/>

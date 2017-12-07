@@ -1,6 +1,7 @@
 import { put, takeEvery,call,select} from 'redux-saga/effects';
 import { addReservation,setFreeTime, setPossibleEndTime} from './../actions';
 import { postJSON, getJSON } from './../helpers';
+import {NotificationManager} from 'react-notifications';
 import moment from 'moment';
 
 
@@ -11,12 +12,13 @@ export const getFreeTime = (state) => state.reservation.freeTime;
 export const getStartTime = (state) => state.reservation.startTime;
 
 export function* reservation(action){
+    console.log(action);
     let data = new FormData();
     for (var x = 0; x < action.files.length; x++) {
         data.append("file", action.files[x]);
     }
     data.append("isEmergency", action.isEmergency)
-    if(action.isEmergency)
+    if(!action.isEmergency)
     {
         data.append("workerId",action.worker);
         data.append("timeStart", action.dateStart);
@@ -27,18 +29,22 @@ export function* reservation(action){
     data.append("desiredDiagnosis", action.desiredDiagnosis);
     data.append("captcha", action.captcha);
     let result = yield call (postJSON, urlReservation, data);
-    if(result.succsses){
-        alert("OK");
+    if(result.success){
+        NotificationManager.success('Success');
     }
+    else{
+        NotificationManager.error(result.data);
+    }
+    
 }
 export function* getWorkerTime(action){
     let freeTime=[];
     let workTime = yield call (getJSON, `${urlWorker}/${action.id}/workTime`);
     let reservationTime = yield call (getJSON, `${urlWorker}/${action.id}/reservationTime`); 
-    if(workTime.succsses&&reservationTime.succsses)
+    if(workTime.success&&reservationTime.success)
     {
         workTime.data.WorkTimesWorker.forEach(function(element) {
-            getTime(element, freeTime, reservationTime.data.ReservationTimeWorekr);
+            getTime(element, reservationTime.data.ReservationTimeWorekr, freeTime);
         });
     }
     yield put(setFreeTime(freeTime));
@@ -72,7 +78,7 @@ export function* getEndTime(){
     }
     yield put(setPossibleEndTime(endTime));
 }
-function getTime(element, freeTime,reservationTime)
+function getTime(element,reservationTime, freeTime)
 {
     let startTime = moment(element.StartTime);
     let endTime = moment(element.EndTime);
@@ -87,10 +93,11 @@ function getTime(element, freeTime,reservationTime)
             indexDate=freeTime.push({date: date, freeTime: get24hours(startTime)}) -1;
         }
         freeTime[indexDate].freeTime=freeTime[indexDate].freeTime.filter((s)=>{
-            return (s.hours()!=startTime.hours())||(reservationTime.find(s=>{return(startTime>=moment(s.StartTime)&&startTime<moment(s.EndTime))})!=null);
+            return ((freeTime[indexDate].date == moment().format('MM.DD.YYYY')&&s.hours()<moment().hours())||s.hours()!=startTime.hours())||(reservationTime.find(s=>{return(startTime>=moment(s.StartTime)&&startTime<moment(s.EndTime))})!=null);
         })
         startTime.add(1,'hours');
     }
+
 }
 function get24hours(startTime){
     let time=[];

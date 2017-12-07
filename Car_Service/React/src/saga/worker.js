@@ -1,6 +1,7 @@
 import { put, takeEvery,call } from 'redux-saga/effects';
 import { setWorker} from './../actions';
 import { postJSON, getJSON } from './../helpers';
+import {NotificationManager} from 'react-notifications';
 import history from "./../components/App/history"
 const urlWorker ="http://localhost:29975/api/worker";
 
@@ -10,13 +11,15 @@ export function* addTime(action){
         endTime: action.endTime
     }
     let result = yield call (postJSON, `${urlWorker}/${action.id}/workTime`, data);
-    if(result.succsses){
-        alert("OK");
+    if(result.success){
+        NotificationManager.success('Success');
     }
+    else
+        NotificationManager.error(result.data);
 }
 export function* getWorker(action){
     let result = yield call (getJSON, `${urlWorker}/${action.id}`);
-    if(result.succsses){
+    if(result.success){
         yield put(setWorker(result.data.Id, `${result.data.Name} ${result.data.SurName}`, result.data.Telephone, result.data.Email));
     }
 }

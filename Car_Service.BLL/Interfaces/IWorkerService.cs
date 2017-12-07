@@ -14,7 +14,7 @@ namespace Car_Service.BLL.Interfaces
     {
         List<WorkerDTO> GetWorker();
 
-        Task<OperationDetails> AddWorker(WorkerDTO model);
+        OperationDetails AddWorker(WorkerDTO model);
         OperationDetails AddWorkTime(WorkTimeDTO model);
         TimesDTO workerTimes(int workerId);
         dynamic reservationTimes(int workerId);

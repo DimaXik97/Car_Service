@@ -10,7 +10,7 @@ namespace Car_Service.BLL.Interfaces
 {
     public interface IReservationService : IDisposable
     {
-        Task<OperationDetails> Create(ReservationDTO userDto, string curentUserId);
+        Task<OperationDetails> Create(ReservationDTO userDto, string curentUserId, string pathFolder);
         OperationDetails Confirm(Guid guid);
 
     }

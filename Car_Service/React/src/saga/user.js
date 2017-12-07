@@ -1,6 +1,8 @@
 import { put, takeEvery,call } from 'redux-saga/effects';
+
 import { initUser, destroyUser} from './../actions';
 import { postURLEncode,postJSON } from './../helpers';
+import {NotificationManager} from 'react-notifications';
 import history from "./../components/App/history"
 const urlToken="http://localhost:29975/api/token";
 const urlRegistration ="http://localhost:29975/api/account/regiser";
@@ -19,15 +21,20 @@ export function* login(action){
     }
     formBody = formBody.join("&");
     let auth = yield call (postURLEncode, urlToken, formBody);
-    if(auth.succsses)
+    if(auth.success)
     {
+        NotificationManager.success('Success');
         yield put(initUser(auth.data.access_token, auth.data.role)); 
         window.localStorage.setItem("app_token",auth.data.access_token);
         window.localStorage.setItem("app_role",auth.data.role)
     }
+    else{
+        NotificationManager.error(auth.data);
+    }
         
 }
 export function* logOut(){
+    NotificationManager.success('Success');
     yield put(destroyUser()); 
     window.localStorage.clear("app_token");
     window.localStorage.clear("app_role")
@@ -39,8 +46,14 @@ export function* registration(action){
         Password: action.pass
     }
     let registration = yield call (postJSON, urlRegistration, data);
-    if(registration.succsses)
+    if(registration.success)
+    {
+        NotificationManager.success('Success');
         yield call (history.push,"/login");
+    }
+    else{
+        NotificationManager.error(registration.data);
+    }
 }
 export default function* rootSaga() {
     yield takeEvery('LOGIN_USER', login),

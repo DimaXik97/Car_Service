@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System;
 
 namespace Car_Service.BLL.Services
 {
@@ -43,6 +44,7 @@ namespace Car_Service.BLL.Services
 
         public async Task<ClaimsIdentity> Authenticate(string Email, string Password)
         {
+            
             ClaimsIdentity claim = null;
             // находим пользователя
             ApplicationUser user = await Database.UserManager.FindAsync(Email, Password);
@@ -51,7 +53,7 @@ namespace Car_Service.BLL.Services
             {
                 claim = await Database.UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ExternalBearer);
                 claim.AddClaim(new Claim("id", user.Id));
-            }   
+            }  
             return claim;
         }
         public async Task SetInitialData(UserDTO adminDto, List<string> roles)

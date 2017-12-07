@@ -5,8 +5,7 @@ import Footer from './../Footer/index.jsx';
 
 class Main extends React.Component{
     render(){
-        return (<div>
-            <div className="content">
+        return (<div className="body"> 
                 <Header/>
                 <ReservationForm
                     workers={this.props.workers}
@@ -26,7 +25,6 @@ class Main extends React.Component{
                     checked={this.props.checked}
                     onChangeChecked={this.props.onChangeChecked}
                 />
-            </div>
             <Footer/>
         </div>);
     }

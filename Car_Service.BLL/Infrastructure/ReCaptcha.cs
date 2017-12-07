@@ -5,15 +5,17 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Car_Service.BLL.Infrastructure
-{   public class ReCaptcha
+{
+    public class ReCaptcha
     {
+        private static string sekretKey = "6LfTizUUAAAAAOH-_rnNKMXpi-iUzRLUjJ7adpzn";
         public static bool  Validate(string Response)
         {
             var captchaResponse = JsonConvert.DeserializeObject<ReCaptcha>(Response);
 
             return bool.Parse(captchaResponse.Success);
         }
-        public static async Task<string> GetRespons(string captcha, string sekretKey)
+        public static async Task<string> GetRespons(string captcha)
         {
             string responce;
             using (var client = new HttpClient())
@@ -24,7 +26,7 @@ namespace Car_Service.BLL.Infrastructure
                     { "secret", sekretKey },
                     { "response", captcha}
 
-                };
+                }; 
                 var content = new FormUrlEncodedContent(values);
                 var result = await client.PostAsync("/recaptcha/api/siteverify", content).ConfigureAwait(false);
                 responce = await result.Content.ReadAsStringAsync();

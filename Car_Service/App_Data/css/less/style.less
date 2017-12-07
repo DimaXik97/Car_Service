@@ -11,24 +11,27 @@
 #app{
 	height: 100%;
 	[data-reactroot]{
-		display: flex;
-		flex-direction: column;
-		min-width: 320px;
 		height: 100%;
-		justify-content: space-between;
-		font-family: 'Open Sans',sans-serif;
-		&:before{
-			content:"";
-			position: fixed;
-			z-index: -1;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			background: #ccc url("../img/index-bg.jpg") center right;
-			opacity: .2;
-			width: 100%;
+		.body{
+			display: flex;
+			flex-direction: column;
+			min-width: 320px;
 			height: 100%;
+			justify-content: space-between;
+			font-family: 'Open Sans',sans-serif;
+			&:before{
+				content:"";
+				position: fixed;
+				z-index: -1;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				background: #ccc url("../img/index-bg.jpg") center right;
+				opacity: .2;
+				width: 100%;
+				height: 100%;
+			}
 		}
 	}
 }

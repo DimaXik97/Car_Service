@@ -10,10 +10,9 @@ class Main extends React.Component{
         this.props.initWorkers();
     }
     render(){
-        return (<div>
-            <div className="content">
-                <Header/>
-                <div className="d-flex flex-row justify-content-around flex-wrap">
+        return (<div className="body">
+            <Header/>
+            <div className="d-flex flex-row justify-content-around flex-wrap">
                 <AddWorker 
                     addWorker={this.props.addWorker}
                 />
@@ -21,7 +20,6 @@ class Main extends React.Component{
                     workers={this.props.workers}
                     url={this.props.url}
                 />
-                </div>
             </div>
             <Footer/>
         </div>);

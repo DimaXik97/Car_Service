@@ -12,7 +12,7 @@ class Worker extends React.Component{
         this.props.getWorker(this.props.match.params.id)
     }
     render(){
-        return (<div>
+        return (<div className="body">
                 <Header/>
                 <AddWorkDate 
                     addWorkTime={this.props.addWorkTime}

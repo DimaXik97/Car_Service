@@ -28,8 +28,8 @@ class Form extends React.Component{
         let desiredDiagnosis= this.refs.desiredDiagnosis.value;
         let worker= this.props.worker;
         let isEmergency= this.props.checked;
-        let dateStart = (this.props.startTime).toISOString() ;
-        let dateEnd = (this.props.endTime).toISOString();
+        let dateStart = !isEmergency?(this.props.startTime).toISOString():undefined ;
+        let dateEnd = !isEmergency?(this.props.endTime).toISOString():undefined;
         for (var x = 0; x < this.refs.files.files.length; x++) {
             files.push(this.refs.files.files[x]);
         }

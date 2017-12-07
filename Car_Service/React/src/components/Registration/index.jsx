@@ -3,9 +3,10 @@ import Form from './form.jsx';
 import Header from './../../containers/header.js';
 import Footer from './../Footer/index.jsx';
 
+
 class Registration extends React.Component{
     render(){
-        return (<div>
+        return (<div className="body">
             <Header/>
             <Form registration={this.props.registration} />
             <Footer/>

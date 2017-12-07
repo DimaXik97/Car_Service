@@ -1,5 +1,6 @@
 import { put, takeEvery,call } from 'redux-saga/effects';
 import { initUser, destroyUser, getWorkers,setWorkers} from './../actions';
+import {NotificationManager} from 'react-notifications';
 import { postJSON, getJSON } from './../helpers';
 import history from "./../components/App/history"
 const urlWorker ="http://localhost:29975/api/worker";
@@ -12,13 +13,16 @@ export function* addUser(action){
         telephone: action.telephone
     }
     let result = yield call (postJSON, urlWorker, data);
-    if(result.succsses){
+    if(result.success){
+        NotificationManager.success('Success');
         yield put(getWorkers());
     }
+    else
+        NotificationManager.error(result.data);
 }
 export function* getAllWorkers(){
     let result = yield call (getJSON, urlWorker);
-    if(result.succsses){
+    if(result.success){
         yield put(setWorkers(result.data.map((s)=>{
             return {id: s.Id, name: `${s.Name} ${s.SurName}`}
         })));

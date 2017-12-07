@@ -29,13 +29,13 @@ namespace Car_Service.Helpers
 
             msg.Subject = "Confirm reservation";
             msg.IsBodyHtml = true;
-            msg.Body = string.Format("<html><head></head><body>Зы забранировали место на время {1} - {2} у мастера {3}. Для подтверждения бронирования перейдите по ссылке <a href='http://localhost:29975/api/reservation/confirm/{0}'>Подтвердить<a/></body>", confirmReservation.Guid, reservation.DateStart, reservation.DateEnd, reservation.Worker.FirstName+" "+reservation.Worker.SurName);
+            msg.Body = string.Format("<html><head></head><body>Зы забранировали место на время {1} - {2} у мастера {3}. Для подтверждения бронирования перейдите по ссылке <a href='http://localhost:29975/api/reservation/confirm/{0}'>Подтвердить<a/></body>", confirmReservation.Guid, reservation.DateStart.ToLocalTime().ToString("MM/dd/yyyy H:mm:ss"), reservation.DateEnd.ToLocalTime().ToString("MM/dd/yyyy H:mm:ss"), reservation.Worker.FirstName+" "+reservation.Worker.SurName);
             try
             {
                 client.Send(msg);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
 
                 return false;

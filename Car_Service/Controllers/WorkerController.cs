@@ -31,17 +31,24 @@ namespace Car_Service.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        public async Task<IHttpActionResult> Post([FromBody] WorkerDTO worker)
+        public IHttpActionResult Post([FromBody] WorkerDTO worker)
         {
-            if (ModelState.IsValid && worker != null)
+            try
             {
-                OperationDetails result = await WorkerService.AddWorker(worker);
-                if (result.Succedeed)
-                    return Ok();
-                else
-                    return BadRequest(result.Message);
+                if (ModelState.IsValid && worker != null)
+                {
+                    OperationDetails result = WorkerService.AddWorker(worker);
+                    if (result.Succedeed)
+                        return Ok();
+                    else
+                        return BadRequest(result.Message);
+                }
+                else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
             }
-            else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [Route("api/worker/{workerId}/workTime")]
@@ -56,9 +63,9 @@ namespace Car_Service.Controllers
                 else
                     return Ok(result);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest("Внутренняя ошибка");
+                return BadRequest(e.Message);
             }
 
         }
@@ -66,16 +73,23 @@ namespace Car_Service.Controllers
         [HttpPost]
         public IHttpActionResult SetWorkTime([FromBody] WorkTimeDTO workTime, int workerId)
         {
-            if (ModelState.IsValid && workTime != null)
+            try
             {
-                workTime.UserId = workerId;
-                OperationDetails result = WorkerService.AddWorkTime(workTime);
-                if (result.Succedeed)
-                    return Ok();
-                else
-                    return BadRequest(result.Message);
+                if (ModelState.IsValid && workTime != null)
+                {
+                    workTime.UserId = workerId;
+                    OperationDetails result = WorkerService.AddWorkTime(workTime);
+                    if (result.Succedeed)
+                        return Ok();
+                    else
+                        return BadRequest(result.Message);
+                }
+                else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
             }
-            else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
         [Authorize]
         [Route("api/worker/{workerId}/reservationTime")]
@@ -90,9 +104,9 @@ namespace Car_Service.Controllers
                 else
                     return Ok(result);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest("Внутренняя ошибка");
+                return BadRequest(e.Message);
             }
 
         }

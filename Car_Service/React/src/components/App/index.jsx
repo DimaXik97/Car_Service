@@ -6,6 +6,7 @@ import {
     Redirect,
     Switch
   } from 'react-router-dom';
+import {NotificationContainer} from 'react-notifications';
 import history from "./history.js";
 
 import Start from './../Start/index.jsx';
@@ -21,6 +22,7 @@ import Worker from './../../containers/worker.js';
 class App extends React.Component{
     render(){
         return (
+            <div>
             <Router history={history}>
                 <Switch>
                     <Route exact path="/" render={(props) => (this.props.user.token?<Main {...props}/>:<Start {...props}/>)}/>
@@ -33,6 +35,8 @@ class App extends React.Component{
                     </Switch>):(<Redirect to="/login"/>))}/>
                 </Switch>
             </Router>
+            <NotificationContainer/>
+            </div>
         );
     }
 };

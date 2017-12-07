@@ -17,11 +17,7 @@ namespace Car_Service.Controllers
         {
             ReservationService = reservationService;
         }
-        public IHttpActionResult Get()
-        {
-            return Ok("Ok");
-        }
-       [Authorize]
+        [Authorize]
         public async Task<IHttpActionResult> Post()
         {
             if (!Request.Content.IsMimeMultipartContent())
@@ -36,10 +32,10 @@ namespace Car_Service.Controllers
             {
                 var identity = (ClaimsIdentity)User.Identity;
                 var userId = identity.Claims.FirstOrDefault(s=>s.Type=="id").Value;
-                var result = await ReservationService.Create(reservation, userId);
+                var result = await ReservationService.Create(reservation, userId, "D:\\Car_Service\\Car_Service\\App_Data");
                 if (result.Succedeed)
                     return Ok();
-                else return BadRequest();
+                else return BadRequest(result.Message);
             }
             else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
   
