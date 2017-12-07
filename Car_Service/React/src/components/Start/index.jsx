@@ -1,16 +1,14 @@
 import React from 'react';
-import Header from './../Header/index.jsx';
+import Header from './../../containers/header.js';
 import Footer from './../Footer/index.jsx';
 import Content from './content.jsx';
 
 class Start extends React.Component{
     render(){
-        return (<div>
-            <div className="content">
-                <Header text="Добро пожаловать в Car Service"/>
-                <Content/>
-            </div>
-            <Footer/>
+        return (<div className="body">
+        <Header/>
+        <Content/>
+        <Footer/>
         </div>);
     }
 };

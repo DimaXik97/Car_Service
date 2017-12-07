@@ -1,38 +1,42 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {
-    BrowserRouter as Router,
+    Router,
     Route,
     Redirect,
     Switch
   } from 'react-router-dom';
+import {NotificationContainer} from 'react-notifications';
 import history from "./history.js";
 
 import Start from './../Start/index.jsx';
 
-import Registration from './../Registration/index.jsx';
-import Main from './../Reservation/index.jsx'
-import Authentication from './../Authentication/index.jsx';
+import Registration from './../../containers/registration.js';
+import Main from './../../containers/reservation.js'
+import Authentication from './../../containers/authentication.js';
 import Workers from './../../containers/workers.js';
-import Worker from './../Worker/index.jsx';
+import Worker from './../../containers/worker.js';
 
 
 
 class App extends React.Component{
     render(){
         return (
-            <Router>
+            <div>
+            <Router history={history}>
                 <Switch>
-                    <Route exact path="/" render={() => (this.props.user?<Main/>:<Start/>)}/>
-                    <Route path="/login" render={() => (this.props.user?(<Redirect to="/"/>):<Authentication/>)}/>
-                    <Route path="/registration" render={() => (this.props.user?(<Redirect to="/"/>):<Registration/>)}/>
+                    <Route exact path="/" render={(props) => (this.props.user.token?<Main {...props}/>:<Start {...props}/>)}/>
+                    <Route path="/login" render={(props) => (this.props.user.token?(<Redirect  to="/"/>):<Authentication {...props}/>)}/>
+                    <Route path="/registration" render={(props) => (this.props.user.token?(<Redirect to="/"/>):<Registration {...props}/>)}/>
                     <Route path="/admin" render={() => (this.props.user.role=="admin"?(<Switch>
                         <Route exact path="/admin" render={() => (<Redirect to="/admin/worker"/>)}/>
-                        <Route path="/admin/worker/:id" render={() => <Worker/>}/>
-                        <Route path="/admin/worker" render={() => <Workers/>}/>
+                        <Route path={"/admin/worker/:id"} component={Worker}/>
+                        <Route path="/admin/worker" component={Workers}/>
                     </Switch>):(<Redirect to="/login"/>))}/>
                 </Switch>
             </Router>
+            <NotificationContainer/>
+            </div>
         );
     }
 };

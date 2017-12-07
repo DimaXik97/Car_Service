@@ -3,7 +3,6 @@ using Car_Service.BLL.Services;
 using Car_Service.Providers;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
-using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Ninject;
 using Ninject.Web.Common.OwinHost;
@@ -20,6 +19,7 @@ namespace Car_Service.App_Start
     {
         public void Configuration(IAppBuilder app)
         {
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             var config = new HttpConfiguration();
             WebApiConfig.Register(config);
             app.UseNinjectMiddleware(() => NinjectConfig.CreateKernel.Value);

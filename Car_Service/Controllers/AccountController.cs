@@ -27,7 +27,7 @@ namespace Car_Service.Controllers
                 if (operationDetails.Succedeed)
                     return Ok();
                 else
-                    return BadRequest();
+                    return BadRequest(operationDetails.Message);
             }
             return BadRequest();
 
@@ -36,9 +36,9 @@ namespace Car_Service.Controllers
         {
             await UserService.SetInitialData(new UserDTO
             {
-                Email = "somemail@mail.ru",
-                UserName = "somemail@mail.ru",
-                Password = "ad46D_ewr3",
+                Email = "ydn@mail.ru",
+                UserName = "ydn@mail.ru",
+                Password = "12345Qaz",
                 Role = "admin",
             }, new List<string> { "user", "admin" });
         }

@@ -1,16 +1,14 @@
 import React from 'react';
+import {
+    Link
+  } from 'react-router-dom';
 
 class Element extends React.Component{
     render(){
         return (<li>
-            <a href={`${this.props.url}/${this.props.element.id}`}>{this.props.element.name}</a>
-            {this.props.deleteBtm?<div className="deleteBtm" onClick={()=>this.props.deleteFunc(this.props.element.id)}>X</div>:undefined}
+            <Link className="list-group-item list-group-item-action" to={`${this.props.url}/${this.props.element.id}`}>{this.props.element.name}</Link>
         </li>);
     }
-};
-
-Element.defaultProps = {
-  deleteBtm: true
 };
 
 export default Element;

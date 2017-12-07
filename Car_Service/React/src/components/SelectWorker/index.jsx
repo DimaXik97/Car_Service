@@ -10,7 +10,7 @@ class SelectWorker extends React.Component{
     }
     render(){
        
-        return (<select value={this.props.selectedWorker} defaultValue="" onChange={this.handleChange}>
+        return (<select className="form-control" value={this.props.selectedWorker} defaultValue="" onChange={this.handleChange}>
             <option value="" disabled>Выберете мастера</option>
             {this.props.workers.map((element, index)=>{
                 return <option key={index} value={element.id}>{element.name}</option>

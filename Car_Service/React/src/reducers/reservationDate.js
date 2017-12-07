@@ -1,71 +1,10 @@
 const initState={
-    workers: [
-        {
-            id:1,
-            name:"Nikolay",
-            freeTime:[
-                {
-                    date: "27.10.2017",
-                    time:["8.00","9.00","10.00"]
-                },
-                {
-                    date: "28.10.2017",
-                    time:["8.00","10.00", "12.00","17.00"]
-                },
-                {
-                    date: "30.10.2017",
-                    time:["8.00","9.00","10.00", "12.00","17.00"]
-                },
-                {
-                    date: "31.10.2017",
-                    time:["8.00","9.00", "12.00","17.00"]
-                }
-            ]
-        },
-        {
-            id:6,
-            name:"Sergey",
-            freeTime:[
-                {
-                    date: "26.10.2017",
-                    time:["17.00"]
-                },
-                {
-                    date: "27.10.2017",
-                    time:["8.00", "12.00","17.00"]
-                },
-                {
-                    date: "28.10.2017",
-                    time:["9.00","10.00", "12.00","17.00"]
-                },
-                {
-                    date: "31.10.2017",
-                    time:["8.00","12.00","17.00"]
-                },
-            ]
-        },
-        {
-            id:5,
-            name:"Nikita",
-            freeTime:[
-                {
-                    date: "31.10.2017",
-                    time:["8.00"]
-                },
-                {
-                    date: "01.11.2017",
-                    time:["8.00","9.00","17.00"]
-                },
-                {
-                    date: "08.11.2017",
-                    time:["8.00","9.00","10.00", "12.00","17.00"]
-                }
-            ]
-        },
-    ],
     worker: undefined,
-    date:undefined,
-    time: undefined
+    startTime:undefined,
+    endTime: undefined,
+    freeTime: undefined,
+    possibleEndTime: undefined,
+    isEmergency: true
 };
 const worker = (state = initState, action) => {
     switch (action.type) {
@@ -73,13 +12,25 @@ const worker = (state = initState, action) => {
             return Object.assign({}, state, {
                 worker: action.selectWorker});
         }
-        case "SELECT_DATE": {
+        case "SET_FREE_TIME": {
             return Object.assign({}, state, {
-                date: action.selectDate});
+                freeTime: action.data});
         }
-        case "SELECT_TIME": {
+        case "SET_START_TIME_RESERVATION": {
             return Object.assign({}, state, {
-                time: action.selectTime});
+                startTime: action.date});
+        }
+        case "SET_END_TIME_RESERVATION": {
+            return Object.assign({}, state, {
+                endTime: action.date});
+        }
+        case 'SET_POSSIBLE_END_TIME':{
+            return Object.assign({}, state, {
+                possibleEndTime: action.data});
+        }
+        case "CHANGE_IS_EMERGENCY":{
+            return Object.assign({}, state, {
+                isEmergency: action.data});
         }
     default:
       return state

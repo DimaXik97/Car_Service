@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Car_Service.BLL.DTO
 {
@@ -6,10 +7,8 @@ namespace Car_Service.BLL.DTO
     {
         public int UserId { get; set; }
         [Required]
-        public string Date { get; set; }
+        public DateTime StartTime { get; set; }
         [Required]
-        public string StartTime { get; set; }
-        [Required]
-        public string EndTime { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }

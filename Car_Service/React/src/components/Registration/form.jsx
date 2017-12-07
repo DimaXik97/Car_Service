@@ -18,23 +18,28 @@ class Form extends React.Component{
         if(this.refs.Form.checkValidity())
         {
             event.preventDefault();
-            let name=this.refs.Name.value;
             let email=this.refs.Email.value;
             let password = this.refs.Password1.value;
-            console.log("name",name);
-            console.log("email", email);
-            console.log("password", password);
+            this.props.registration(email, password);
         }
             
     }
     render(){
         return (
-            <form ref="Form">
-                <input type="text" ref="Name" placeholder="Введите ваше имя" required/>
-                <input type="email" ref="Email" placeholder="Введите Email" required/>
-                <input type="password" ref="Password1" placeholder="Введите пароль" required onChange={this.validatePassword}/>
-                <input type="password" ref="Password2" placeholder="Повторите пароль" required onChange={this.validatePassword}/>
-                <input type="submit" className="default-btm" value="Зарегестрироваться" required onClick={this.handle}/>
+            <form ref="Form" className="mx-auto">
+                <div className="form-group">
+                    <label>Email address</label>
+                    <input type="email" ref="Email" className="form-control" aria-describedby="emailHelp" placeholder="Enter email" required/>
+                </div>
+                <div className="form-group">
+                    <label>Password</label>
+                    <input ref="Password1" type="password" className="form-control" placeholder="Password" required onChange={this.validatePassword}/>
+                </div>
+                <div className="form-group">
+                    <label>Confirm password</label>
+                    <input ref="Password2" type="password" className="form-control" placeholder="Confirm password" required onChange={this.validatePassword}/>
+                </div>
+                <button type="submit" className="btn btn-primary" onClick={this.handle}>Зарегестрироватся</button>
             </form>
         );
     }

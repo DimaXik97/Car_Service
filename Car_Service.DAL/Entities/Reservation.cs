@@ -16,6 +16,7 @@ namespace Car_Service.DAL.Entities
 
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
-        public List<Image> Images { get; set; }
+        public virtual List<Image> Images { get; set; }
+        public virtual ConfirmReservation ConfirmReservation { get; set; }
     }
 }

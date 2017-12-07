@@ -12,7 +12,7 @@ namespace Car_Service.App_Start
     {
         public static Lazy<IKernel> CreateKernel = new Lazy<IKernel>(() =>
         {
-            var modules = new INinjectModule[] { new ServiceModule("Server=(localdb)\\mssqllocaldb;Database=Car_Service;Trusted_Connection=True;") };
+            var modules = new INinjectModule[] { new ServiceModule("Server=WSC-159;Database=Car_Service;Trusted_Connection=True;") };
             var kernel = new StandardKernel(modules);
             kernel.Load(Assembly.GetExecutingAssembly());
 
@@ -23,9 +23,9 @@ namespace Car_Service.App_Start
 
         private static void RegisterServices(KernelBase kernel)
         { 
-
             kernel.Bind<IUserService>().To<UserService>();
             kernel.Bind<IWorkerService>().To<WorkerService>();
+            kernel.Bind<IReservationService>().To<ReservationService>();
         }
     }
 }

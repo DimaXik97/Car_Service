@@ -1,33 +1,13 @@
 const initState={
-    workers:[
-        {
-            id: 1,
-            name: "Nikolay"
-        },
-        {
-            id: 2,
-            name: "Viktor"
-        },
-        {
-            id: 3,
-            name: "Maksim"
-        },
-        {
-            id: 4,
-            name: "Vladislav"
-        },
-        {
-            id: 5,
-            name: "Nikita"
-        },
-        {
-            id: 6,
-            name: "Sergey"
-        }
-    ]
+    workers:[]
 };
 const workers = (state = initState, action) => {
     switch (action.type) {
+        case "SET_WORKERS":{
+                return Object.assign({}, state, {
+                    workers: action.workers
+            })
+        }
     default:
       return state
     }

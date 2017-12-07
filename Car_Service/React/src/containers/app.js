@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 
 import App from '../components/App/index.jsx';
-import {} from '../actions';
+import {initUser} from '../actions';
 
 const mapStateToProps = state => ({
-   user: undefined
+  user: state.app.user
 })
 
 const mapDispatchToProps = dispatch => ({

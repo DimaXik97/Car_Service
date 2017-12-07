@@ -19,6 +19,7 @@ namespace Car_Service.DAL.Repositories
         private IWorkTimeManager workTimeManager;
         private IImageManager imageManager;
         private IReservationManager reservationManager;
+        private IConfirmReservation confirmReservation;
 
         public IdentityUnitOfWork(string connectionString)
         {
@@ -29,6 +30,7 @@ namespace Car_Service.DAL.Repositories
             workTimeManager = new WorkTimeManager(db);
             imageManager = new ImageManager(db);
             reservationManager = new ReservationManager(db);
+            confirmReservation = new ConfirmReservationManager(db);
         }
 
         public ApplicationUserManager UserManager
@@ -59,6 +61,10 @@ namespace Car_Service.DAL.Repositories
         public IReservationManager ReservationManager
         {
             get { return reservationManager; }
+        }
+        public IConfirmReservation ConfirmReservationManager
+        {
+            get { return confirmReservation; }
         }
 
         public async Task SaveAsync()

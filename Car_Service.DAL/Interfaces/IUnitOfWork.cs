@@ -15,6 +15,7 @@ namespace Car_Service.Model.Interfaces
         IWorkTimeManager WorkTimeManager { get; }
         IImageManager ImageManager { get; }
         IReservationManager ReservationManager { get; }
+        IConfirmReservation ConfirmReservationManager { get; }
         Task SaveAsync();
 
     }

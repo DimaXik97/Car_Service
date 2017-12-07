@@ -22,50 +22,93 @@ namespace Car_Service.Controllers
         {
             return Ok(WorkerService.GetWorker());
         }
-        public async Task<IHttpActionResult> Post([FromBody] WorkerDTO worker)
-        {
-            if (ModelState.IsValid && worker != null)
-            {
-                OperationDetails result= await WorkerService.AddWorker(worker);
-                if (result.Succedeed)
-                    return Ok();
-                else
-                    return BadRequest(result.Message);
-            }
-            else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
-        }
 
-        [Route("api/worker/{workerId}/workTime")]
-        [HttpPost] 
-        public IHttpActionResult SetWorkTime([FromBody] WorkTimeDTO workTime,int workerId)
-        {
-            if (ModelState.IsValid&&workTime!=null)
-            {
-                workTime.UserId = workerId;
-                OperationDetails result = WorkerService.AddWorkTime(workTime);
-                if (result.Succedeed)
-                    return Ok();
-                else
-                    return BadRequest(result.Message);
-            }
-            else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
-        }
-
-        [Route("api/worker/{workerId}/freeDate")]
+        [Route("api/worker/{workerId}")]
         [HttpGet]
-        public IHttpActionResult GetFreeDate(int workerId)
+        public IHttpActionResult Get(int workerId)
+        {
+            return Ok(WorkerService.GetWorker().Find(s => s.Id == workerId));
+        }
+
+        [Authorize(Roles = "admin")]
+        public IHttpActionResult Post([FromBody] WorkerDTO worker)
         {
             try
             {
-                var result = WorkerService.FreeDate(workerId);
-                return Ok(result);
+                if (ModelState.IsValid && worker != null)
+                {
+                    OperationDetails result = WorkerService.AddWorker(worker);
+                    if (result.Succedeed)
+                        return Ok();
+                    else
+                        return BadRequest(result.Message);
+                }
+                else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest("Внутренняя ошибка");
+                return BadRequest(e.Message);
             }
-            
         }
 
+        [Route("api/worker/{workerId}/workTime")]
+        [HttpGet]
+        public IHttpActionResult GetWorkDate(int workerId)
+        {
+            try
+            {
+                var result = WorkerService.workerTimes(workerId);
+                if (result == null)
+                    return BadRequest("Рабочий не найден");
+                else
+                    return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
+        [Route("api/worker/{workerId}/workTime")]
+        [HttpPost]
+        public IHttpActionResult SetWorkTime([FromBody] WorkTimeDTO workTime, int workerId)
+        {
+            try
+            {
+                if (ModelState.IsValid && workTime != null)
+                {
+                    workTime.UserId = workerId;
+                    OperationDetails result = WorkerService.AddWorkTime(workTime);
+                    if (result.Succedeed)
+                        return Ok();
+                    else
+                        return BadRequest(result.Message);
+                }
+                else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [Authorize]
+        [Route("api/worker/{workerId}/reservationTime")]
+        [HttpGet]
+        public IHttpActionResult GetReservationDate(int workerId)
+        {
+            try
+            {
+                var result = WorkerService.reservationTimes(workerId);
+                if (result == null)
+                    return BadRequest("Рабочий не найден");
+                else
+                    return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
     }
 }

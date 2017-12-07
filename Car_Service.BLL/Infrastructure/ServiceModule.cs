@@ -1,4 +1,6 @@
-﻿using Car_Service.DAL.Repositories;
+﻿using Car_Service.BLL.Interfaces;
+using Car_Service.BLL.Services;
+using Car_Service.DAL.Repositories;
 using Car_Service.Model.Interfaces;
 using Ninject.Modules;
 
@@ -15,7 +17,5 @@ namespace Car_Service.BLL.Infrastructure
         {
             Bind<IUnitOfWork>().To<IdentityUnitOfWork>().WithConstructorArgument(_connectionString);
         }
-
-
     }
 }

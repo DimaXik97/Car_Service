@@ -20,14 +20,13 @@ namespace Car_Service.BLL.Services
         {
             Database = uow;
         }
-
-        public List<dynamic> GetWorker()
+        public List<WorkerDTO> GetWorker()
         {
-            return Database.WorkerManager.Get().Select(s=>new { firstName=s.FirstName, surName=s.SurName}).ToList<dynamic>();
+            return Database.WorkerManager.Get().Select(s=>new WorkerDTO { Id=s.Id, Name=s.FirstName, SurName=s.SurName, Telephone=s.Telephone, Email=s.Email}).ToList();
         }
-        public async Task<OperationDetails> AddWorker(WorkerDTO model)
-        {
-            var worker = Database.WorkerManager.Get().Find(s=>s.Email==model.Email);
+        public OperationDetails AddWorker(WorkerDTO model)
+        { 
+            var worker =  Database.WorkerManager.Get().Find(s=>s.Email==model.Email);
             if(worker==null)
             {
                 worker = new Worker
@@ -44,67 +43,61 @@ namespace Car_Service.BLL.Services
         }
         public OperationDetails AddWorkTime(WorkTimeDTO model)
         {
-            string formatString = "dd.MM.yyyy/HH.mm";
-            DateTime curentDate = DateTime.Now;
-            DateTime startDate = DateTime.ParseExact(string.Format("{0}/{1}",model.Date,model.StartTime), formatString, null);
-            DateTime endDate = DateTime.ParseExact(string.Format("{0}/{1}", model.Date, model.EndTime), formatString, CultureInfo.InvariantCulture);
+            DateTime curentDate = DateTime.Now.ToUniversalTime();
             Worker worker = Database.WorkerManager.Get().Find(s => s.Id == model.UserId);
             if (worker == null)
                 return new OperationDetails(false, "Рабочий не найден", "");
-            else if(startDate < curentDate || endDate < startDate)
+            else if(model.StartTime < curentDate || model.EndTime < model.StartTime)
                 return new OperationDetails(false, "Ошибка даты", "");
-            var isWorkToday = Database.WorkTimeManager.Get().Find(s => (s.Worker == worker)&&(s.DateStart.Date.CompareTo(startDate.Date)==0))!=null;
-            if(isWorkToday)
-                return new OperationDetails(false, "Уже работает в эту дату", "");
-            else
+            var workerWorkTime = Database.WorkTimeManager.Get().Where(s => (s.Worker == worker));
+            foreach (var x in workerWorkTime)
             {
-                WorkTime workTime = new WorkTime{
-                    DateStart = startDate,
-                    DateEnd = endDate,
-                    Worker=worker
-                };
-                Database.WorkTimeManager.Create(workTime);
-                return new OperationDetails(true, "Время работы успешно добавлено", "");
+                if (((model.StartTime >= x.DateStart) && (model.StartTime < x.DateEnd)) || ((model.EndTime > x.DateStart) && (model.EndTime <= x.DateEnd)) || ((x.DateStart >= model.StartTime) && (x.DateEnd <= model.EndTime)))
+                    return new OperationDetails(false, "Уже работает в эту дату", "");
             }
-
+            WorkTime workTime = new WorkTime{
+                DateStart = model.StartTime,
+                DateEnd = model.EndTime,
+                Worker=worker
+            };
+            Database.WorkTimeManager.Create(workTime);
+            return new OperationDetails(true, "Время работы успешно добавлено", "");
         }
-        public List<dynamic> FreeDate(int workerId)
+        public TimesDTO workerTimes(int workerId)
         {
-            Dictionary<DateTime, List<DateTime>> freeDates = new Dictionary<DateTime, List<DateTime>>();
-            var workDates = Database.WorkTimeManager.Get().Where(s => s.Worker.Id == workerId && s.DateStart.CompareTo(DateTime.Now)>0);
-            foreach(var workDate in workDates)
+            var worker = Database.WorkerManager.Get().Find(s => s.Id == workerId);
+            if (worker != null) 
             {
-                var reservationTime = Database.ReservationManager.Get().Where(s => s.DateStart.Date == workDate.DateStart.Date&&s.Worker.Id==workerId).ToList();
-                var freeTimes = GetFreeTime(workDate.DateStart, workDate.DateEnd, reservationTime);
-                freeDates.Add(workDate.DateStart.Date, freeTimes);
-            }
-            return ToFormat(freeDates);
-        }
-        private List<DateTime> GetFreeTime(DateTime startTime, DateTime endTime, List<Reservation> reservationTime)
-        {
-            List<DateTime> intervalTime = new List<DateTime>();
-            while (startTime < endTime)
-            {
-                bool IsReservation = false;
-                foreach (var element in reservationTime)
+                var workTime = Database.WorkTimeManager.Get().Where(s => s.Worker.Id == workerId && (s.DateStart.Date>=DateTime.Now.ToUniversalTime().Date)).Select(s=> { return new TimesDTO.Time { StartTime = DateTime.SpecifyKind(s.DateStart, DateTimeKind.Utc), EndTime = DateTime.SpecifyKind(s.DateEnd, DateTimeKind.Utc) }; }).ToList<TimesDTO.Time>();
+                return new TimesDTO
                 {
-                    if (!(startTime >= element.DateStart && startTime < element.DateEnd))
-                        IsReservation = true;
-                }
-                if(!IsReservation)
-                    intervalTime.Add(startTime);
-                startTime = startTime.AddHours(1);
+                    WorkerId = workerId,
+                    WorkTimesWorker = workTime
+                };
             }
-            return intervalTime;
+            else
+                return null;
         }
-        private List<dynamic> ToFormat(Dictionary<DateTime, List<DateTime>> freeDates)
+        public dynamic reservationTimes(int workerId)
         {
-            return freeDates.Select(s => new { date = s.Key.ToString("dd.MM.yyyy"), time = s.Value.Select(t => t.ToString("HH.mm")) }).ToList<dynamic>();
+            var worker = Database.WorkerManager.Get().Find(s => s.Id == workerId);
+            if (worker != null)
+            {
+                var workTime = Database.ReservationManager.Get().Where(s => s.Worker.Id == workerId && (s.DateStart.Date >= DateTime.Now.ToUniversalTime().Date) && (s.ConfirmReservation.IsConfirm || s.ConfirmReservation.ExpireDate >= DateTime.Now.ToUniversalTime())).ToList().Select(s => { return new TimesDTO.Time { StartTime = DateTime.SpecifyKind(s.DateStart, DateTimeKind.Utc), EndTime = DateTime.SpecifyKind(s.DateEnd, DateTimeKind.Utc) }; }).ToList<TimesDTO.Time>();
+                return new
+                {
+                    WorkerId = workerId,
+                    ReservationTimeWorekr = workTime
+                };
+            }
+            else
+                return null;
         }
-
         public void Dispose()
         {
             Database.Dispose();
         }
+
+        
     }
 }
