@@ -1,5 +1,6 @@
 ﻿using Car_Service.BLL.DTO;
 using Car_Service.BLL.Infrastructure;
+using Car_Service.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace Car_Service.BLL.Interfaces
     {
         Task<OperationDetails> Create(ReservationDTO userDto, string curentUserId, string pathFolder);
         OperationDetails Confirm(Guid guid);
-
+        List<ReservationViewDTO> GetReservationToday();
+        List<ReservationViewDTO> GetReservation(DateTime date);
+        List<ReservationViewDTO> GetReservationHistory(string userID);
     }
 }

@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EF\ApplicationContext.cs" />
+    <Compile Include="EF\ContextInitializer.cs" />
     <Compile Include="Entities\ApplicationRole.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\ConfirmReservation.cs" />
@@ -73,9 +74,9 @@
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Interfaces\IWorkerManager.cs" />
     <Compile Include="Interfaces\IWorkTimeManager.cs" />
-    <Compile Include="Migrations\201711291153182_init.cs" />
-    <Compile Include="Migrations\201711291153182_init.Designer.cs">
-      <DependentUpon>201711291153182_init.cs</DependentUpon>
+    <Compile Include="Migrations\201804241354090_init.cs" />
+    <Compile Include="Migrations\201804241354090_init.Designer.cs">
+      <DependentUpon>201804241354090_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,8 +92,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711291153182_init.resx">
-      <DependentUpon>201711291153182_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201804241354090_init.resx">
+      <DependentUpon>201804241354090_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

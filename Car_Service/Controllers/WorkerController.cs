@@ -12,22 +12,22 @@ namespace Car_Service.Controllers
 {
     public class WorkerController : ApiController
     {
-        private IWorkerService WorkerService;
+        private IWorkerService _workerService;
         public WorkerController(IWorkerService workerService)
         {
-            WorkerService = workerService;
+            _workerService = workerService;
         }
 
         public IHttpActionResult Get()
         {
-            return Ok(WorkerService.GetWorker());
+            return Ok(_workerService.GetWorker());
         }
 
         [Route("api/worker/{workerId}")]
         [HttpGet]
         public IHttpActionResult Get(int workerId)
         {
-            return Ok(WorkerService.GetWorker().Find(s => s.Id == workerId));
+            return Ok(_workerService.GetWorker().Find(s => s.Id == workerId));
         }
 
         [Authorize(Roles = "admin")]
@@ -37,7 +37,7 @@ namespace Car_Service.Controllers
             {
                 if (ModelState.IsValid && worker != null)
                 {
-                    OperationDetails result = WorkerService.AddWorker(worker);
+                    OperationDetails result = _workerService.AddWorker(worker);
                     if (result.Succedeed)
                         return Ok();
                     else
@@ -57,7 +57,7 @@ namespace Car_Service.Controllers
         {
             try
             {
-                var result = WorkerService.workerTimes(workerId);
+                var result = _workerService.WorkerTimes(workerId);
                 if (result == null)
                     return BadRequest("Рабочий не найден");
                 else
@@ -78,7 +78,7 @@ namespace Car_Service.Controllers
                 if (ModelState.IsValid && workTime != null)
                 {
                     workTime.UserId = workerId;
-                    OperationDetails result = WorkerService.AddWorkTime(workTime);
+                    OperationDetails result = _workerService.AddWorkTime(workTime);
                     if (result.Succedeed)
                         return Ok();
                     else
@@ -98,7 +98,7 @@ namespace Car_Service.Controllers
         {
             try
             {
-                var result = WorkerService.reservationTimes(workerId);
+                var result = _workerService.ReservationTimes(workerId);
                 if (result == null)
                     return BadRequest("Рабочий не найден");
                 else

@@ -9,11 +9,6 @@ namespace Car_Service.BLL.DTO
     public class TimesDTO
     {
         public int WorkerId { get; set; }
-        public List<Time> WorkTimesWorker { get; set; }
-        public class Time
-        {
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-        }
+        public List<TimeDTO> Times { get; set; }
     }
 }

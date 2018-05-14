@@ -8,7 +8,7 @@ namespace Car_Service.BLL.Infrastructure
 {
     public class ReCaptcha
     {
-        private static string sekretKey = "6LfTizUUAAAAAOH-_rnNKMXpi-iUzRLUjJ7adpzn";
+        private static readonly string _sekretKey = "6LfTizUUAAAAAOH-_rnNKMXpi-iUzRLUjJ7adpzn";
         public static bool  Validate(string Response)
         {
             var captchaResponse = JsonConvert.DeserializeObject<ReCaptcha>(Response);
@@ -23,9 +23,8 @@ namespace Car_Service.BLL.Infrastructure
                 client.BaseAddress = new Uri("https://www.google.com");
                 var values = new Dictionary<string, string>
                 {
-                    { "secret", sekretKey },
+                    { "secret", _sekretKey },
                     { "response", captcha}
-
                 }; 
                 var content = new FormUrlEncodedContent(values);
                 var result = await client.PostAsync("/recaptcha/api/siteverify", content).ConfigureAwait(false);
@@ -37,19 +36,17 @@ namespace Car_Service.BLL.Infrastructure
         [JsonProperty("success")]
         public string Success
         {
-            get { return m_Success; }
-            set { m_Success = value; }
+            get { return _success; }
+            set { _success = value; }
         }
 
-        private string m_Success;
+        private string _success;
         [JsonProperty("error-codes")]
         public List<string> ErrorCodes
         {
-            get { return m_ErrorCodes; }
-            set { m_ErrorCodes = value; }
+            get { return _errorCodes; }
+            set { _errorCodes = value; }
         }
-
-
-        private List<string> m_ErrorCodes;
+        private List<string> _errorCodes;
     }
 }

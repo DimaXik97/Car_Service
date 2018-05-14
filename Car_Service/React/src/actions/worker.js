@@ -23,3 +23,11 @@ export const addWorkTime= (id, startTime, endTime)=>({
     startTime,
     endTime
 }) 
+export const getWorkTime= (id)=>({
+    type: 'GET_WORK_TIME',
+    id
+}) 
+export const setWorkTime= (workTime)=>({
+    type: 'SET_WORK_TIME',
+    workTime
+})

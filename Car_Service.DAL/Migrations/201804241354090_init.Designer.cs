@@ -13,7 +13,7 @@ namespace Car_Service.DAL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201711291153182_init"; }
+            get { return "201804241354090_init"; }
         }
         
         string IMigrationMetadata.Source

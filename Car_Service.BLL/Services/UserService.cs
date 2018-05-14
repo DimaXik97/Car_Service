@@ -44,7 +44,6 @@ namespace Car_Service.BLL.Services
 
         public async Task<ClaimsIdentity> Authenticate(string Email, string Password)
         {
-            
             ClaimsIdentity claim = null;
             // находим пользователя
             ApplicationUser user = await Database.UserManager.FindAsync(Email, Password);
@@ -58,7 +57,7 @@ namespace Car_Service.BLL.Services
         }
         public async Task SetInitialData(UserDTO adminDto, List<string> roles)
         {
-            foreach (string roleName in roles)
+            /*foreach (string roleName in roles)
             {
                 var role = await Database.RoleManager.FindByNameAsync(roleName);
                 if (role == null)
@@ -67,7 +66,7 @@ namespace Car_Service.BLL.Services
                     await Database.RoleManager.CreateAsync(role);
                 }
             }
-            await Create(adminDto);
+            await Create(adminDto);*/
         }
 
         public void Dispose()

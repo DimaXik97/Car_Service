@@ -19,3 +19,11 @@ export const registrationUser=( email, pass)=>({
     email,
     pass
 })
+export const setIsConfirm=(status)=>({
+    type: "SET_IS_CONFIRM",
+    status
+})
+export const getConfirm=(guid)=>({
+    type: "GET_CONFIRM",
+    guid
+})

@@ -9,11 +9,12 @@ namespace Car_Service.Controllers
 {
     public class AccountController : ApiController
     {
-        private IUserService UserService;
+        private IUserService _userService;
+        private readonly string _defaultRole = "user";
 
         public AccountController(IUserService userService)
         {
-            UserService = userService;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -22,8 +23,8 @@ namespace Car_Service.Controllers
             await SetInitialDataAsync();
             if (model!=null)
             {
-                model.Role = "user";
-                OperationDetails operationDetails = await UserService.Create(model);
+                model.Role = _defaultRole;
+                OperationDetails operationDetails = await _userService.Create(model);
                 if (operationDetails.Succedeed)
                     return Ok();
                 else
@@ -34,7 +35,7 @@ namespace Car_Service.Controllers
         }
         private async Task SetInitialDataAsync()
         {
-            await UserService.SetInitialData(new UserDTO
+            await _userService.SetInitialData(new UserDTO
             {
                 Email = "ydn@mail.ru",
                 UserName = "ydn@mail.ru",

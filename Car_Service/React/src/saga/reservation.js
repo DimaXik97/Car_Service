@@ -30,12 +30,12 @@ export function* reservation(action){
     data.append("captcha", action.captcha);
     let result = yield call (postJSON, urlReservation, data);
     if(result.success){
+        NotificationManager.info('На ваш почтовый ящик отправлено письмо с сылкой на подтверждение, пожалуйста подтвердите бронирование');
         NotificationManager.success('Success');
     }
     else{
         NotificationManager.error(result.data);
     }
-    
 }
 export function* getWorkerTime(action){
     let freeTime=[];
@@ -43,8 +43,8 @@ export function* getWorkerTime(action){
     let reservationTime = yield call (getJSON, `${urlWorker}/${action.id}/reservationTime`); 
     if(workTime.success&&reservationTime.success)
     {
-        workTime.data.WorkTimesWorker.forEach(function(element) {
-            getTime(element, reservationTime.data.ReservationTimeWorekr, freeTime);
+        workTime.data.Times.forEach(function(element) {
+            getTime(element, reservationTime.data.Times, freeTime);
         });
     }
     yield put(setFreeTime(freeTime));

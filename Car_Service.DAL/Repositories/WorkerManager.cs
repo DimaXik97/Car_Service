@@ -9,24 +9,24 @@ namespace Car_Service.DAL.Repositories
 {
     public class WorkerManager : IWorkerManager
     {
-        public ApplicationContext Database { get; set; }
+        private ApplicationContext _db;
         public WorkerManager(ApplicationContext db)
         {
-            Database = db;
+            _db = db;
         }
         public List<Worker> Get()
         {
-            return Database.Worker.ToList();
+            return _db.Worker.ToList();
         }
         public void Create(Worker item)
         {
-            Database.Worker.Add(item);
-            Database.SaveChanges();
+            _db.Worker.Add(item);
+            _db.SaveChanges();
         }
 
         public void Dispose()
         {
-            Database.Dispose();
+            _db.Dispose();
         }
     }
 }

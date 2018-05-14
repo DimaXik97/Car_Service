@@ -2,6 +2,7 @@ const initState={
     worker: {},
     startTime: undefined,
     endTime: undefined,
+    workTime:[]
 }; 
 const workers = (state = initState, action) => {
     switch (action.type) {
@@ -23,9 +24,13 @@ const workers = (state = initState, action) => {
                 }
             })
         };
+        case "SET_WORK_TIME": {
+            return Object.assign({}, state, {
+                workTime: action.workTime
+            })
+        };
         default:
             return state
     }
 }
-
 export default workers;

@@ -47,8 +47,8 @@ class Form extends React.Component{
                     <input type="text" className="form-control" placeholder="Цель визита" required ref="purpose"/>
                 </div>
                 <div className="form-group">
-                    <label>Желаемая диагностика</label>
-                    <input type="text" className="form-control"  placeholder="Желаемая диагностика " required ref="desiredDiagnosis"/>
+                    <label>Марка автомобиля</label>
+                    <input type="text" className="form-control"  placeholder="Марка автомобиля" required ref="desiredDiagnosis"/>
                 </div>
                 <div className="form-group">
                     <label className="custom-control custom-checkbox">
@@ -101,8 +101,8 @@ class Form extends React.Component{
                     <input type="file" ref="files" name="photo" className="form-control-file" accept="image/*" required multiple title="Загрузите одну или несколько фотографий"/>
                 </div>
                 <div className="form-group">
-                    <label>Детали поломки</label>
-                    <textarea placeholder="Детали поломки" rows={2} maxLength={64} ref="breakdownDetails" className="form-control"></textarea>
+                    <label>Комментарии</label>
+                    <textarea placeholder="Комементарии к поломке" rows={2} maxLength={64} ref="breakdownDetails" className="form-control"></textarea>
                 </div>
                 <ReCAPTCHA
                     ref="recaptcha"

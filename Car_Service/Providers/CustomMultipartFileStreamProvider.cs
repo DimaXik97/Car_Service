@@ -35,12 +35,12 @@ namespace Car_Service.Providers
                         }
                     case "timeStart":
                         {
-                            Reservation.TimeStart =Convert.ToDateTime(await file.ReadAsStringAsync()).ToUniversalTime();
+                            Reservation.StartTime = Convert.ToDateTime(await file.ReadAsStringAsync()).ToUniversalTime();
                             break;
                         }
                     case "timeEnd":
                         {
-                            Reservation.TimeEnd = Convert.ToDateTime(await file.ReadAsStringAsync()).ToUniversalTime();
+                            Reservation.EndTime = Convert.ToDateTime(await file.ReadAsStringAsync()).ToUniversalTime();
                             break;
                         }
                     case "purpose":
@@ -65,7 +65,7 @@ namespace Car_Service.Providers
                         }
                     case "isEmergency":
                         {
-                            Reservation.isEmergency = bool.Parse(await file.ReadAsStringAsync());
+                            Reservation.IsEmergency = bool.Parse(await file.ReadAsStringAsync());
                             break;
                         }
                     case "captcha":{

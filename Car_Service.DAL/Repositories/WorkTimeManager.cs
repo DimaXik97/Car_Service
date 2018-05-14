@@ -10,24 +10,24 @@ namespace Car_Service.DAL.Repositories
 {
     public class WorkTimeManager : IWorkTimeManager
     {
-        public ApplicationContext Database { get; set; }
+        private ApplicationContext _db;
         public WorkTimeManager(ApplicationContext db)
         {
-            Database = db;
+            _db = db;
         }
         public List<WorkTime> Get()
         {
-            return Database.WorkTime.ToList();
+            return _db.WorkTime.ToList();
         }
         public void Create(WorkTime item)
         {
-            Database.WorkTime.Add(item);
-            Database.SaveChanges();
+            _db.WorkTime.Add(item);
+            _db.SaveChanges();
         }
 
         public void Dispose()
         {
-            Database.Dispose();
+            _db.Dispose();
         }
 
         

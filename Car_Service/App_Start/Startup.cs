@@ -3,12 +3,15 @@ using Car_Service.BLL.Services;
 using Car_Service.Providers;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
+using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.Security.OAuth;
+using Microsoft.Owin.StaticFiles;
 using Ninject;
 using Ninject.Web.Common.OwinHost;
 using Ninject.Web.WebApi.OwinHost;
 using Owin;
 using System;
+using System.IO;
 using System.Web.Http;
 
 [assembly: OwinStartup(typeof(Car_Service.App_Start.Startup))]

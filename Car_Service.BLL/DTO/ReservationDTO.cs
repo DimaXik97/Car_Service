@@ -7,10 +7,10 @@ namespace Car_Service.BLL.DTO
     public class ReservationDTO
     {
         public int WorkerId { get; set; }
-        public DateTime TimeStart { get; set; }
-        public DateTime TimeEnd { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         [Required]
-        public bool isEmergency { get; set; }
+        public bool IsEmergency { get; set; }
         [Required]
         public string Purpose { get; set; }
         [Required]

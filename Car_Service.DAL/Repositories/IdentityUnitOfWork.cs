@@ -3,73 +3,77 @@ using Car_Service.DAL.Entities;
 using Car_Service.DAL.Identity;
 using Car_Service.DAL.Interfaces;
 using Car_Service.Model.Interfaces;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Car_Service.DAL.Repositories
 {
     public class IdentityUnitOfWork : IUnitOfWork
     {
-        private ApplicationContext db;
+        private ApplicationContext _db;
 
-        private ApplicationUserManager userManager;
-        private ApplicationRoleManager roleManager;
-        private IWorkerManager workerManager;
-        private IWorkTimeManager workTimeManager;
-        private IImageManager imageManager;
-        private IReservationManager reservationManager;
-        private IConfirmReservation confirmReservation;
+        private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
+        private IWorkerManager _workerManager;
+        private IWorkTimeManager _workTimeManager;
+        private IImageManager _imageManager;
+        private IReservationManager _reservationManager;
+        private IConfirmReservation _confirmReservation;
+
+        private bool _disposed = false;
 
         public IdentityUnitOfWork(string connectionString)
         {
-            db = new ApplicationContext(connectionString);
-            userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
-            roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(db));
-            workerManager = new WorkerManager(db);
-            workTimeManager = new WorkTimeManager(db);
-            imageManager = new ImageManager(db);
-            reservationManager = new ReservationManager(db);
-            confirmReservation = new ConfirmReservationManager(db);
+            _db = new ApplicationContext(connectionString);
+            _userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_db));
+            _roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(_db));
+            _workerManager = new WorkerManager(_db);
+            _workTimeManager = new WorkTimeManager(_db);
+            _imageManager = new ImageManager(_db);
+            _reservationManager = new ReservationManager(_db);
+            _confirmReservation = new ConfirmReservationManager(_db);
         }
 
         public ApplicationUserManager UserManager
         {
-            get { return userManager; }
+            get { return _userManager; }
         }
 
         public ApplicationRoleManager RoleManager
         {
-            get { return roleManager; }
+            get { return _roleManager; }
         }
 
         public IWorkerManager WorkerManager
         {
-            get { return workerManager; }
+            get { return _workerManager; }
         }
 
         public IWorkTimeManager WorkTimeManager
         {
-            get { return workTimeManager; }
+            get { return _workTimeManager; }
         }
 
         public IImageManager ImageManager
         {
-            get { return imageManager; }
+            get { return _imageManager; }
         }
 
         public IReservationManager ReservationManager
         {
-            get { return reservationManager; }
+            get { return _reservationManager; }
         }
         public IConfirmReservation ConfirmReservationManager
         {
-            get { return confirmReservation; }
+            get { return _confirmReservation; }
         }
 
         public async Task SaveAsync()
         {
-            await db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
 
         public void Dispose()
@@ -77,18 +81,22 @@ namespace Car_Service.DAL.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        private bool disposed = false;
 
         public virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!this._disposed)
             {
                 if (disposing)
                 {
-                    userManager.Dispose();
-                    roleManager.Dispose();
+                    _userManager.Dispose();
+                    _roleManager.Dispose();
+                    _workerManager.Dispose();
+                    _workTimeManager.Dispose();
+                    _imageManager.Dispose();
+                    _reservationManager.Dispose();
+                    _confirmReservation.Dispose();
                 }
-                this.disposed = true;
+                this._disposed = true;
             }
         }
     }

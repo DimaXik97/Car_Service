@@ -9,40 +9,30 @@ namespace Car_Service.DAL.Repositories
 {
     public class ConfirmReservationManager : IConfirmReservation
     {
-        public ApplicationContext Database { get; set; }
+        private ApplicationContext _db;
         public ConfirmReservationManager(ApplicationContext db)
         {
-            Database = db;
+            _db = db;
         }
         public ConfirmReservation Get(Guid guid)
         {
-           return Database.ConfirmReservation.FirstOrDefault(s=>s.Guid==guid);
+           return _db.ConfirmReservation.FirstOrDefault(s=>s.Guid==guid);
         }
         public void Create(ConfirmReservation item)
         {
-            try
-            {
-
-                Database.ConfirmReservation.Add(item);
-                Database.SaveChanges();
-            }
-            catch(Exception e)
-            {
-
-            }
-           
+            _db.ConfirmReservation.Add(item);
+            _db.SaveChanges();
         }
-        
 
         public void Dispose()
         {
-            Database.Dispose();
+            _db.Dispose();
         }
 
         public void Update(ConfirmReservation item)
         {
-            Database.Entry(item).State = EntityState.Modified;
-            Database.SaveChanges();
+            _db.Entry(item).State = EntityState.Modified;
+            _db.SaveChanges();
         }
 
         

@@ -12,11 +12,14 @@ namespace Car_Service.Controllers
 {
     public class ReservationController : ApiController
     {
-        IReservationService ReservationService;
+        private IReservationService _reservationService;
+        private readonly string _rootPath= "D:\\Car_Service\\Car_Service";
         public ReservationController(IReservationService reservationService)
         {
-            ReservationService = reservationService;
+            _reservationService = reservationService;
         }
+        [HttpPost]
+        [Route("api/reservation")]
         [Authorize]
         public async Task<IHttpActionResult> Post()
         {
@@ -32,7 +35,7 @@ namespace Car_Service.Controllers
             {
                 var identity = (ClaimsIdentity)User.Identity;
                 var userId = identity.Claims.FirstOrDefault(s=>s.Type=="id").Value;
-                var result = await ReservationService.Create(reservation, userId, "D:\\Car_Service\\Car_Service\\App_Data");
+                var result = await _reservationService.Create(reservation, userId, _rootPath);
                 if (result.Succedeed)
                     return Ok();
                 else return BadRequest(result.Message);
@@ -40,11 +43,33 @@ namespace Car_Service.Controllers
             else return BadRequest(ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
   
         }
+        [HttpGet]
+        [Route("api/reservation/history")]
+        [Authorize]
+        public async Task<IHttpActionResult> History()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var curentUser = identity.Claims.FirstOrDefault(s => s.Type == "id").Value;
+            return Ok(_reservationService.GetReservationHistory(curentUser));
+        }
+        [Route("api/reservation")]
+        [HttpGet]
+        public IHttpActionResult Get()
+        {
+            return Ok(/*_reservationService.GetReservationToday()*/);
+        }
+        [HttpGet]
+        [Route("api/reservation")]
+        [Authorize]
+        public async Task<IHttpActionResult> GetReservation([FromUri] string date)
+        {
+            return Ok(_reservationService.GetReservation(DateTime.Parse(date).ToUniversalTime().Date));
+        }
         [Route("api/reservation/confirm/{guid}")]
         [HttpGet]
         public IHttpActionResult ConfirmReservation(Guid guid)
         {
-            var result = ReservationService.Confirm(guid);
+            var result = _reservationService.Confirm(guid);
             if (result.Succedeed)
                 return Ok();
             else

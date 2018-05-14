@@ -9,25 +9,24 @@ namespace Car_Service.DAL.Repositories
 {
     public class ReservationManager : IReservationManager
     {
-        public ApplicationContext Database { get; set; }
+        private ApplicationContext _db;
         public ReservationManager(ApplicationContext db)
         {
-            Database = db;
+            _db = db;
         }
         public List<Reservation> Get()
         {
-            return Database.Reservation.ToList();
+            return _db.Reservation.ToList();
         }
         public void Create(Reservation item)
         {
-            Database.Reservation.Add(item);
-            Database.SaveChanges();
-            
+            _db.Reservation.Add(item);
+            _db.SaveChanges();
         }
 
         public void Dispose()
-        {
-            Database.Dispose();
+        { 
+            _db.Dispose();
         }
     }
 }

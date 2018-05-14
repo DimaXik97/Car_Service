@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 
 
 export const postURLEncode=(url, data)=>{
@@ -81,3 +82,11 @@ export const getJSON=(url)=>{
         }
     });
 }
+export const compareDate=(a,b)=>{
+    console.log("OK");
+    if (moment(a.StartTime) < moment(b.StartTime))
+      return -1;
+    if (moment(a.StartTime) > moment(b.StartTime))
+      return 1;
+    return 0;
+  }
